@@ -3,7 +3,38 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 
-const adminSchema = new Schema({},{timeStamps:true})
+const adminSchema = new Schema({
+    username: {
+        type:String,
+        required:true,
+        unique: true,
+        lowercase :true,
+        trim:true,
+        index:true
+    },
+    adminName: {
+        type:String,
+        required:true,
+        trim:true
+    },
+    email:{
+        type:String,
+        required:true,
+        unique:true,
+        lowercase :true,
+        trim:true,
+        index:true
+    },
+    phone:{
+        type:String,
+        required:true,
+        trim:true,
+    },
+    password : {
+        type:String,
+        required:[true,"Password is required"]
+    },
+},{timeStamps:true})
 
 
 
@@ -26,7 +57,6 @@ adminSchema.pre("save", async function(next){
             _id : this._id,
             email: this.email,
             username:this.username,
-            fullname:this.fullname
         },
         process.env.ACCESS_TOKEN_SECRET,
         {

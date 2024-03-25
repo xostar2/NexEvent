@@ -71,7 +71,7 @@ const vendorSchema = new Schema(
         } ,
         eventList:[
             {
-            type: Schema.type.ObjectId,
+            type: Schema.Types.ObjectId,
             ref : "Event"
             }
         ]
