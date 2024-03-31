@@ -78,7 +78,7 @@ const vendorSchema = new Schema(
 
     },
     {
-        timeStamps:true
+        timestamps:true
     }
 
 );

@@ -34,7 +34,7 @@ const adminSchema = new Schema({
         type:String,
         required:[true,"Password is required"]
     },
-},{timeStamps:true})
+},{timestamps:true})
 
 
 

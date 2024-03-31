@@ -38,7 +38,7 @@ const packageSchema = new Schema(
 
     },
     {
-        timeStamps:true
+        timestamps:true
     }
     )
 

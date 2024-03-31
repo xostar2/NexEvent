@@ -1,4 +1,4 @@
-import mongoose ,{Schema} from mongoose;
+import mongoose ,{Schema} from "mongoose";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
@@ -12,11 +12,6 @@ const userSchema = new Schema(
             lowercase :true,
             trim:true,
             index:true
-        },
-        fullname: {
-            type:String,
-            required:true,
-            trim:true
         },
         email:{
             type:String,
@@ -63,13 +58,15 @@ const userSchema = new Schema(
 
     },
 {
-    timeStamps:true
-});
+    timestamps:true
+}
+);
  userSchema.plugin(mongooseAggregatePaginate);
 
- userSchema.pre("save", async function(next){
+ userSchema.pre("save", async function(next) {
     if(!this.isModified("password"))return next();
-    this.password= bcrypt.hash(this.password);
+
+    this.password = await bcrypt.hash(this.password,10);
     next();
  })
 

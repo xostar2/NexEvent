@@ -44,7 +44,7 @@ const eventSchema = new Schema(
         }
 
     },
-    {timeStamps:true}
+    {timestamps:true}
 )
 userSchema.plugin(mongooseAggregatePaginate);
 export const Event = mongoose.model("Event",eventSchema);

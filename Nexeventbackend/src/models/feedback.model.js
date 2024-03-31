@@ -21,10 +21,15 @@ const feedbackSchema= new Schema(
             ref:'Event',
             required:true
 
+        },
+        date:{
+            type:Date,
+            default:Date.now
         }
+
     },
     {
-        timeStamps:true
+        timestamps:true
     }
  )
  userSchema.plugin(mongooseAggregatePaginate);
