@@ -334,7 +334,7 @@ const updateUserAvatar = asyncHandler(async (req,res)=>{
       )
 
 })
-
+//i have to delete the old image from cloudinary {TODO}
 
 //================================================================
 
