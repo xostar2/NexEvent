@@ -5,7 +5,9 @@ import {uploadOnCloudinary} from "../utils/cloudinary.js"
 import {ApiResponse} from "../utils/ApiResponse.js"
 import jwt from "jsonwebtoken"
 
+//==============================================================
 //this work we generally repeat thats why we are making a method for that so we can use it for future
+
 
 const generaAccessAndRefereshToken= async function (userId){
    try{  
@@ -22,7 +24,7 @@ const generaAccessAndRefereshToken= async function (userId){
    }
 }
 
-
+//================================================================
 
 const registerUser = asyncHandler(async (req,res)=>{
     //get user details from frontend
@@ -102,6 +104,8 @@ const registerUser = asyncHandler(async (req,res)=>{
 
 })
 
+//================================================================
+
 const loginUser = asyncHandler(async(req,res)=>{
    // req body ->data
    //username email check
@@ -156,6 +160,8 @@ const loginUser = asyncHandler(async(req,res)=>{
 
 })
 
+//==================================================================
+
 const logoutUser = asyncHandler(async (req,res)=>{
       await User.findByIdAndUpdate(
          req.user._id,
@@ -182,6 +188,7 @@ const logoutUser = asyncHandler(async (req,res)=>{
       )
 })
 
+//==================================================================
 
 const refreshAccessToken = asyncHandler( async (req ,res) =>{
    //users refresh token we taking from cookies
@@ -231,8 +238,115 @@ const refreshAccessToken = asyncHandler( async (req ,res) =>{
       throw new ApiError(200,error)
    }
 })
+
+//====================================================================
+
+const changeCurrentUserPassword =asyncHandler(async (req, res) => {
+   const {oldPassword,newPassword} =req.body
+
+   const user = await User.findById(req.user?._id)
+
+   const isPasswordCorrect=await user.isPasswordCorrect(oldPassword)
+
+   if(!isPasswordCorrect){
+      throw new ApiError(400,"Invalid old password")
+   }
+
+   user.password=newPassword
+
+   await user.save({validateBeforeSave:false})
+
+   return res
+   .status(200)
+   .json(new ApiResponse(200,{},"Password change successfully"))
+})
+
+//==================================================================
+
+const getCurrentUser= asyncHandler( async (req,res)=>{
+
+   return res
+   .status(200)
+   .json(
+      new ApiResponse(200,req.user,"current user fetch successfully")
+   )
+})
+
+//===============================================================
+
+
+const updateUserAccountDetails= asyncHandler(async (req,res)=>{
+   const {username,phone}=req.body
+
+   if(!username || !phone || !email){
+      throw new ApiError(400,"all fields are required")
+   }
+   const user=User.findByIdAndUpdate(
+      req.user?._id,
+      {
+         $set:{
+            username,
+            phone,
+         }
+      },
+      {new:true}
+      ).select("-password")
+
+      return res
+      .status(200)
+      .json(
+         new ApiResponse(200, user,"Account details update Successfully")
+      )
+})
+
+
+//=================================================================
+
+
+const updateUserAvatar = asyncHandler(async (req,res)=>{
+
+   const avatarLocalPath=req.file?.path
+   if(!avatarLocalPath){
+      throw new ApiError(400,"avatar file is missing")
+   }
+   const  avatar = await uploadOnCloudinary(avatarLocalPath)
+
+   if(!avatar.url){
+      throw new ApiError(400,"error wile uploding on avatar")
+   }
+   
+   const user=await User.findByIdAndUpdate(
+      req.user?._id,
+      {
+         $set:{
+            avatar:avatar.url
+         }
+      },
+      {new:true}
+      ).select("-password")
+
+      return res
+      .status(200)
+      .json(
+        new ApiResponse( 200,
+         user,
+         "Update User Avatar Successfully")
+      )
+
+})
+
+
+//================================================================
+
+
+
 export {
    registerUser,
    loginUser,
-   logoutUser
+   logoutUser,
+   refreshAccessToken,
+   changeCurrentUserPassword,
+   getCurrentUser,
+   updateUserAccountDetails,
+   updateUserAvatar
 } 
