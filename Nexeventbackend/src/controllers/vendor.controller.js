@@ -233,6 +233,64 @@ const refreshAccessToken = asyncHandler( async (req ,res) =>{
  
 //====================================================================================================================
 
+const changeCurrentVendorPassword =asyncHandler(async (req, res) => {
+    const {oldPassword,newPassword} =req.body
+ 
+    const vendor = await Vendor.findById(req.vendor?._id)
+ 
+    const isPasswordCorrect=await vendor.isPasswordCorrect(oldPassword)
+ 
+    if(!isPasswordCorrect){
+       throw new ApiError(400,"Invalid old password")
+    }
+ 
+    vendor.password=newPassword
+ 
+    await vendor.save({validateBeforeSave:false})
+ 
+    return res
+    .status(200)
+    .json(new ApiResponse(200,{},"Password change successfully"))
+ })
+ 
+//====================================================================================================================
+
+const getCurrentVendor= asyncHandler( async (req,res)=>{
+
+    return res
+    .status(200)
+    .json(
+       new ApiResponse(200,req.vendor,"current vendor fetch successfully")
+    )
+ })
+
+ //====================================================================================================================
+
+ const updateVendorAccountDetails= asyncHandler(async (req,res)=>{
+    const {username,phone}=req.body
+ 
+    if(!username || !phone || !email){
+       throw new ApiError(400,"all fields are required")
+    }
+    const user=Vendor.findByIdAndUpdate(
+       req.user?._id,
+       {
+          $set:{
+             username,
+             phone,
+          }
+       },
+       {new:true}
+       ).select("-password")
+ 
+       return res
+       .status(200)
+       .json(
+          new ApiResponse(200, user,"Account details update Successfully")
+       )
+ })
+ 
+ //====================================================================================================================
 
 
 
@@ -242,5 +300,8 @@ export {
     loginVendor,
     logoutVendor,
     refreshAccessToken,
+    changeCurrentVendorPassword,
+    getCurrentVendor,
+    updateVendorAccountDetails
 
 }
