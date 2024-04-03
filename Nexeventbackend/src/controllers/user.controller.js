@@ -55,6 +55,7 @@ const registerUser = asyncHandler(async (req,res)=>{
     if(phone.length!=10){
         throw new ApiError(400,"Phone no should be 10 Digit");
     }
+    //we have to some more validation here
     if(!password.length>8){
         throw new ApiError(400,"Password Size should more then 8");
     }
@@ -110,7 +111,7 @@ const loginUser = asyncHandler(async(req,res)=>{
    // req body ->data
    //username email check
    //find the user
-   //if unser find check password
+   //if user find check password
    //access and refresh token generate and send to user
    //send cookie secure cookies
 

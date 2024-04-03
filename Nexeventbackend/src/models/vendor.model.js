@@ -6,14 +6,6 @@ import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 
 const vendorSchema = new Schema(
     {
-        username: {
-            type:String,
-            required:true,
-            unique: true,
-            lowercase :true,
-            trim:true,
-            index:true
-        },
         vendorName: {
             type:String,
             required:true,
@@ -100,7 +92,7 @@ vendorSchema.pre("save", async function(next){
         {
             _id : this._id,
             email: this.email,
-            username:this.username,
+            vendorName:this.username,
             companyName: this.companyName
         },
         process.env.ACCESS_TOKEN_SECRET,
