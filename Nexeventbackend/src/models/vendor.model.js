@@ -6,10 +6,14 @@ import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 
 const vendorSchema = new Schema(
     {
+        
         vendorName: {
             type:String,
             required:true,
-            trim:true
+            unique: true,
+            lowercase :true,
+            trim:true,
+            index:true
         },
         companyName: {
             type:String,
@@ -28,8 +32,7 @@ const vendorSchema = new Schema(
         },
         gender:{
             type: String,
-            enum:[ "Male" , "Female"],   
-            required:true,    
+            enum:[ "Male" , "Female"],      
             default:null     
         },
         phone:{
@@ -40,6 +43,7 @@ const vendorSchema = new Schema(
         aadhaar:{
             type:String,
             trim:true,
+            required:true
         },
         address:{
             type:String,
@@ -58,9 +62,18 @@ const vendorSchema = new Schema(
         },
         startDate:{
             type:Date,
-            required:true
 
         } ,
+        state:{
+            type:String,
+            required:true,
+            lowercase:true
+        },
+        city:{
+            type:String,
+            require:true,
+            lowercase:true
+        },
         eventList:[
             {
             type: Schema.Types.ObjectId,
@@ -92,7 +105,7 @@ vendorSchema.pre("save", async function(next){
         {
             _id : this._id,
             email: this.email,
-            vendorName:this.username,
+            username:this.username,
             companyName: this.companyName
         },
         process.env.ACCESS_TOKEN_SECRET,

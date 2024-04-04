@@ -3,13 +3,50 @@ import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 
 const eventSchema = new Schema(
     {
-        title:{
-            type:String,
-            required:true
-        },
+        
         eventName:{
             type:String,
-            enum:[],
+            enum:[
+                "Conferences",
+                "Seminars",
+                "Workshops",
+                "Team Building Events",
+                "Trade Shows",
+                "Business Dinners",
+                "Networking Events",
+                "Product Launches",
+                "VIP Events",
+                "Award Ceremonies",
+                "Office Parties",
+                "Weddings",
+                "Birthday Parties",
+                "Anniversary Celebrations",
+                "Baby Showers",
+                "Engagement Parties",
+                "Family Reunions",
+                "Graduation Parties",
+                "Holiday Parties",
+                "Concerts",
+                "Festivals",
+                "Sporting Events",
+                "Charity Events",
+                "Community Events",
+                "Political Rallies",
+                "Public Demonstrations",
+                "Movie Premieres",
+                "Fashion Shows",
+                "Celebrity Parties",
+                "Entertainment and Award Nights",
+                "Brand Promotions",
+                "Sales Promotions",
+                "Retail Promotions",
+                "Roadshows",
+                "Academic Conferences",
+                "Alumni Events",
+                "Lectures and Talks",
+
+
+            ],
             required:true,
             unique:true,
             lowercase:true,
@@ -17,7 +54,6 @@ const eventSchema = new Schema(
         },
         createDate:{
             type:Date,
-            required:true,
             default:Date.now
         },
         thumbnail:{
@@ -46,5 +82,7 @@ const eventSchema = new Schema(
     },
     {timestamps:true}
 )
-userSchema.plugin(mongooseAggregatePaginate);
+
+
+eventSchema.plugin(mongooseAggregatePaginate);
 export const Event = mongoose.model("Event",eventSchema);
