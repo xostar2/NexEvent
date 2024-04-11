@@ -1,32 +1,53 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import '../styles/UserLogin.css'
 const UserLogin = () => {
 
-  const [username,setUsername]=useState('');
-  const [password,setPassword]=useState('');
+  const [user,setUser]= useState({
+    email:"",
+    password:"",
+
+  });
+
+  const handleInput=(e)=>{
+     let name=e.target.name 
+     let value=e.target.value
+
+     setUser({
+      ...user,
+      [name]:value,
+     })
+  }
+  
+  const handleSubmit=(e)=>{
+      e.preventDefault();
+      console.log(user);
+  }
   return (
     <section>
       <main>
 
         <div className="login-form-data">
-          <div className="container-grid-grid-two-cols">
+          <div className="container grid grid-two-cols">
             <div className="login-form-img">
               <img src="/images/login.png" alt="login User" />
             </div>
-            <h1 className="main-heading mb-3">User Login</h1>
+            <div className="user-login-form">
+              <h1 className="main-heading mb-3">User Login</h1>
               <br />
-            <form>
-            <div className="username" id="username">
-            <label htmlFor="username">Username</label>
+            
+            <form onSubmit={handleSubmit}>
+            <div>
+                  <label htmlFor="email">Email</label>
                   <input
-                    type="text"
-                    name="username"
-                    placeholder="username"
-                    id="username"
+                    type="email"
+                    name="email"
+                    placeholder="enter your email"
+                    id="email"
                     required
                     autoComplete="off"
-                    // value={user.username}
-                    // onChange={handle_namechange}
+                    value={user.email}
+                    onChange={handleInput}
                   />
             </div>
             <div className="password" id="password">
@@ -43,6 +64,8 @@ const UserLogin = () => {
                   />
 
             </div>
+            
+
             <div>
             <button type="submit" className="btn btn-submit" id="btn btn-submit">
                    Login
@@ -51,6 +74,7 @@ const UserLogin = () => {
                 <Link to="/UserSignUp">SignUp</Link>
             </div>
             </form>  
+            </div>
 
           </div>
         </div>

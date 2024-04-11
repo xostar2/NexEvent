@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import DatePicker from "react-date-picker";
+import DatePicker from "react-datepicker";
 
+import "react-datepicker/dist/react-datepicker.css";
+import '../styles/UserSignUp.css'
 const UserSignUp = () => {
-  const [birthdate, setbirthdate] = useState(null);
+  const [DOB, setDOB] = useState(null);
   const [gender, setgender] = useState("");
   const [image,setimage] =useState(null);
   const [user,setuser] = useState({
@@ -21,17 +23,11 @@ const UserSignUp = () => {
     setimage(event.target.files[0]);
   }
 
-
-  const handleDateChange = (Date) => {
-    setbirthdate(Date);
-  };
   const handleGenderChange = (event) => {
-    console.log(event)
     setgender(event.target.value);
   };
 
   const handle_namechange=(event)=>{
-    console.log(event);
     const name=event.target.name;
     const value=event.target.value;
 
@@ -46,6 +42,7 @@ const UserSignUp = () => {
 
   const handleSubmit=(event)=>{
         event.preventDefault();
+        console.log(DOB)
         console.log(user);
         console.log(gender);
         console.log(image);
@@ -86,7 +83,7 @@ const UserSignUp = () => {
                 <div>
                   <label htmlFor="email">Email</label>
                   <input
-                    type="text"
+                    type="email"
                     name="email"
                     placeholder="enter your email"
                     id="email"
@@ -137,11 +134,16 @@ const UserSignUp = () => {
                 <div>
                   <label htmlFor="birthdate">Date of Birth</label>
                   <DatePicker
-                    id="birthdate"
-                    name="birthdate"
-                    value={birthdate}
-                    onChange={handleDateChange}
-                    maxDate={new Date()} // Limit date selection to today or earlier
+                      selected={DOB}
+                      onChange={(DOB)=>{
+                        setDOB(DOB)
+                        console.log();
+                          }
+                        }
+                      dateFormat="yyy/MM/dd"
+                      showYearDropdown
+                      scrollableMonthYearDropdown
+
                   />
                 </div>
                 <div>

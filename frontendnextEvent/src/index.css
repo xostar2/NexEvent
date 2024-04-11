@@ -1,0 +1,27 @@
+/* Basic Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif; /* Example font family */
+  }
+  
+  /* Reset Styles (Optional) */
+  * {
+    box-sizing: border-box; /* Ensures consistent box model */
+  }
+  
+  a {
+    text-decoration: none; /* Remove default link underline */
+    color: inherit; /* Inherit text color from parent element */
+  }
+  
+  /* Layout Styles (Optional) */
+  .container {
+    max-width: 1000px; /* Limit container width (optional) */
+    margin: 0 auto; /* Center content horizontally (optional) */
+    padding: 20px; /* Add some padding (optional) */
+  }
+  
+  /* Additional Styles */
+  /* Add more styles here to target specific elements or sections as needed */
+  
