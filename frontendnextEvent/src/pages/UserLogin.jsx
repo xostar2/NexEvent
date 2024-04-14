@@ -27,7 +27,7 @@ const UserLogin = () => {
     <section>
       <main>
 
-        <div className="login-form-data">
+        
           <div className="container grid grid-two-cols">
             <div className="login-form-img">
               <img src="/images/login.png" alt="login User" />
@@ -77,7 +77,7 @@ const UserLogin = () => {
             </div>
 
           </div>
-        </div>
+        
       </main>
     </section>
   )

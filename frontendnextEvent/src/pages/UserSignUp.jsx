@@ -1,108 +1,138 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
-
 import "react-datepicker/dist/react-datepicker.css";
-import '../styles/UserSignUp.css'
-const UserSignUp = () => {
-  const [DOB, setDOB] = useState(null);
-  const [gender, setgender] = useState("");
-  const [image,setimage] =useState(null);
-  const [user,setuser] = useState({
-    username:"",
-    email:"",
-    phone:"",
-    aadhar:"",
-    password:"",
-    address:""
+import "../styles/UserSignUp.css"
+import axios from 'axios';
+import {useNavigate} from "react-router-dom";
+
+
+
+function RegistrationForm() {
+  const navigate = useNavigate();
+  const [user, setUser] = useState({
+    username: "",
+    email: "",
+    gender: "",
+    phone: "",
+    DOB: new Date(),
+    aadhar: "",
+    address: "",
+    password: "",
+    avatar: null
   });
 
-
-  
-
-  const handleImageChange=(event)=>{
-    setimage(event.target.files[0]);
-  }
-
-  const handleGenderChange = (event) => {
-    setgender(event.target.value);
+  const handleNameChange = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const handle_namechange=(event)=>{
-    const name=event.target.name;
-    const value=event.target.value;
+  const handleGenderChange = (e) => {
+    setUser({ ...user, gender: e.target.value });
+  };
 
-    setuser({
-      ...user,
-      [name]:value,
-    })
+  const handleImageChange = (e) => {
+    setUser({ ...user, avatar: e.target.files[0] });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      formData.append("username", user.username);
+      formData.append("email", user.email);
+      formData.append("gender", user.gender);
+      formData.append("phone", user.phone);
+      formData.append("DOB", user.DOB.toISOString());
+      formData.append("aadhar", user.aadhar);
+      formData.append("address", user.address);
+      formData.append("password", user.password);
+      formData.append("avatar", user.avatar);
+
+      // Make POST request using Axios
+      const response = await axios.post("http://localhost:8000/api/v1/users/userregister", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log(response );
+      
+     if(response.status===200){
+      navigate("/");
+     }
+
+      // Optionally, you can redirect the user or show a success message here
+    } catch (error) {
+      console.log(error);
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        console.error("Server Error:", error.response.data);
+        // Handle server error response, show error message to the user, etc.
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error("No Response from Server:", error.request);
+        // Handle request timeout or network error, show error message to the user, etc.
+      } else {
+        // Something else happened in making the request that triggered an error
+        console.error("Request Error:", error.message);
+        // Handle other types of errors, show error message to the user, etc.
+    }
   }
+  };
 
-  //handleing form submit
 
-
-  const handleSubmit=(event)=>{
-        event.preventDefault();
-        console.log(DOB)
-        console.log(user);
-        console.log(gender);
-        console.log(image);
-        alert(user);
-  }
   return (
     <section>
       <main>
-        <div className="user-registration">
-          <div className="container grid grid-two-cols">
-            <div className="registration-img">
-              <img
-                src="/images/register.png"
-                alt="trying to fill registration form"
-                height="500"
-                width="500"
-              />
-            </div>
-            <div className="user-registration-form">
-              <h1 className="main-heading mb-3">registration form</h1>
-              <br />
+        <div className="container grid grid-two-cols">
+          <div className="registration-img">
+            <img
+              src="/images/register.png"
+              alt="trying to fill registration form"
+              height="500"
+              width="500"
+            />
+          </div>
+          <div className="user-registration-form">
+            <h1 className="main-heading mb-3">Registration Form</h1>
+            <form onSubmit={handleSubmit}>
+              <div>
+                <label htmlFor="username">Username</label>
+                <input
+                  type="text"
+                  name="username"
+                  placeholder="Username"
+                  id="username"
+                  required
+                  autoComplete="off"
+                  value={user.username}
+                  onChange={handleNameChange}
+                />
+              </div>
 
-              <form onSubmit={handleSubmit}>
-                <div>
-                  <label htmlFor="username">Username</label>
-                  <input
-                    type="text"
-                    name="username"
-                    placeholder="username"
-                    id="username"
-                    required
-                    autoComplete="off"
-                    value={user.username}
-                    onChange={handle_namechange}
-                  />
-                </div>
+              <div>
+                <label htmlFor="email">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  id="email"
+                  required
+                  autoComplete="off"
+                  value={user.email}
+                  onChange={handleNameChange}
+                />
+              </div>
 
-                <div>
-                  <label htmlFor="email">Email</label>
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="enter your email"
-                    id="email"
-                    required
-                    autoComplete="off"
-                    value={user.email}
-                    onChange={handle_namechange}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="gender">gender</label>
+              <div>
+                <label>Gender</label>
+                <div className="gender">
                   <label htmlFor="male">
                     Male
                     <input
                       id="male"
-                      name="male"
+                      name="gender"
                       type="radio"
                       value="Male"
-                      checked={gender === "Male"}
+                      checked={user.gender === "Male"}
                       onChange={handleGenderChange}
                     />
                   </label>
@@ -110,105 +140,103 @@ const UserSignUp = () => {
                     Female
                     <input
                       id="female"
-                      name="female"
+                      name="gender"
                       type="radio"
                       value="Female"
-                      checked={gender === "Female"}
+                      checked={user.gender === "Female"}
                       onChange={handleGenderChange}
                     />
                   </label>
                 </div>
-                <div>
-                  <label htmlFor="phone">Phone No.</label>
-                  <input
-                    type="text"
-                    name="phone"
-                    placeholder="enter your phone number"
-                    id="phone"
-                    required
-                    autoComplete="off"
-                    value={user.phone}
-                    onChange={handle_namechange}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="birthdate">Date of Birth</label>
-                  <DatePicker
-                      selected={DOB}
-                      onChange={(DOB)=>{
-                        setDOB(DOB)
-                        console.log();
-                          }
-                        }
-                      dateFormat="yyy/MM/dd"
-                      showYearDropdown
-                      scrollableMonthYearDropdown
+              </div>
 
-                  />
-                </div>
-                <div>
-                  <label htmlFor="aadhar">Aadhar No.</label>
-                  <input
-                    type="text"
-                    name="aadhar"
-                    placeholder="enter your aadhar number"
-                    id="aadhar"
-                    required
-                    autoComplete="off"
-                    value={user.aadhar}
-                    onChange={handle_namechange}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="address">Address</label>
-                  <input
-                    type="text"
-                    name="address"
-                    placeholder="enter your address"
-                    id="address"
-                    required
-                    autoComplete="off"
-                    value={user.address}
-                    onChange={handle_namechange}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="password">Password</label>
-                  <input
-                    type="password"
-                    name="password"
-                    placeholder="enter your password"
-                    id="password"
-                    required
-                    autoComplete="off"
-                    value={user.password}
-                    onChange={handle_namechange}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="image">
-                    Profile Image:
-                    <input
-                      name="image"
-                      type="file"
-                      accept="image/*"
-                      required
-                      onChange={handleImageChange}
-                    />
-                  </label>
-                </div>
-                <br/>
+              <div>
+                <label htmlFor="phone">Phone No.</label>
+                <input
+                  type="text"
+                  name="phone"
+                  placeholder="Enter your phone number"
+                  id="phone"
+                  required
+                  autoComplete="off"
+                  value={user.phone}
+                  onChange={handleNameChange}
+                />
+              </div>
 
-                <button type="submit" className="btn btn-submit" id="btn btn-submit">
-                   Sign Up
-                </button>
-              </form>
-            </div>
+              <div>
+                <label htmlFor="birthdate">Date of Birth</label>
+                <DatePicker
+                  selected={user.DOB}
+                  onChange={(DOB) => setUser({ ...user, DOB })}
+                  dateFormat="yyyy/MM/dd"
+                  showYearDropdown
+                  scrollableMonthYearDropdown
+                />
+              </div>
+
+              <div>
+                <label htmlFor="aadhar">Aadhar No.</label>
+                <input
+                  type="text"
+                  name="aadhar"
+                  placeholder="Enter your Aadhar number"
+                  id="aadhar"
+                  required
+                  autoComplete="off"
+                  value={user.aadhar}
+                  onChange={handleNameChange}
+                />
+              </div>
+
+              <div>
+                <label htmlFor="address">Address</label>
+                <input
+                  type="text"
+                  name="address"
+                  placeholder="Enter your address"
+                  id="address"
+                  required
+                  autoComplete="off"
+                  value={user.address}
+                  onChange={handleNameChange}
+                />
+              </div>
+
+              <div>
+                <label htmlFor="password">Password</label>
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Enter your password"
+                  id="password"
+                  required
+                  autoComplete="off"
+                  value={user.password}
+                  onChange={handleNameChange}
+                />
+              </div>
+
+              <div>
+                <label htmlFor="image">Profile Image:</label>
+                <input
+                  name="image"
+                  type="file"
+                  accept="image/*"
+                  
+                  onChange={handleImageChange}
+                />
+              </div>
+
+              <button type="submit" className="btn-submit">
+                Sign Up
+              </button>
+            </form>
           </div>
         </div>
       </main>
     </section>
   );
-};
+}
 
-export default UserSignUp;
+export default RegistrationForm;
