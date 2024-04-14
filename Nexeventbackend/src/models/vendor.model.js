@@ -1,4 +1,4 @@
-import mongoose,{Schema} from mongoose;
+import mongoose,{Schema} from "mongoose";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
@@ -21,7 +21,10 @@ const vendorSchema = new Schema(
             trim:true,
             index:true
         },
-        
+        avatar : {
+            type:String,
+            required:true
+        },
         email:{
             type:String,
             required:true,
@@ -43,7 +46,7 @@ const vendorSchema = new Schema(
         aadhaar:{
             type:String,
             trim:true,
-            required:true
+            
         },
         address:{
             type:String,
@@ -62,6 +65,7 @@ const vendorSchema = new Schema(
         },
         startDate:{
             type:Date,
+            default:Date.now()
 
         } ,
         state:{

@@ -49,14 +49,11 @@ const registerUser = asyncHandler(async (req,res)=>{
             throw new ApiError(400,"All fields are required")
     }
 
-    if(!email.includes('@')){
-        throw new ApiError(400,"@ required in email");
-    }
     if(phone.length!=10){
         throw new ApiError(400,"Phone no should be 10 Digit");
     }
     //we have to some more validation here
-    if(!password.length>8){
+    if(password.length<8){
         throw new ApiError(400,"Password Size should more then 8");
     }
 
@@ -69,7 +66,9 @@ const registerUser = asyncHandler(async (req,res)=>{
      if(existingUser){
         throw new ApiError(409,"user already exist with Email and username");
      }
-
+     if(!req.files){
+         throw new ApiError(400,"req.file is not define or missing")
+     }
      const avatarLocalPath= req.files?.avatar[0]?.path
 
      if(!avatarLocalPath){
@@ -99,7 +98,7 @@ const registerUser = asyncHandler(async (req,res)=>{
         throw new ApiError(500,"Something went wrong while registering a user");
      }
 
-     return res.status(201).json(
+     return res.status(200).json(
         new ApiResponse(200,createdUser,"User register sucessfully")
      )
 

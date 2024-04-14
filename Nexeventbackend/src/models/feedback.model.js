@@ -1,4 +1,4 @@
-import mongoose,{Schema} from mongoose;
+import mongoose,{Schema} from "mongoose";
 import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 const feedbackSchema= new Schema(
     {
@@ -14,7 +14,8 @@ const feedbackSchema= new Schema(
             max:5
         },
         comment:{
-            type :String
+            type :String,
+            required:true
         },
         eventowner:{
             type:Schema.Types.ObjectId,
@@ -32,6 +33,6 @@ const feedbackSchema= new Schema(
         timestamps:true
     }
  )
- userSchema.plugin(mongooseAggregatePaginate);
+ feedbackSchema.plugin(mongooseAggregatePaginate);
 
  export const FeedBack = mongoose.model("Feedback",feedbackSchema);

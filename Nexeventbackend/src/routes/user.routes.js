@@ -5,6 +5,8 @@ import { verifyJWT } from '../middlewares/auth.middleware.js';
 
 const router = Router()
 
+
+
 router.route("/userregister").post(
     upload.fields(//using multer here for upload file 
         [

@@ -28,11 +28,14 @@ app.use(cookieParser());
 //routes import
 
 import userRouter from './routes/user.routes.js'
-
+import vendorRouter from './routes/vendor.routes.js'
+import feedBackRouter from "./routes/feedback.routes.js"
 
 //routes declaration
 
-app.use("/api/v1/users",userRouter);
-// http: //localhost:8000/api/v1/user/register
+app.use("/api/v1/users",userRouter);// http: //localhost:8000/api/v1/user/register
+app.use("/api/v1/vendors",vendorRouter);
+app.use("/api/v1/feedback",feedBackRouter)
+
 
 export {app}

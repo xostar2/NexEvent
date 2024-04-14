@@ -1,9 +1,9 @@
 import {asyncHandler} from "../utils/asyncHandler.js"
-import {ApiError, asyncError} from "../utils/ApiError.js"
+import {ApiError} from "../utils/ApiError.js"
 import {ApiResponse} from "../utils/ApiResponse.js"
 import jwt from "jsonwebtoken"
 import { Vendor } from "../models/vendor.model.js"
-
+import { uploadOnCloudinary } from "../utils/cloudinary.js"
 
 const generaAccessAndRefereshToken= async function (vendorId){
     try{  
@@ -35,10 +35,10 @@ const vendorRegister = asyncHandler( async (req, res)=>{
     // returm response
 
 
-    const {vendorName,companyName,email,phone,aadhar,password,registrationNo} = req.body
+    const {vendorName,companyName,email,phone,aadhar,password,registrationNo,state,city} = req.body
 
     if(
-        [vendorName,companyName,email,phone,aadhar,password,registrationNo].some((field)=>
+        [vendorName,companyName,email,phone,aadhar,password,registrationNo,state,city].some((field)=>
             field.trim()==="")
     ){
         throw new ApiError(400,"All fields are required")
@@ -65,15 +65,30 @@ const vendorRegister = asyncHandler( async (req, res)=>{
     if(existingvendor){
         throw new ApiError(400,"vendor already exist with this credentials ")
     }
+    const avatarLocalPath= req.files?.avatar[0]?.path
+
+     if(!avatarLocalPath){
+        throw new ApiError(400,"Avatar is compulsory");
+     }
+
+     const avatar =await uploadOnCloudinary(avatarLocalPath)
+
+     if(!avatar){
+        throw new ApiError(400,"Avatar link is not working")
+     }
+
 
     const vendor = await Vendor.create(
         {
             vendorName:vendorName.toLowerCase(),
             email,
+            avatar:avatar.url,
             password,
             phone,
             aadhar,
             companyName,
+            state,
+            city,
             registrationNo
 
         }
