@@ -137,6 +137,9 @@ const loginVendor = asyncHandler( async (req,res) =>{
     }
 
     const isPasswordValid = await vendor.isPasswordCorrect(password)
+    if(!isPasswordValid){
+        throw new ApiError(401,"Wrong Password");
+    }
 
     const {accessToken,refreshToken} = await generaAccessAndRefereshToken(vendor._id);
 
@@ -281,7 +284,7 @@ const getCurrentVendor= asyncHandler( async (req,res)=>{
  //====================================================================================================================
 
  const updateVendorAccountDetails= asyncHandler(async (req,res)=>{
-    const {username,phone}=req.body
+    const {username,phone,email}=req.body
  
     if(!username || !phone || !email){
        throw new ApiError(400,"all fields are required")
