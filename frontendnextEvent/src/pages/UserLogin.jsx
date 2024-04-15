@@ -21,7 +21,8 @@ const UserLogin = () => {
   
   const handleSubmit=(e)=>{
       e.preventDefault();
-      console.log(user);
+      
+      
   }
   return (
     <section>
