@@ -7,6 +7,8 @@ import UserSignUp from "./pages/UserSignUp"
 import VendorSignUp from "./pages/VendorSignUp"
 import VendorLogin from "./pages/VendorLogin"
 import UserLogin from "./pages/UserLogin"
+import EventCard from "./components/EventCard"
+import AddEvent from "./pages/AddEvent"
 
 const App = () => {
   return (
@@ -21,6 +23,9 @@ const App = () => {
               <Route path="/vendorsignup" element={<VendorSignUp/>}/>
               <Route path="/vendorlogin" element={<VendorLogin/>}/>
               <Route path="/userlogin" element={<UserLogin/>}/>
+              <Route path="/eventcard" element={<EventCard/>}/>
+              <Route path="/addevent" element={<AddEvent/>}/>
+
               
           </Routes>
       </BrowserRouter>
