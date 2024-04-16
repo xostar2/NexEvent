@@ -22,35 +22,27 @@ const UserLogin = () => {
       [name]: value,
     });
   };
-   
-  
-  
-  
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-     alert(user);
+    alert(user);
     console.log(password);
     try {
-      const formData=JSON.stringify(user);
-     // console.log(formData);
+      const formData = JSON.stringify(user);
+      // console.log(formData);
       const response = await axios.post(URL, formData, {
         "Content-Type": "application/json",
       });
       console.log(response);
 
       if (response.status === 200) {
-        
         console.log("user login successfully");
         navigate("/");
-      }
-      else {
+      } else {
         // Handle unexpected response status
         console.error("Unexpected response status:", response.status);
-       
       }
     } catch (error) {
-      
       console.log(error);
       if (error.response) {
         // The request was made and the server responded with a status code
@@ -64,7 +56,7 @@ const UserLogin = () => {
         // Something else happened in making the request that triggered an error
         console.error("Request Error:", error.message);
         // Handle other types of errors, show error message to the user, etc.
-    }
+      }
     }
   };
   return (
@@ -79,7 +71,7 @@ const UserLogin = () => {
             <br />
 
             <form onSubmit={handleSubmit}>
-              <div>
+              <div className="form-group">
                 <label htmlFor="email">Email</label>
                 <input
                   type="email"
@@ -92,7 +84,7 @@ const UserLogin = () => {
                   onChange={handleInput}
                 />
               </div>
-              <div className="password" id="password">
+              <div className="form-group">
                 <label htmlFor="password">Password</label>
                 <input
                   type="password"
@@ -101,21 +93,18 @@ const UserLogin = () => {
                   id="password"
                   required
                   autoComplete="off"
-                   value={user.password}
-                   onChange={handleInput}
+                  value={user.password}
+                  onChange={handleInput}
                 />
               </div>
-
-              <div>
-                <button
-                  type="submit"
-                  className="btn btn-submit"
-                  id="btn btn-submit"
-                >
-                  Login
+              <div className="form-group">
+                <button class="button" type="submit">
+                  <span className="button-content">Login </span>
                 </button>
                 <span>Register before login </span>
-                <Link to="/UserSignUp">SignUp</Link>
+                <Link to="/UserSignUp" className="signup-link">
+                  SignUp
+                </Link>
               </div>
             </form>
           </div>

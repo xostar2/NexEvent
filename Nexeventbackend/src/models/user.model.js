@@ -43,7 +43,7 @@ const userSchema = new Schema(
         address:{
             type:String,
         },
-        password : {
+        password: {
             type:String,
             required:[true,"Password is required"]
         },

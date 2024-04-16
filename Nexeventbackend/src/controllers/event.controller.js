@@ -3,7 +3,7 @@ import { ApiError } from "../utils/ApiError";
 import {Event} from "../models/event.model.js"
 import {uploadOnCloudinary} from "../utils/cloudinary.js"
 import {ApiResponse} from "../utils/ApiResponse.js"
-import jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken"
 //===============================================================================================
 const addEvent= asyncHandler(async (req,res)=>{
 
@@ -17,7 +17,18 @@ const addEvent= asyncHandler(async (req,res)=>{
     //return response
 
     const {eventName,thumbnail,description} = req.body
+    // const incomingRefreshToken=req.cookies.refreshToken || req.body.refreshToken
+
+    // if(!incomingRefreshToken){
+    //    throw new ApiError(401,"unauthorized request")
+    // }
     
+   const vendorId=req.params.url;
+
+    if(!vendorId){
+      throw new ApiError(401,"invalid refresh token")
+   }
+
     if(eventName.trim()===""){
         ApiError(400,"Event name is important to add");
     }
@@ -105,11 +116,34 @@ const updateEvent = asyncHandler(async (req, res) => {
   });
   
  const deleteEvent= asyncHandler(async(req,res)=>{
-    
+    const eventId =req.params.eventId;
+    if(!eventId){
+      throw new ApiError(400,"Please provide event ID to delete.");
+    }
+
+    const event= await Event.findById(eventId);
+    if(!event){
+      throw new ApiError(404,"Event not found");
+    }
+
+    const deleteEventSuccessfully=await event.deleteOne();
+    if(deleteEventSuccessfully){
+      console.log("event deleted successfully");
+    }
+    return res.status(200)
+    .json(
+      new ApiResponse(
+        200,
+        null,
+        "event deleted successfully"
+      )
+    )
  })
 
 export {
     addEvent,
+    updateEvent,
+    deleteEvent,
 }
 
 

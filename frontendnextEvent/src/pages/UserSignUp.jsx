@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import "../styles/UserSignUp.css"
-import axios from 'axios';
-import {useNavigate} from "react-router-dom";
-
-
+import "../styles/UserSignUp.css";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function RegistrationForm() {
   const navigate = useNavigate();
@@ -18,7 +16,7 @@ function RegistrationForm() {
     aadhar: "",
     address: "",
     password: "",
-    avatar: null
+    avatar: null,
   });
 
   const handleNameChange = (e) => {
@@ -48,16 +46,20 @@ function RegistrationForm() {
       formData.append("avatar", user.avatar);
 
       // Make POST request using Axios
-      const response = await axios.post("http://localhost:8000/api/v1/users/userregister", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      console.log(response );
-      
-     if(response.status===200){
-      navigate("/");
-     }
+      const response = await axios.post(
+        "http://localhost:8000/api/v1/users/userregister",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log(response);
+
+      if (response.status === 200) {
+        navigate("/");
+      }
 
       // Optionally, you can redirect the user or show a success message here
     } catch (error) {
@@ -74,10 +76,9 @@ function RegistrationForm() {
         // Something else happened in making the request that triggered an error
         console.error("Request Error:", error.message);
         // Handle other types of errors, show error message to the user, etc.
+      }
     }
-  }
   };
-
 
   return (
     <section>
@@ -122,48 +123,40 @@ function RegistrationForm() {
                 />
               </div>
 
-              <div>
-                <label>Gender</label>
-                <div className="gender">
-                  <label htmlFor="male">
-                    Male
+              <div className="mydict">
+                <div>
+                  <label>
                     <input
-                      id="male"
-                      name="gender"
                       type="radio"
-                      value="Male"
-                      checked={user.gender === "Male"}
+                      name="gender"
+                      value="Women"
+                      checked={user.gender === "Women"}
                       onChange={handleGenderChange}
                     />
+                    <span>Women</span>
                   </label>
-                  <label htmlFor="female">
-                    Female
+                  <label>
                     <input
-                      id="female"
-                      name="gender"
                       type="radio"
-                      value="Female"
-                      checked={user.gender === "Female"}
+                      name="gender"
+                      value="Men"
+                      checked={user.gender === "Men"}
                       onChange={handleGenderChange}
                     />
+                    <span>Men</span>
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="gender"
+                      value="Divided"
+                      checked={user.gender === "Divided"}
+                      onChange={handleGenderChange}
+                    />
+                    <span>Divided</span>
                   </label>
                 </div>
               </div>
-
-              <div>
-                <label htmlFor="phone">Phone No.</label>
-                <input
-                  type="text"
-                  name="phone"
-                  placeholder="Enter your phone number"
-                  id="phone"
-                  required
-                  autoComplete="off"
-                  value={user.phone}
-                  onChange={handleNameChange}
-                />
-              </div>
-
               <div>
                 <label htmlFor="birthdate">Date of Birth</label>
                 <DatePicker
@@ -223,13 +216,12 @@ function RegistrationForm() {
                   name="image"
                   type="file"
                   accept="image/*"
-                  
                   onChange={handleImageChange}
                 />
               </div>
 
-              <button type="submit" className="btn-submit">
-                Sign Up
+              <button class="button" type="submit">
+                <span className="button-content">Sign Up </span>
               </button>
             </form>
           </div>
@@ -240,3 +232,40 @@ function RegistrationForm() {
 }
 
 export default RegistrationForm;
+
+{
+  /* <div className="mydict">
+<div>
+  <label>
+    <input
+      type="radio"
+      name="gender"
+      value="Women"
+      checked={user.gender === "Women"}
+      onChange={handleGenderChange}
+    />
+    <span>Women</span>
+  </label>
+  <label>
+    <input
+      type="radio"
+      name="gender"
+      value="Men"
+      checked={user.gender === "Men"}
+      onChange={handleGenderChange}
+    />
+    <span>Men</span>
+  </label>
+  <label>
+    <input
+      type="radio"
+      name="gender"
+      value="Divided"
+      checked={user.gender === "Divided"}
+      onChange={handleGenderChange}
+    />
+    <span>Divided</span>
+  </label>
+</div>
+</div> */
+}

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "../styles/AddEvent.css"
 
 const eventTypes = [
   "Conferences",
@@ -100,9 +101,10 @@ const AddEvent = () => {
         <div className="form-group">
           <label htmlFor="thumbnail">Event Thumbnail URL:</label>
           <input
-            type="url"
+            type="file"
             name="thumbnail"
             id="thumbnail"
+            accept="thumbnail/*"
             value={eventData.thumbnail}
             onChange={handleChange}
             required
