@@ -121,17 +121,18 @@ const loginVendor = asyncHandler( async (req,res) =>{
     //access and refresh tokengenerate and send vendor
     //send cookie secure cookie
 
-    const {vendorName,email,aadhar,companyName,phone}= req.body
-
-    if(!vendorName && !email ){
-        throw new ApiError(400,"Vendor name or password is required");
+    const {email,password}= req.body
+    console.log(email,password)
+    console.log(req.body);
+    if(!email && !password ){
+        throw new ApiError(400," email or password is required");
     }
 
-    const vendor = await Vendor.findOne(
-        {
-            $or:[{vendorName},{email}]
-        }
-    )
+    const vendor = await Vendor.findOne({email:email})
+        // {
+        //     $or:[{vendorName},{email}]
+        // }
+    
     if(!vendor){
         throw new ApiError(400," vendor not found in DB")
     }

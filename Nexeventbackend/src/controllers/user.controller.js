@@ -41,7 +41,7 @@ const registerUser = asyncHandler(async (req,res)=>{
     // if(username===""){
     //     throw new ApiError(400,"username is required");
     // }
-
+     console.log(req.body);
     if(
         [username,email,password,phone].some((field)=>
         field?.trim()=== "")
@@ -115,14 +115,14 @@ const loginUser = asyncHandler(async(req,res)=>{
    //send cookie secure cookies
 
    const {email,password} = req.body
-   console.log(req.body.email);
-   console.log(req.body.password);
+   console.log(email);
+   console.log(password);
    console.log(req.body);
    
    if (!email || !password) {
       return res.status(400).json({ message: 'Username and password are required' });
   }
-   const user = await User.findOne(email)
+   const user = await User.findOne({email:email})
       // {
       //    $or : [{username},{email}]
       // }

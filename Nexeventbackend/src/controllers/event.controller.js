@@ -1,9 +1,11 @@
-import { asyncHandler } from "../utils/asyncHandler";
-import { ApiError } from "../utils/ApiError";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { ApiError } from "../utils/ApiError.js";
 import {Event} from "../models/event.model.js"
 import {uploadOnCloudinary} from "../utils/cloudinary.js"
 import {ApiResponse} from "../utils/ApiResponse.js"
+import { Vendor } from "../models/vendor.model.js";
 import jwt from "jsonwebtoken"
+import { response } from "express";
 //===============================================================================================
 const addEvent= asyncHandler(async (req,res)=>{
 
@@ -15,25 +17,37 @@ const addEvent= asyncHandler(async (req,res)=>{
     //create event object - create entry in db
     //check response and event creation
     //return response
-
-    const {eventName,thumbnail,description} = req.body
-    // const incomingRefreshToken=req.cookies.refreshToken || req.body.refreshToken
-
-    // if(!incomingRefreshToken){
-    //    throw new ApiError(401,"unauthorized request")
-    // }
+    const vendor=req.vendor
+    console.log(vendor)
+    if(!vendor){
+        throw new ApiError(401,"invalid refresh token")
+    }
+    response.json(req.body)
+    console.log(req.body);
+    const {eventName,thumbnail,description } = req.body
     
-   const vendorId=req.params.url;
 
-    if(!vendorId){
-      throw new ApiError(401,"invalid refresh token")
-   }
+//     const token = req.cookies?.accessToken || req.header('Authorization')?.replace('Bearer ', '');
 
-    if(eventName.trim()===""){
+//         if (!token) {
+//             throw new Error('Unauthorized request');
+//         }
+
+//         const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+
+//         const vendor = await Vendor.findById(decodedToken?._id).select('-password -refreshToken');
+    
+   
+//  console.log(vendor?._id)
+//     if(!vendor){
+//       throw new ApiError(401,"invalid refresh token")
+//    }
+
+    if(eventName===""){
         ApiError(400,"Event name is important to add");
     }
-    if(description.trim()===""){
-        ApiError(400,"Event name is important to add");
+    if(description===""){
+        ApiError(400,"description is important to add"); 
     }
     
 
@@ -52,11 +66,10 @@ const addEvent= asyncHandler(async (req,res)=>{
 
      const event= await Event.create({
         eventName,
-        thumbnail:avatar.url,
+        thumbnail:"avatar.url",
         description,
-        owner:vendorId,
+        //owner:vendor._id,
      })
-    
      return res.status(200)
      .json(
         new ApiResponse(200,event,"event created successfully")
