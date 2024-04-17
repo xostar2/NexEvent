@@ -24,12 +24,13 @@ const UserLogin = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    alert(user);
-    console.log(password);
+     e.preventDefault();
+     console.log(user);
+    // console.log(password);
     try {
-      const formData = JSON.stringify(user);
-      // console.log(formData);
+      const formData = user
+      
+      console.log(formData);
       const response = await axios.post(URL, formData, {
         "Content-Type": "application/json",
       });
@@ -98,7 +99,7 @@ const UserLogin = () => {
                 />
               </div>
               <div className="form-group">
-                <button class="button" type="submit">
+                <button className="button" type="submit">
                   <span className="button-content">Login </span>
                 </button>
                 <span>Register before login </span>

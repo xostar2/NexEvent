@@ -49,7 +49,6 @@ const AddEvent = () => {
     eventName: "",
     createDate: new Date(),
     thumbnail: "",
-    packageList: [],
     description: "",
     // Omit rating and owner for simplicity (populate server-side)
   });
@@ -60,21 +59,18 @@ const AddEvent = () => {
   };
 
   const handlePackageSelect = (e) => {
-    // Implement logic to handle package selection (if applicable)
-    // Update eventData.packageList accordingly
+
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const response = await axios.post("/api/events", eventData);
-      console.log("Event created successfully:", response.data);
-      navigate("/events"); // Redirect to events list page
+          
     } catch (error) {
-      console.error("Error creating event:", error);
-      // Handle errors appropriately (display error message to user)
+      console.log("event not created :",error);
     }
+
+    
   };
 
   return (
@@ -130,7 +126,9 @@ const AddEvent = () => {
             onChange={handleChange}
           />
         </div>
-        <button type="submit">Register Event</button>
+        <button className="button" type="submit">
+                  <span className="button-content">Login </span>
+                </button>
       </form>
     </div>
   );

@@ -157,7 +157,7 @@ function RegistrationForm() {
                   </label>
                 </div>
               </div>
-              <div>
+              <div className="birthdate">
                 <label htmlFor="birthdate">Date of Birth</label>
                 <DatePicker
                   selected={user.DOB}
@@ -209,6 +209,19 @@ function RegistrationForm() {
                   onChange={handleNameChange}
                 />
               </div>
+              <div>
+                <label htmlFor="phone">Phone</label>
+                <input
+                  type="text"
+                  name="phone"
+                  placeholder="Enter your number"
+                  id="phone"
+                  required
+                  autoComplete="off"
+                  value={user.phone}
+                  onChange={handleNameChange}
+                />
+              </div>
 
               <div>
                 <label htmlFor="image">Profile Image:</label>
@@ -220,7 +233,7 @@ function RegistrationForm() {
                 />
               </div>
 
-              <button class="button" type="submit">
+              <button className="button" type="submit">
                 <span className="button-content">Sign Up </span>
               </button>
             </form>

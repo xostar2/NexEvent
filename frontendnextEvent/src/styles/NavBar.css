@@ -1,84 +1,74 @@
 /* NavBar.css */
 .navbar {
-    background-color: #f8f9fa; /* Light grey background */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    padding: 1rem 0; /* Padding top and bottom */
-  }
-  
+  background-color: #ffffff; /* White background for the navbar */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  padding: 0.5rem 1rem; /* Padding around the navbar */
+}
+
+.container {
+  max-width: 1200px; /* Max width of the content */
+  margin: 0 auto; /* Center the content */
+  display: flex; /* Use flexbox for layout */
+  justify-content: space-between; /* Space between logo and nav */
+  align-items: center; /* Align items vertically */
+}
+
+.logo-brand {
+  display: flex; /* Align logo and company name side by side */
+  align-items: center; /* Align items vertically */
+}
+
+.logo-brand img {
+  height: 50px; /* Fixed height for the logo */
+  width: auto; /* Maintain aspect ratio */
+  margin-right: 10px; /* Space between logo and company name */
+}
+
+.company-name h1 {
+  font-size: 1.5rem; /* Size of the company name */
+  color: #333333; /* Dark grey color for the text */
+  margin: 0; /* Remove default margin */
+}
+
+nav ul {
+  list-style: none; /* Remove default list styling */
+  padding: 0; /* Remove default padding */
+  margin: 0; /* Remove default margin */
+  display: flex; /* Display list items inline */
+}
+
+nav ul li {
+  padding: 0 1rem; /* Padding on the sides of each list item */
+}
+
+nav ul li a {
+  text-decoration: none; /* Remove underline from links */
+  color: #007bff; /* Bootstrap primary color for links */
+  font-weight: 500; /* Medium font weight */
+}
+
+nav ul li a.active,
+nav ul li a:hover {
+  color: #0056b3; /* Darker blue for active/hover state */
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
   .container {
-    max-width: 1200px; /* Max width of the content */
-    margin: 0 auto; /* Center the content */
-    padding: 0 15px; /* Padding on the sides */
-    display: flex; /* Use flexbox for layout */
-    justify-content: space-between; /* Space between logo and nav */
-    align-items: center; /* Align items vertically */
+    flex-direction: column; /* Stack elements vertically */
+    align-items: flex-start; /* Align items to the start */
   }
-  
+
   .logo-brand {
-    display: flex; /* Align logo and company name side by side */
-    align-items: center; /* Align items vertically */
+    margin-bottom: 1rem; /* Space between logo and nav on small screens */
   }
-  
-  .logo-brand img {
-    max-height: 50px; /* Maximum logo height */
-    width: auto; /* Maintain aspect ratio */
-    margin-right: 10px; /* Space between logo and company name */
-  }
-  
-  .company-name h1 {
-    margin: 0; /* Remove default margin */
-    color: #007bff; /* Bootstrap primary color for the company name */
-    font-size: 1.5rem; /* Size of the company name */
-  }
-  
+
   nav ul {
-    list-style: none; /* Remove default list styling */
-    display: flex; /* Display list items inline */
-    margin: 0; /* Remove default margin */
-    padding: 0; /* Remove default padding */
+    flex-direction: column; /* Stack links vertically */
+    width: 100%; /* Full width for nav */
   }
-  
+
   nav ul li {
-    margin-right: 20px; /* Space between links */
+    padding: 0.5rem 0; /* Padding top and bottom for each list item */
   }
-  
-  nav ul li:last-child {
-    margin-right: 0; /* No margin for the last item */
-  }
-  
-  nav ul li a {
-    text-decoration: none; /* Remove underline from links */
-    color: #007bff; /* Bootstrap primary color for links */
-    font-weight: bold; /* Make the font bold */
-  }
-  
-  nav ul li a.active,
-  nav ul li a:hover {
-    color: #0056b3; /* Darker blue for active/hover state */
-  }
-  
-  /* Responsive design for smaller screens */
-  @media (max-width: 768px) {
-    .container {
-      flex-direction: column; /* Stack elements vertically */
-    }
-  
-    .logo-brand {
-      justify-content: flex-start; /* Align logo and company name to the start */
-    }
-  
-    .logo-brand,
-    nav {
-      width: 100%; /* Full width for logo and nav */
-      text-align: left; /* Align text to the left */
-    }
-  
-    nav ul {
-      flex-direction: column; /* Stack links vertically */
-    }
-  
-    nav ul li {
-      margin: 10px 0; /* Space between stacked links */
-    }
-  }
-  
+}
