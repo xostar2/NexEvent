@@ -4,8 +4,7 @@ import {Event} from "../models/event.model.js"
 import {uploadOnCloudinary} from "../utils/cloudinary.js"
 import {ApiResponse} from "../utils/ApiResponse.js"
 import { Vendor } from "../models/vendor.model.js";
-import jwt from "jsonwebtoken"
-import { response } from "express";
+
 //===============================================================================================
 const addEvent= asyncHandler(async (req,res)=>{
 
@@ -17,31 +16,19 @@ const addEvent= asyncHandler(async (req,res)=>{
     //create event object - create entry in db
     //check response and event creation
     //return response
-    const vendor=req.vendor
+    console.log(req.body)
+    console.log(req.vendor?._id)
+    const vendor=req.vendor?._id
     console.log(vendor)
     if(!vendor){
         throw new ApiError(401,"invalid refresh token")
     }
-    response.json(req.body)
+    
     console.log(req.body);
     const {eventName,thumbnail,description } = req.body
     
 
-//     const token = req.cookies?.accessToken || req.header('Authorization')?.replace('Bearer ', '');
 
-//         if (!token) {
-//             throw new Error('Unauthorized request');
-//         }
-
-//         const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-
-//         const vendor = await Vendor.findById(decodedToken?._id).select('-password -refreshToken');
-    
-   
-//  console.log(vendor?._id)
-//     if(!vendor){
-//       throw new ApiError(401,"invalid refresh token")
-//    }
 
     if(eventName===""){
         ApiError(400,"Event name is important to add");
@@ -179,3 +166,18 @@ const addEvent = asyncHandler(async (req, res) => {
 
 // Implement Search Functionality: Create an endpoint that allows searching for events based on various criteria, potentially including vendor ID (if available).
 
+//     const token = req.cookies?.accessToken || req.header('Authorization')?.replace('Bearer ', '');
+
+//         if (!token) {
+//             throw new Error('Unauthorized request');
+//         }
+
+//         const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+
+//         const vendor = await Vendor.findById(decodedToken?._id).select('-password -refreshToken');
+    
+   
+//  console.log(vendor?._id)
+//     if(!vendor){
+//       throw new ApiError(401,"invalid refresh token")
+//    }
