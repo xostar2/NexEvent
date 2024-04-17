@@ -4,15 +4,15 @@ import "../styles/NavBar.css"; // Assuming your CSS file is named NavBar.css
 
 const NavBar = () => {
   return (
-    <header className="navbar">
-      <div className="container">
-        <div className="logo-brand">
+   
+      <div className="container-nav-bar">
+        <div className="logo-brand-nav-bar">
           <NavLink to="/">
-            <div className="company-name"><h1>NexEvent</h1></div>
-            <img src="your_logo.png" alt="NexEvent Logo" /> {/* Replace with your logo path */}
+            <div className="company-name-next-event"><h2>NexEvent</h2></div>
+            {/* <img src="your_logo.png" alt="NexEvent Logo" /> Replace with your logo path */}
           </NavLink>
         </div>
-        <nav>
+        <nav className="nav-links-container-next-event-NavBar">
           <ul>
             <li>
               <NavLink to="/" className="active">
@@ -42,8 +42,9 @@ const NavBar = () => {
           </ul>
         </nav>
       </div>
-    </header>
+    
   );
 };
 
 export default NavBar;
+

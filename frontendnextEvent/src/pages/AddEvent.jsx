@@ -3,6 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../styles/AddEvent.css"
 
+const URL="http://localhost:8000/api/v1/events/addevent"
+
 const eventTypes = [
   "Conferences",
   "Seminars",
@@ -48,26 +50,37 @@ const AddEvent = () => {
   const [eventData, setEventData] = useState({
     eventName: "",
     createDate: new Date(),
-    thumbnail: "",
+    thumbnail: null,
     description: "",
-    // Omit rating and owner for simplicity (populate server-side)
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEventData({ ...eventData, [name]: value });
   };
-
-  const handlePackageSelect = (e) => {
-
+  const handleImageChange = (e) => {
+    setEventData({ ...eventData, thumbnail: e.target.files[0] });
   };
+
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-          
+      console.log(eventData);
+      const formData = new FormData();
+      formData.append("eventName", eventData.eventName);
+      formData.append("thumbnail", eventData.thumbnail);
+      formData.append("description", eventData.description);
+      formData.append("createDate", eventData.createDate);  
+      const response = await axios.post(URL, formData, {
+        "Content-Type": "multipart/form-data",
+      });
+     
+      console.log(response)
+      navigate("/")
     } catch (error) {
-      console.log("event not created :",error);
+      console.log("event not created :",error?.response?.data?.message || " ");
     }
 
     
@@ -77,7 +90,7 @@ const AddEvent = () => {
     <div className="add-event-container">
       <h1>Add Event</h1>
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
+        <div className="form-group-event-name">
           <label htmlFor="eventName">Event Name:</label>
           <select
             name="eventName"
@@ -94,19 +107,19 @@ const AddEvent = () => {
             ))}
           </select>
         </div>
-        <div className="form-group">
+        <div className="form-group-thumbnail">
           <label htmlFor="thumbnail">Event Thumbnail URL:</label>
           <input
             type="file"
             name="thumbnail"
             id="thumbnail"
-            accept="thumbnail/*"
-            value={eventData.thumbnail}
-            onChange={handleChange}
+            accept="image/*"
+            //value={eventData.thumbnail}
+            onChange={handleImageChange}
             required
           />
         </div>
-        <div className="form-group">
+        <div className="form-group-description">
           <label htmlFor="description">Event Description:</label>
           <textarea
             name="description"
@@ -116,7 +129,7 @@ const AddEvent = () => {
             required
           ></textarea>
         </div>
-        <div className="form-group">
+        {/* <div className="form-group">
           <label htmlFor="startTime">Start Time:</label>
           <input
             type="time"
@@ -125,7 +138,7 @@ const AddEvent = () => {
             value={eventData.startTime}
             onChange={handleChange}
           />
-        </div>
+        </div> */}
         <button className="button" type="submit">
                   <span className="button-content">Login </span>
                 </button>

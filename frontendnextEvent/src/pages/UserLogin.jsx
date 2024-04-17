@@ -63,12 +63,12 @@ const UserLogin = () => {
   return (
     <section>
       <main>
-        <div className="container grid grid-two-cols">
-          <div className="login-form-img">
+        <div className="container grid grid-two-cols-login">
+          <div className="login-form-img-login">
             <img src="/images/login.png" alt="login User" />
           </div>
-          <div className="user-login-form">
-            <h1 className="main-heading mb-3">User Login</h1>
+          <div className="user-login-form-login">
+            <h1 className="main-heading mb-3-login">User Login</h1>
             <br />
 
             <form onSubmit={handleSubmit}>

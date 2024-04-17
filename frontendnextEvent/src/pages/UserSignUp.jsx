@@ -83,8 +83,8 @@ function RegistrationForm() {
   return (
     <section>
       <main>
-        <div className="container grid grid-two-cols">
-          <div className="registration-img">
+        <div className="container grid grid-two-cols-signup">
+          <div className="registration-img-signup">
             <img
               src="/images/register.png"
               alt="trying to fill registration form"
@@ -92,10 +92,10 @@ function RegistrationForm() {
               width="500"
             />
           </div>
-          <div className="user-registration-form">
+          <div className="user-registration-form-signup">
             <h1 className="main-heading mb-3">Registration Form</h1>
-            <form onSubmit={handleSubmit}>
-              <div>
+            <form onSubmit={handleSubmit} className="form-signup">
+              <div className="form-group-username">
                 <label htmlFor="username">Username</label>
                 <input
                   type="text"
@@ -109,7 +109,7 @@ function RegistrationForm() {
                 />
               </div>
 
-              <div>
+              <div className="form-group-email">
                 <label htmlFor="email">Email</label>
                 <input
                   type="email"
@@ -168,7 +168,7 @@ function RegistrationForm() {
                 />
               </div>
 
-              <div>
+              <div className="form-group-aadhar">
                 <label htmlFor="aadhar">Aadhar No.</label>
                 <input
                   type="text"
@@ -182,7 +182,7 @@ function RegistrationForm() {
                 />
               </div>
 
-              <div>
+              <div className="form-group-address">
                 <label htmlFor="address">Address</label>
                 <input
                   type="text"
@@ -196,7 +196,7 @@ function RegistrationForm() {
                 />
               </div>
 
-              <div>
+              <div className="form-group-password">
                 <label htmlFor="password">Password</label>
                 <input
                   type="password"
@@ -209,7 +209,7 @@ function RegistrationForm() {
                   onChange={handleNameChange}
                 />
               </div>
-              <div>
+              <div className="form-group-phone">
                 <label htmlFor="phone">Phone</label>
                 <input
                   type="text"
@@ -223,12 +223,13 @@ function RegistrationForm() {
                 />
               </div>
 
-              <div>
+              <div className="form-group-image">
                 <label htmlFor="image">Profile Image:</label>
                 <input
                   name="image"
                   type="file"
                   accept="image/*"
+                  
                   onChange={handleImageChange}
                 />
               </div>

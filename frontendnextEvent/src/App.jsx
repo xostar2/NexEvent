@@ -9,7 +9,7 @@ import VendorLogin from "./pages/VendorLogin"
 import UserLogin from "./pages/UserLogin"
 import EventCard from "./components/EventCard"
 import AddEvent from "./pages/AddEvent"
-
+import UserHomePage from "./pages/UserHomePage"
 const App = () => {
   return (
     <>
@@ -25,8 +25,7 @@ const App = () => {
               <Route path="/userlogin" element={<UserLogin/>}/>
               <Route path="/eventcard" element={<EventCard/>}/>
               <Route path="/addevent" element={<AddEvent/>}/>
-
-              
+              <Route path="/userhomepage" element={<UserHomePage/>}/>
           </Routes>
       </BrowserRouter>
     </>
