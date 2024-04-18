@@ -68,15 +68,9 @@ const vendorSchema = new Schema(
             default:Date.now()
 
         } ,
-        state:{
-            type:String,
-            required:true,
-            lowercase:true
-        },
         city:{
             type:String,
             require:true,
-            lowercase:true
         },
         eventList:[
             {
@@ -96,7 +90,8 @@ vendorSchema.plugin(mongooseAggregatePaginate);
 
 vendorSchema.pre("save", async function(next){
     if(!this.isModified("password"))return next();
-    this.password= bcrypt.hash(this.password,10);
+    this.password=await  bcrypt.hash(this.password,10);
+    console.log(this.password)  
     next();
  })
 
@@ -108,9 +103,7 @@ vendorSchema.pre("save", async function(next){
     return jwt.sign(
         {
             _id : this._id,
-            email: this.email,
-            username:this.username,
-            companyName: this.companyName
+           
         },
         process.env.ACCESS_TOKEN_SECRET,
         {
@@ -126,7 +119,7 @@ vendorSchema.pre("save", async function(next){
         },
         process.env.REFRESH_TOKEN_SECRET,
         {
-            expiresIn:process.env.REFRESH_TOKEN_EXPIRYvendorSchema
+            expiresIn:process.env.REFRESH_TOKEN_EXPIRY
 
         }
      )

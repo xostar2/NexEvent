@@ -1,7 +1,8 @@
 import {Router} from 'express';
 import { loginVendor, logoutVendor, refreshAccessToken, vendorRegister } from '../controllers/vendor.controller.js';
 import {upload} from '../middlewares/multer.middleware.js'
-import { verifyJWT } from '../middlewares/auth.middleware.js';
+import { verifyJWT } from '../middlewares/authvendor.middleware.js';
+
 
 
 const router = Router()
@@ -25,7 +26,7 @@ router.route("/vendorlogin").post(loginVendor)
 
 //secured routes
 
-router.route("/vendorlogout").post(verifyJWT ,logoutVendor)
+router.route("/vendorlogout").post(verifyJWT,logoutVendor)
 
 router.route("/refresh-token",refreshAccessToken)
 

@@ -7,16 +7,24 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js"
 
 const generaAccessAndRefereshToken= async function (vendorId){
     try{  
-       const vendor=await User.findById(vendorId)
+       const vendor=await Vendor.findById(vendorId)
+       //console.log(vendor,"this is vendor");
        const accessToken=vendor.generateAccessToken()
+       if(!accessToken){
+           throw new ApiError(500,"something went wrong while generating access token");
+       }
        const refreshToken =vendor.generateRefreshToken()
- 
+       if(!refreshToken){
+           throw new ApiError(500,"something went wrong while generating refresh token");
+       }
+        
        vendor.refreshToken=refreshToken;
+       //vendor.accessToken=accessToken;
        await vendor.save({validateBeforeSave : false})
  
        return {accessToken,refreshToken}
     }catch(error){
-       throw new ApiError(500,"something went wrong while generating refreshtoken and Accesstoken")
+       throw new ApiError(500,error)
     }
  }
 
@@ -35,10 +43,10 @@ const vendorRegister = asyncHandler( async (req, res)=>{
     // returm response
 
 
-    const {vendorName,companyName,email,phone,aadhar,password,registrationNo,state,city} = req.body
+    const {vendorName,companyName,email,phone,aadhar,password,registrationNo,city} = req.body
 
     if(
-        [vendorName,companyName,email,phone,aadhar,password,registrationNo,state,city].some((field)=>
+        [vendorName,companyName,email,phone,aadhar,password,registrationNo,city].some((field)=>
             field.trim()==="")
     ){
         throw new ApiError(400,"All fields are required")
@@ -87,14 +95,13 @@ const vendorRegister = asyncHandler( async (req, res)=>{
             phone,
             aadhar,
             companyName,
-            state,
             city,
             registrationNo
 
         }
     )
 
-    const createVendor = await Vendor.findById(vendor._id).select(" -password -refreshToken")
+    const createVendor = await Vendor.findById(vendor._id)//.select(" -password -refreshToken")
 
     if(!createVendor){
         throw new ApiError(501,"something went wrong while registering vendor");
@@ -129,10 +136,8 @@ const loginVendor = asyncHandler( async (req,res) =>{
     }
 
     const vendor = await Vendor.findOne({email:email})
-        // {
-        //     $or:[{vendorName},{email}]
-        // }
-    
+        
+    //console.log(vendor);
     if(!vendor){
         throw new ApiError(400," vendor not found in DB")
     }
@@ -141,8 +146,9 @@ const loginVendor = asyncHandler( async (req,res) =>{
     if(!isPasswordValid){
         throw new ApiError(401,"Wrong Password");
     }
-
-    const {accessToken,refreshToken} = await generaAccessAndRefereshToken(vendor._id);
+    const vendorId_=vendor?._id;
+    console.log(vendorId_);
+    const {accessToken,refreshToken} = await generaAccessAndRefereshToken(vendorId_);
 
     vendor.refreshToken=refreshToken
 

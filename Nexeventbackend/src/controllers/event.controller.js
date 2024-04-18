@@ -16,10 +16,14 @@ const addEvent= asyncHandler(async (req,res)=>{
     //create event object - create entry in db
     //check response and event creation
     //return response
+
+
     console.log(req.body)
     console.log(req.vendor?._id)
     const vendor=req.vendor?._id
     console.log(vendor)
+    //const vendorId=req.params.vendorId;
+
     if(!vendor){
         throw new ApiError(401,"invalid refresh token")
     }
@@ -55,7 +59,7 @@ const addEvent= asyncHandler(async (req,res)=>{
         eventName,
         thumbnail:"avatar.url",
         description,
-        //owner:vendor._id,
+        owner:vendor._id,
      })
      return res.status(200)
      .json(

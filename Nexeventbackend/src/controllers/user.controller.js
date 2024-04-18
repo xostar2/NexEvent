@@ -138,7 +138,7 @@ const loginUser = asyncHandler(async(req,res)=>{
       throw new ApiError(400,"invalid user credentials");
    }
 
-   const {accessToken,refreshToken}=await generaAccessAndRefereshToken(user._id);
+   const {accessToken,refreshToken}=await generaAccessAndRefereshToken(user?._id);
    //  console.log(accessToken);
    //  console.log(refreshToken);
 
