@@ -10,6 +10,7 @@ import UserLogin from "./pages/UserLogin"
 import EventCard from "./components/EventCard"
 import AddEvent from "./pages/AddEvent"
 import UserHomePage from "./pages/UserHomePage"
+import AddPackage from "./pages/AddPackage"
 const App = () => {
   return (
     <>
@@ -26,6 +27,7 @@ const App = () => {
               <Route path="/eventcard" element={<EventCard/>}/>
               <Route path="/addevent" element={<AddEvent/>}/>
               <Route path="/userhomepage" element={<UserHomePage/>}/>
+              <Route path="/addpackage" element={<AddPackage/>}/>
           </Routes>
       </BrowserRouter>
     </>

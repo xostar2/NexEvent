@@ -88,8 +88,8 @@ function RegistrationForm() {
             <img
               src="/images/register.png"
               alt="trying to fill registration form"
-              height="500"
-              width="500"
+              height="80%"
+              width="80%"
             />
           </div>
           <div className="user-registration-form-signup">

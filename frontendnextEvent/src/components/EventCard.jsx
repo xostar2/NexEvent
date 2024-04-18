@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/EventCard.css";
+import "../styles/EventCard.css"; // Assuming your CSS file is named EventCard.css
 const EventCard = () => {
   return (
     <>

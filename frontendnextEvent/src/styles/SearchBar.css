@@ -1,0 +1,48 @@
+.search-bar {
+    display: flex;
+    align-items: center;
+    width: 100%; /* Adjust width as needed */
+    background-color: #f1f1f1; /* Light background color */
+    border-radius: 4px; /* Rounded corners */
+    overflow: hidden; /* Prevent text overflow */
+    padding: 0.5rem 1rem; /* Add some padding */
+  }
+  
+  .search-input-container {
+    display: flex;
+    flex-grow: 1; /* Allow inputs to expand */
+    margin-right: 0.5rem; /* Add some margin between input and button */
+  }
+  
+  .search-bar input {
+    border: none; /* Remove default border */
+    outline: none; /* Remove default outline */
+    padding: 0.5rem;
+    font-size: 1rem; /* Adjust font size */
+    background-color: inherit; /* Inherit background color from .search-bar */
+    color: #333; /* Text color */
+    margin-right: 0.5rem; /* Add some margin between inputs */
+  }
+  
+  .search-bar input:first-child {
+    border-top-left-radius: 4px; /* Rounded corner for first input */
+    border-bottom-left-radius: 4px; /* Rounded corner for first input */
+  }
+  
+  .search-bar input:last-child {
+    border-top-right-radius: 4px; /* Rounded corner for last input */
+    border-bottom-right-radius: 4px; /* Rounded corner for last input */
+  }
+  
+  .search-icon {
+    font-size: 1.2rem; /* Adjust icon size */
+    color: #333; /* Icon color */
+    cursor: pointer; /* Make icon clickable */
+  }
+  
+  .search-bar button {
+    border: none; /* Remove default border */
+    background-color: transparent; /* Transparent background */
+    cursor: pointer; /* Make button clickable */
+  }
+  
