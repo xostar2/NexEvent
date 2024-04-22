@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import "../styles/UserLogin.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import { useContext } from "react";
+import { AppProvider,AppContext } from "../context/UserContext";
 const URL = "http://localhost:8000/api/v1/users/userlogin";
 
 const UserLogin = () => {
   const navigate = useNavigate();
+  const {handleUserLogin,handleUserLogout}=useContext(AppContext);  
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -38,6 +40,7 @@ const UserLogin = () => {
 
       if (response.status === 200) {
         console.log("user login successfully");
+        handleUserLogin(response.data);
         navigate("/");
       } else {
         // Handle unexpected response status
@@ -60,6 +63,9 @@ const UserLogin = () => {
       }
     }
   };
+
+
+
   return (
     <section>
       <main>

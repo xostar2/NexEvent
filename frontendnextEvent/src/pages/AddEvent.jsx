@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../styles/AddEvent.css"
-
+import {AppContext} from "../context/UserContext";
+import { useContext } from "react";
 const URL="http://localhost:8000/api/v1/events/addevent"
 
 const eventTypes = [
@@ -47,6 +48,11 @@ const eventTypes = [
 
 const AddEvent = () => {
   const navigate = useNavigate();
+  const {handleEventCreate,handleEventUpdate,handleEventDelete,user}=useContext(AppContext);
+  if(user===null){
+    
+    navigate("/");
+  }
   const [eventData, setEventData] = useState({
     eventName: "",
     createDate: new Date(),
@@ -78,6 +84,7 @@ const AddEvent = () => {
       });
      
       console.log(response)
+      handleEventCreate(response.data);
       navigate("/")
     } catch (error) {
       console.log("event not created :",error?.response?.data?.message || " ");
@@ -140,7 +147,7 @@ const AddEvent = () => {
           />
         </div> */}
         <button className="button" type="submit">
-                  <span className="button-content">Login </span>
+                  <span className="button-content">Add Event </span>
                 </button>
       </form>
     </div>

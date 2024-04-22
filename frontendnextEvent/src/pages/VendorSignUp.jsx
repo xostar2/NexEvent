@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/VendorSignUp.css";
 import { AiOutlinePlus } from "react-icons/ai"; 
-
+import BackgroundImage from '../components/BackgroundImage'; // Or your combined component
 import axios from "axios";
 const genderselect=["Male","Female","Divided"]
 const cityTypes = ["Hyderabad", "New Delhi", "Mumbai",
@@ -54,7 +54,9 @@ const VendorSignUp = () => {
 
 
   return (
+
     <>
+    <BackgroundImage />
       <form className="signup-form-vendor">
         <p className="form-title-sign-up-vendor">Sign in to your account</p>
         <div className="input-container-vendr">

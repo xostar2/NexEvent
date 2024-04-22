@@ -24,6 +24,7 @@ const packageSchema = new Schema(
             default:Date.now
         },
         eventOwnerId:{
+            
             type:Schema.Types.ObjectId,
             ref:"Event"
         },

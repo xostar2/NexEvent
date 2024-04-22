@@ -11,25 +11,38 @@ import EventCard from "./components/EventCard"
 import AddEvent from "./pages/AddEvent"
 import UserHomePage from "./pages/UserHomePage"
 import AddPackage from "./pages/AddPackage"
+import ViewPackage from "./pages/ViewPackage"
+import EventHomePage from "./pages/EventHomePage"
+import {AppProvider} from "./context/UserContext";
+
+
 const App = () => {
+
+
+
   return (
     <>
+    <AppProvider>
       <BrowserRouter>
       <NavBar/>
           <Routes>
               <Route path="/" element={<Home/>}/>
               <Route path="/about" element={<AboutUs/>}/>
               <Route path="/contact" element={<ContactUs/>}/>
-              <Route path="/usersignup" element={<UserSignUp/>}/>
-              <Route path="/vendorsignup" element={<VendorSignUp/>}/>
-              <Route path="/vendorlogin" element={<VendorLogin/>}/>
-              <Route path="/userlogin" element={<UserLogin/>}/>
+              <Route path="/signupuser" element={<UserSignUp/>}/>
+              <Route path="/loginuser" element={<UserLogin/>}/>
+              <Route path="/userhomepage" element={<UserHomePage/>}/>
+
+              <Route path="/signupvendor" element={<VendorSignUp/>}/>
+              <Route path="/loginvendor" element={<VendorLogin/>}/>
               <Route path="/eventcard" element={<EventCard/>}/>
               <Route path="/addevent" element={<AddEvent/>}/>
-              <Route path="/userhomepage" element={<UserHomePage/>}/>
               <Route path="/addpackage" element={<AddPackage/>}/>
+              <Route path="/eventhomepage" element={<EventHomePage/>}/>
+              <Route path="/viewpackage" element={<ViewPackage/>}/>
           </Routes>
       </BrowserRouter>
+      </AppProvider>
     </>
   )
 }

@@ -57,7 +57,7 @@ const eventSchema = new Schema(
         },
         thumbnail:{
             type:String,//cloudinary url
-            required:true
+            // required:true
         },
         packageList:[
             {
