@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "../styles/VendorSignUp.css";
 import { AiOutlinePlus } from "react-icons/ai"; 
-import BackgroundImage from '../components/BackgroundImage'; // Or your combined component
+import BackgroundImage from '../components/BackgroundImage'; 
 import axios from "axios";
 const genderselect=["Male","Female","Divided"]
 const cityTypes = ["Hyderabad", "New Delhi", "Mumbai",
@@ -42,14 +43,84 @@ const cityTypes = ["Hyderabad", "New Delhi", "Mumbai",
 
 
 const VendorSignUp = () => {
+  const [vendor,setvendor]= useState({
+    vendorname: "",
+    email: "",
+    companyname: "",
+    phone: "",
+    aadhaar: "",
+    registrationno: "",
+    gender: "",
+    password: "",
+    avatar: null,
+    address:"",
+  });
 
+  const handleNameChange = (e) => {
+    setvendor({ ...vendor, [e.target.name]: e.target.value });  
+  };
   const [gender,setgender]= useState("");
   const [cityName, setCityName] = useState("");
+  const handlevalueChange=(e)=>{
+    setvendor({...vendor,[e.target.name]:e.target.value});
+  }
   const handleGenderChange = (e) => {
-    setgender(e.target.value);
+    setgender({...vendor,gender: e.target.value});
   }
   const handleCityChange = (e) => {
-    setCityName(e.target.value);
+    setCityName({...vendor,city: e.target.value});  
+  }
+  const handleImageChange = (e) => {
+    setUser({ ...user, avatar: e.target.files[0] });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      formData.append("username", user.username);
+      formData.append("email", user.email);
+      formData.append("gender", user.gender);
+      formData.append("phone", user.phone);
+      formData.append("DOB", user.DOB.toISOString());
+      formData.append("aadhar", user.aadhar);
+      formData.append("address", user.address);
+      formData.append("password", user.password);
+      formData.append("avatar", user.avatar);
+
+      // Make POST request using Axios
+      const response = await axios.post(
+        "http://localhost:8000/api/v1/users/userregister",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log(response);
+
+      if (response.status === 200) {
+        navigate("/");
+      }
+
+      // Optionally, you can redirect the user or show a success message here
+    } catch (error) {
+      console.log(error);
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        console.error("Server Error:", error.response.data);
+        // Handle server error response, show error message to the user, etc.
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error("No Response from Server:", error.request);
+        // Handle request timeout or network error, show error message to the user, etc.
+      } else {
+        // Something else happened in making the request that triggered an error
+        console.error("Request Error:", error.message);
+        // Handle other types of errors, show error message to the user, etc.
+      }
+    }   
   }
 
 
@@ -57,6 +128,7 @@ const VendorSignUp = () => {
 
     <>
     <BackgroundImage />
+      <div className="signup-form-vendor-container">
       <form className="signup-form-vendor">
         <p className="form-title-sign-up-vendor">Sign in to your account</p>
         <div className="input-container-vendr">
@@ -122,10 +194,11 @@ const VendorSignUp = () => {
         </button>
 
         <p className="signup-link">
-          No account?
-          <a href="">Sign up</a>
+           already have an account?
+          <Link to="/loginuser"><span className="signup-link-span">Login</span></Link>
         </p>
       </form>
+      </div>
     </>
   );
 };

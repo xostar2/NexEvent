@@ -78,3 +78,19 @@
   .signup-link a {
     text-decoration: underline;
   }
+  .vendor-signup-span{
+    color:#3d3a4e;    
+  }
+  .signup-link-span{
+    color:#3d3a4e;
+    text-decoration: underline;
+    font-weight: bold;
+
+  }
+  
+  @media only screen and (max-width: 768px) {
+    .signup-form-vendor {
+      max-width: 100%;
+    }
+  } 
+  

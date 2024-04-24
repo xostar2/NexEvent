@@ -50,7 +50,7 @@ const AddEvent = () => {
   const navigate = useNavigate();
   const {handleEventCreate,handleEventUpdate,handleEventDelete,user}=useContext(AppContext);
   if(user===null){
-    
+    alert("Please login to add event");
     navigate("/");
   }
   const [eventData, setEventData] = useState({

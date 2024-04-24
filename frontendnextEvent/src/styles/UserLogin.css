@@ -1,10 +1,11 @@
 /* UserLogin.css */
 
+/* Grid Layout and Image */
 .container.grid.grid-two-cols-login {
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* Two columns of equal size */
   gap: 2rem; /* Space between columns */
-  padding: 2rem; /* Add padding around the grid */
+  padding: 2rem; /* Padding around the grid */
 }
 
 .login-form-img-login {
@@ -19,6 +20,7 @@
   object-fit: contain; /* Ensure the image is fully visible */
 }
 
+/* Form Container and Styling */
 .user-login-form-login {
   display: flex;
   flex-direction: column;
@@ -28,6 +30,7 @@
 .user-login-form-login .main-heading.mb-3-login {
   color: #111214; /* Blue color for the heading */
   margin-bottom: 1rem; /* Space below the heading */
+  font-size: 1.5rem; /* Adjust font size as needed */
 }
 
 .user-login-form-login form {
@@ -38,6 +41,7 @@
 
 .user-login-form-login label {
   font-weight: bold;
+  margin-bottom: 0.5rem; /* Adjust label margin as needed */
 }
 
 .user-login-form-login input {
@@ -47,6 +51,21 @@
   width: -webkit-fill-available;
 }
 
+/* Dropdown Styling (assuming your dropdown component uses a select element) */
+.user-login-form-login select {
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  border-radius: 3px;
+  width: -webkit-fill-available;
+  font-size: inherit;
+}
+
+.user-login-form-login select:focus {
+  outline: none;
+  border-color: #80bdff;
+}
+
+/* Button Styling */
 .button {
   position: relative;
   overflow: hidden;
@@ -54,14 +73,15 @@
   padding: 0 2rem;
   border-radius: 1.5rem;
   background: #3d3a4e;
-  background-size: 400%;
+  background-size: 400%; /* For gradient animation */
   color: #fff;
   border: none;
   cursor: pointer;
+  transition: all 0.475s; /* Adjust transition speed as needed */
 }
 
 .button:hover::before {
-  transform: scaleX(1);
+  transform: scaleX(1); /* Animate gradient on hover */
 }
 
 .button-content {
@@ -74,7 +94,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  transform: scaleX(0);
+  transform: scaleX(0); /* Initial state for gradient animation */
   transform-origin: 0 50%;
   width: 100%;
   height: inherit;
@@ -83,18 +103,24 @@
     82.3deg,
     rgba(150, 93, 233, 1) 10.8%,
     rgba(99, 88, 238, 1) 94.3%
-  );
-  transition: all 0.475s;
+  ); /* Gradient colors */
+  transition: all 0.475s; /* Adjust transition speed as needed */
+}
+.signup-link{
+  color: #3d3a4e;
+  justify-content: center;
+  right: inherit;
 }
 
+/* Responsive Adjustments */
 @media only screen and (max-width: 768px) {
   .container.grid.grid-two-cols-login {
-    grid-template-columns: 1fr; /* Stack elements in one column on small screens */
+    grid-template-columns: 1fr; /* Stack elements in a single column on small screens */
     padding: 1rem;
   }
 
   .login-form-img-login,
   .user-login-form-login {
-    width: 100%; /* Full width for both image and form */
+    width: 100%;
   }
 }

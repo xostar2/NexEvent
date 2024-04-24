@@ -4,7 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "../styles/UserSignUp.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import BackgroundImage from '../components/BackgroundImage'; 
 function RegistrationForm() {
   const navigate = useNavigate();
   const [user, setUser] = useState({
@@ -83,15 +83,7 @@ function RegistrationForm() {
   return (
     <section>
       <main>
-        <div className="container grid grid-two-cols-signup">
-          <div className="registration-img-signup">
-            <img
-              src="/images/register.png"
-              alt="trying to fill registration form"
-              height="80%"
-              width="80%"
-            />
-          </div>
+        <BackgroundImage />
           <div className="user-registration-form-signup">
             <h1 className="main-heading mb-3">Registration Form</h1>
             <form onSubmit={handleSubmit} className="form-signup">
@@ -124,6 +116,7 @@ function RegistrationForm() {
               </div>
 
               <div className="mydict">
+                <label htmlFor="gender">Gender</label>
                 <div>
                   <label>
                     <input
@@ -239,7 +232,7 @@ function RegistrationForm() {
               </button>
             </form>
           </div>
-        </div>
+        
       </main>
     </section>
   );

@@ -3,6 +3,11 @@ import "../styles/AddPackage.css";
 import { Link } from "react-router-dom";
 import BackgroundImage from "../components/BackgroundImage";
 const AddPackage = (eventId,vendorId) => {
+
+  
+
+
+
   return (
     <>
       <BackgroundImage/>
@@ -15,15 +20,15 @@ const AddPackage = (eventId,vendorId) => {
         <div className="input-field-add-package">
           <input required="" className="input-add-package" name="password" type="password" placeholder="Enter Password"/>
         </div>
-        <div className="input-field-add-package">
+        {/* <div className="input-field-add-package">
           <input required="" className="input-add-package" name="thumbnail" type="file"
               id="thumbnail"
-
+              placeholder="Upload Thumbnail"
               multiple accept="image/*"
             
           />
           
-        </div>
+        </div> */}
         <div className="input-field-add-package">
           <input required="" className="input-add-package" type="file" 
           id="image"
@@ -36,7 +41,7 @@ const AddPackage = (eventId,vendorId) => {
           <input required="" className="input-add-package" type="text" placeholder="Enter Email " name="email"/>
         </div>
         <div className="input-field-add-package">
-          <input required="" className="input-add-package" type="number" placeholder="Enter Amount" name="amount"/>
+          <input required="" className="input-add-package" type="text" placeholder="Enter Amount" name="amount"/>
         </div>  
         <div className="input-field-add-package">
           <input required="" className="input-add-package" type="text" placeholder="Enter Description" name="description"/>
@@ -56,9 +61,9 @@ const AddPackage = (eventId,vendorId) => {
         <div className="input-field-add-package">
           <label className="label-add-package">
            
-            Read Term and Conditions here<Link to="/">click here</Link>
+            Read Term and Conditions here <Link to="/"  color="blue" >  click here</Link>
           </label>
-          
+    
           </div>
       </form>
     </>

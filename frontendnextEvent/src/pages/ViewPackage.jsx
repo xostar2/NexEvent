@@ -38,7 +38,9 @@ const ViewPackage = ({ title, description, amount, ownerName, thumbnail ,vendori
         <label className="vendorid-viewpackage">vendorid:{vendorid}</label>
         
       </div>
-    
+      <div className="input-field-add-package">
+          <button className="submit-btn-add-package">Add Package</button>                   
+        </div>
 
 
 

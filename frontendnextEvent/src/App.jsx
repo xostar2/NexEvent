@@ -5,7 +5,7 @@ import NavBar from "./components/NavBar"
 import ContactUs from "./pages/ContactUs"
 import UserSignUp from "./pages/UserSignUp"
 import VendorSignUp from "./pages/VendorSignUp"
-import VendorLogin from "./pages/VendorLogin"
+// import VendorLogin from "./pages/VendorLogin"
 import UserLogin from "./pages/UserLogin"
 import EventCard from "./components/EventCard"
 import AddEvent from "./pages/AddEvent"
@@ -14,6 +14,7 @@ import AddPackage from "./pages/AddPackage"
 import ViewPackage from "./pages/ViewPackage"
 import EventHomePage from "./pages/EventHomePage"
 import {AppProvider} from "./context/UserContext";
+import Footer from "./pages/Footer"
 
 
 const App = () => {
@@ -34,13 +35,14 @@ const App = () => {
               <Route path="/userhomepage" element={<UserHomePage/>}/>
 
               <Route path="/signupvendor" element={<VendorSignUp/>}/>
-              <Route path="/loginvendor" element={<VendorLogin/>}/>
+              {/* <Route path="/loginvendor" element={<VendorLogin/>}/> */}
               <Route path="/eventcard" element={<EventCard/>}/>
               <Route path="/addevent" element={<AddEvent/>}/>
               <Route path="/addpackage" element={<AddPackage/>}/>
               <Route path="/eventhomepage" element={<EventHomePage/>}/>
               <Route path="/viewpackage" element={<ViewPackage/>}/>
           </Routes>
+          
       </BrowserRouter>
       </AppProvider>
     </>

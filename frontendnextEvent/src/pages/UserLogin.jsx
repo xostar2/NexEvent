@@ -4,15 +4,21 @@ import "../styles/UserLogin.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import { AppProvider,AppContext } from "../context/UserContext";
+import { AppProvider, AppContext } from "../context/UserContext";
 const URL = "http://localhost:8000/api/v1/users/userlogin";
+const URL1="http://localhost:8000/api/v1/users/vendorlogin";
+const URL2="http://localhost:8000/api/v1/users/adminlogin";
 
 const UserLogin = () => {
   const navigate = useNavigate();
-  const {handleUserLogin,handleUserLogout}=useContext(AppContext);  
+  const { handleUserLogin, handleUserLogout } = useContext(AppContext);
+
+
+    
   const [user, setUser] = useState({
     email: "",
     password: "",
+    userType:"user",
   });
 
   const handleInput = (e) => {
@@ -26,45 +32,114 @@ const UserLogin = () => {
   };
 
   const handleSubmit = async (e) => {
-     e.preventDefault();
-     console.log(user);
-    // console.log(password);
-    try {
-      const formData = user
-      
-      console.log(formData);
-      const response = await axios.post(URL, formData, {
-        "Content-Type": "application/json",
-      });
-      console.log(response);
+    e.preventDefault();
 
-      if (response.status === 200) {
-        console.log("user login successfully");
-        handleUserLogin(response.data);
-        navigate("/");
-      } else {
-        // Handle unexpected response status
-        console.error("Unexpected response status:", response.status);
+    console.log(email);
+    console.log(password);
+    console.log(userType);
+    try {
+      
+      console.log(user);
+      if(user.userType==="user"){
+        const response = await axios.post(URL, user, {
+          "Content-Type": "application/json",
+        });
+        
+        console.log(response.data);
+        if (response.status === 200) {
+          
+          console.log("user login successfully");
+          handleUserLogin(response.data);
+          if(user.userType==="user"){
+            navigate("/userhomepage");
+          }
+          if(user.userType==="vendor"){
+            navigate("/eventhomepage");
+          }
+          if(user.userType==="admin"){
+            navigate("/");
+          }
+          
+        } else {
+         
+          console.error("Unexpected response status:", response.status);
+        }
+      
+ 
       }
+      if(user.userType==="vendor"){
+          
+          const response = await axios.post(URL1, formData, {
+            "Content-Type": "application/json",
+          });
+          console.log(response.data);
+          if (response.status === 200) {
+            console.log("user login successfully");
+            handleUserLogin(response.data);
+            if(user.userType==="user"){
+              navigate("/userhomepage");
+            }
+            if(user.userType==="vendor"){
+              navigate("/eventhomepage");
+            }
+            if(user.userType==="admin"){
+              navigate("/");
+            }
+            
+          } else {
+           
+            console.error("Unexpected response status:", response.status);
+          }
+        
+  
+        }
+        if(user.userType==="admin"){
+          formData.userType="admin"
+          const response = await axios.post(URL2, formData, {
+            "Content-Type": "application/json",
+          });
+          console.log(response);
+          if (response.status === 200) {
+            console.log("user login successfully");
+            handleUserLogin(response.data);
+            if(user.userType==="user"){
+              navigate("/userhomepage");
+            }
+            if(user.userType==="vendor"){
+              navigate("/eventhomepage");
+            }
+            if(user.userType==="admin"){
+              navigate("/");
+            }
+            
+          } else {
+           
+            console.error("Unexpected response status:", response.status);
+          }
+        
+  
+        }
+        
+       
+      
+      
     } catch (error) {
       console.log(error);
       if (error.response) {
-        // The request was made and the server responded with a status code
+        
         console.error("Server Error:", error.response.data);
-        // Handle server error response, show error message to the user, etc.
+     
       } else if (error.request) {
-        // The request was made but no response was received
+       
         console.error("No Response from Server:", error.request);
-        // Handle request timeout or network error, show error message to the user, etc.
+      
       } else {
-        // Something else happened in making the request that triggered an error
+     
         console.error("Request Error:", error.message);
-        // Handle other types of errors, show error message to the user, etc.
+     
       }
     }
   };
-
-
 
   return (
     <section>
@@ -105,11 +180,27 @@ const UserLogin = () => {
                 />
               </div>
               <div className="form-group">
+                <label htmlFor="userType">User Type</label>
+                <select
+                  id="userType"
+                  name="userType"
+                  value={user.userType}
+                  onChange={handleInput}
+                >
+                  <option value="user">User</option>
+                  <option value="vendor">Vendor</option>
+                  <option value="admin">Admin</option>
+                </select>
+                
+              </div>
+
+              <div className="form-group">
                 <button className="button" type="submit">
                   <span className="button-content">Login </span>
                 </button>
-                <span>Register before login </span>
-                <Link to="/UserSignUp" className="signup-link">
+                
+                <span className="signup-link">Register before login </span>
+                <Link to="/signupuser" className="signup-link">
                   SignUp
                 </Link>
               </div>

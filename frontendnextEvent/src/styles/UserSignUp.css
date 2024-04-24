@@ -1,31 +1,15 @@
-/* styles.css */
-
-/* Container styles */
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #f0f0f0;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-
 /* Form styles */
 .user-registration-form {
   background-color: #fff;
-  padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  display: block;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 10px -3px rgba(0, 0, 0, 0.1);
 }
 .birthdate {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: baseline;
+  justify-content: space-between;
 }
 .main-heading {
   font-size: 24px;
@@ -61,7 +45,7 @@ button {
   display: flex;
   flex-wrap: wrap;
   margin-top: 0.5rem;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .mydict input[type="radio"] {
