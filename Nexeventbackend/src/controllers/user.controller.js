@@ -2,7 +2,7 @@ import {asyncHandler} from "../utils/asyncHandler.js"
 import {ApiError} from '../utils/ApiError.js'
 import {User} from "../models/user.model.js"
 import {uploadOnCloudinary} from "../utils/cloudinary.js"
-import {ApiResponse} from "../utils/ApiResponse.js"
+import {ApiResponse} from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken"
 
 //==============================================================
@@ -115,8 +115,8 @@ const loginUser = asyncHandler(async(req,res)=>{
    //send cookie secure cookies
 
    const {email,password} = req.body
-   console.log(email);
-   console.log(password);
+   console.log("this is",email);
+   console.log("this is password",password);
    console.log(req.body);
    
    if (!email || !password) {
@@ -155,7 +155,7 @@ const loginUser = asyncHandler(async(req,res)=>{
       new ApiResponse(
          200,
          {
-            user:user,accessToken,refreshToken
+            user,accessToken,refreshToken
          },
          "User logged in Successfully"
       )
@@ -281,7 +281,7 @@ const getCurrentUser= asyncHandler( async (req,res)=>{
 
 
 const updateUserAccountDetails= asyncHandler(async (req,res)=>{
-   const {username,phone}=req.body
+   const {username,phone,email}=req.body
 
    if(!username || !phone || !email){
       throw new ApiError(400,"all fields are required")
@@ -292,6 +292,7 @@ const updateUserAccountDetails= asyncHandler(async (req,res)=>{
          $set:{
             username,
             phone,
+         
          }
       },
       {new:true}
