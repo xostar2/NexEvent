@@ -18,21 +18,23 @@ const addPackage= asyncHandler(async (req,res)=>{
 
 
     
-    console.log(req.event?._id)
-    console.log(req.vendor?._id)            
-    const vendor=req.vendor?._id
-    const event=req.event?._id
-    console.log(event)
-    //const vendorId=req.params.vendorId;
+    vendorId=req.cookies?.vendorId;
+    accessToken=req.cookies?.accessToken ;
+    refreshToken=req.cookies?.refreshToken ;
+    eventId=req.cookies?.eventId ;
+    console.log(vendorId);
+    console.log(accessToken);
+    console.log(refreshToken);
 
-    if(!event){
+    
+    if(!eventId){
         throw new ApiError(401,"invalid event id")
     }
-    if(!vendor){
+    if(!vendorId){
         throw new ApiError(401,"invalid vendor id")
     }
     console.log(req.body);
-    const {title,description,thumbnail,imageList,amount,eventOwnerId,vendorOwnerId } = req.body
+    const {title,description,thumbnail,amount } = req.body
     
 
 
@@ -65,10 +67,9 @@ const addPackage= asyncHandler(async (req,res)=>{
         title,
         description,
         thumbnail:avatar.url,
-        imageList,
         amount,
-        eventOwnerId:event,
-        vendorOwnerId:vendor
+        eventOwnerId:eventId,
+        vendorOwnerId:vendorId
      })
      return res.status(200)
      .json(
@@ -163,8 +164,31 @@ const deletePackage= asyncHandler(async(req,res)=>{
     )
  })
 
+
+const getPackage= asyncHandler(async(req,res)=>{
+    const packageId =req.params.packageId;
+    if(!packageId){
+      throw new ApiError(400,"Please provide package ID to delete.");
+    }
+
+    const packages= await Package.findById(packageId);
+    if(!packages){
+      throw new ApiError(404,"Package not found");
+    }
+
+    return res.status(200)
+    .json(
+      new ApiResponse(
+        200,
+        packages,
+        "package received successfully"
+      )
+    )
+ })
+
 export {
     addPackage,
     updatePackage,
     deletePackage,
+    getPackage
 }                                       

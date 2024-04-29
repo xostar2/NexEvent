@@ -1,36 +1,34 @@
-import {Router} from 'express';
-import { loginVendor, logoutVendor, refreshAccessToken, vendorRegister } from '../controllers/vendor.controller.js';
-import {upload} from '../middlewares/multer.middleware.js'
-import { verifyJWT } from '../middlewares/authvendor.middleware.js';
+import {Router} from "express";
+import {
+  loginVendor,
+  logoutVendor,
+  refreshAccessToken,
+  vendorRegister,
+} from "../controllers/vendor.controller.js";
+import {upload} from "../middlewares/multer.middleware.js";
+import {verifyJWT} from "../middlewares/authvendor.middleware.js";
 
+const router = Router();
 
-
-const router = Router()
-
-
-
-router.route("/vendorregister").post(
-    upload.fields(//using multer here for upload file 
+router.route("/vendorregister")
+  .post(
+    upload.fields(
         [
             {
-                name:"avatar",
-                maxCount:1
+                name: "avatar",
+                maxCount: 1,
             }
         ]
-        ),
-        vendorRegister
-    )
+    ), 
+    vendorRegister
+);
 
-
-router.route("/vendorlogin").post(loginVendor)
+router.route("/vendorlogin").post(loginVendor);
 
 //secured routes
 
-router.route("/vendorlogout").post(verifyJWT,logoutVendor)
+router.route("/vendorlogout").post(verifyJWT, logoutVendor);
 
-router.route("/refresh-token",refreshAccessToken)
+router.route("/refresh-token", refreshAccessToken);
 
-
-
-
-export default router 
+export default router;

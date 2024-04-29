@@ -17,15 +17,18 @@ const addEvent= asyncHandler(async (req,res)=>{
     //check response and event creation
     //return response
 
-    const {vendorId}=req.cookies?.vendorId ;
-    const {vendor}=req.vendor?._id
-    console.log(vendor)
-    console.log(vendorId)
-    const vendorId1=req.params.vendorId;
-    console.log(vendorId1);
+    const vendorId=req.cookies?.vendorId ;
+    const accessToken=req.cookies?.accessToken ;
+    const refreshToken=req.cookies?.refreshToken ;
+    
+    console.log(vendorId);
+    console.log(accessToken);
+    console.log(refreshToken);
 
-    if(!vendor){
-        throw new ApiError(401,"invalid refresh token")
+    
+
+    if(!vendorId){
+        throw new ApiError(401,"invalid vendor id")
     }
     
     console.log(req.body);
@@ -61,10 +64,16 @@ const addEvent= asyncHandler(async (req,res)=>{
         description,
         owner:vendorId,
      })
+
+     const options = {
+        expires: new Date(Date.now() + 60 * 60 * 24 * 30), // 30 days
+        httpOnly: true,
+        secure: true,
+        
+      };
      return res.status(200)
-     .cookie("accessToken",accessToken,options)
-     .cookie("refreshToken",refreshToken,options)  
-     .cookie("vendorId",vendorId,options) 
+     .cookie("vendorId",vendorId,options)
+     .cookie("eventId",event?._id,options) 
      .json(
         new ApiResponse(200,event,"event created successfully")
      )

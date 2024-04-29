@@ -23,7 +23,7 @@ const vendorSchema = new Schema(
         },
         avatar : {
             type:String,
-            required:true
+            // required:true
         },
         email:{
             type:String,
@@ -35,8 +35,7 @@ const vendorSchema = new Schema(
         },
         gender:{
             type: String,
-            enum:[ "Male" , "Female"],      
-            default:null     
+            enum:[ "Male" , "Female","Divided"]  
         },
         phone:{
             type:String,

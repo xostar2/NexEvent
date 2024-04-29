@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import { addPackage, updatePackage, deletePackage} from '../controllers/package.controller.js';
+import { addPackage, updatePackage, deletePackage,getPackage} from '../controllers/package.controller.js';
 import {upload} from '../middlewares/multer.middleware.js'
 import { verifyJWT } from '../middlewares/authvendor.middleware.js';
 
@@ -8,6 +8,7 @@ const router = Router()
 
 
 router.route("/addpackage").post(
+    verifyJWT,
     upload.fields(//using multer here for upload file 
         [
             {
@@ -19,9 +20,9 @@ router.route("/addpackage").post(
     addPackage
     )
 
+router.route("/getpackage").get(getPackage)
+router.route("/updatepackage").put(updatePackage)
 
-router.route("/updatepackage").put(verifyJWT,updatePackage)
-
-router.route("/deletepackage").delete(verifyJWT,deletePackage)
+router.route("/deletepackage").delete(deletePackage)
 
 export default router               

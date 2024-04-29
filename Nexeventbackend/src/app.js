@@ -31,6 +31,7 @@ import userRouter from './routes/user.routes.js'
 import vendorRouter from './routes/vendor.routes.js'
 import feedBackRouter from "./routes/feedback.routes.js"
 import eventRouter from "./routes/event.routes.js"
+import packagesRouter from "./routes/package.routes.js"
 
 //routes declaration
 
@@ -38,6 +39,7 @@ app.use("/api/v1/users",userRouter);// http: //localhost:8000/api/v1/user/regist
 app.use("/api/v1/vendors",vendorRouter);
 app.use("/api/v1/feedbacks",feedBackRouter);
 app.use("/api/v1/events",eventRouter);
+app.use("/api/v1/packages",packagesRouter);
 
 
 export {app}

@@ -1,4 +1,4 @@
-import mongoose ,{Schema} from mongoose;
+import mongoose ,{Schema} from "mongoose";
 import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 
 const packageSchema = new Schema(
@@ -43,5 +43,5 @@ const packageSchema = new Schema(
     }
     )
 
-userSchema.plugin(mongooseAggregatePaginate);
+packageSchema.plugin(mongooseAggregatePaginate);
 export const Package = mongoose.model("Package",packageSchema);

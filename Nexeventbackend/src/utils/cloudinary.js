@@ -13,16 +13,18 @@ nexEvent.config({
 const uploadOnCloudinary = async (localFilePath) => {
     try{
         if(!localFilePath)return null;
+        console.log("file uploaded successfully on cloudinary ");
         const response= await nexEvent.uploader.upload(localFilePath,
             {
                 resource_type:"auto"
             })
             //file uploaded successfully
             //now unlinking the file from local storage
-            fs.unlinkSync(localFilePath);
-            //console.log(response);
-            console.log("file is upload on cloudinary",response.url);
-            return response;
+        console.log("uploaded file url",response);
+        fs.unlinkSync(localFilePath);
+        //console.log(response);
+        console.log("file is upload on cloudinary",response.url);
+        return response;
 
     }
     catch(error){

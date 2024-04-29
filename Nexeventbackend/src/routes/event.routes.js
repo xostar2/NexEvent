@@ -24,8 +24,8 @@ router.route("/addevent").post(
   ),
   addEvent
 );
-router.route("/addnewevent/updateevent").put(verifyJWT, updateEvent);
+router.route("/updateevent").put(verifyJWT, updateEvent);
 
-router.route("/addnewevent/deleteevent").delete(verifyJWT, deleteEvent);
+router.route("/deleteevent").delete(verifyJWT, deleteEvent);
 
 export default router;
