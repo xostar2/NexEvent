@@ -1,0 +1,41 @@
+/* AboutUsPage.css */
+
+.about-us-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f9f9f9;
+    padding: 40px;
+    text-align: center;
+}
+
+.about-us-title {
+    font-size: 36px;
+    color: #333;
+    margin-bottom: 20px;
+    font-family: 'Cinzel Decorative', cursive;
+}
+
+.about-us-description {
+    font-size: 18px;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.brand-name {
+    font-weight: bold;
+    color: #ff7f50;
+}
+
+.team-role {
+    font-style: italic;
+    color: #4caf50;
+}
+
+.digital-stardust {
+    font-weight: bold;
+    color: #f39c12;
+}
+
+/* Add more magical styles as needed */

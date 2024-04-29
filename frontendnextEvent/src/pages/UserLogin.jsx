@@ -1,20 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/UserLogin.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import { AppProvider, AppContext } from "../context/UserContext";
+import { AppProvider, AppContext
+          
+          } from "../context/UserContext";
 const URL = "http://localhost:8000/api/v1/users/userlogin";
-const URL1="http://localhost:8000/api/v1/users/vendorlogin";
-const URL2="http://localhost:8000/api/v1/users/adminlogin";
+const URL1="http://localhost:8000/api/v1/vendors/vendorlogin";
+const URL2="http://localhost:8000/api/v1/admins/adminlogin";
 
 const UserLogin = () => {
   const navigate = useNavigate();
-  const { handleUserLogin, handleUserLogout } = useContext(AppContext);
-
-
-    
+  const { 
+    handleUserLogout,
+    handleUserUpdate,
+    handleUserLogin,
+    handleAdminLogin,
+    handleVendorLogin,
+    handleVendorLogout,
+    handleVendorUpdate,
+    handleVendorDelete,} = useContext(AppContext);
+  
+  
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -43,22 +52,18 @@ const UserLogin = () => {
       if(user.userType==="user"){
         const response = await axios.post(URL, user, {
           "Content-Type": "application/json",
+
         });
-        
+
         console.log(response.data);
         if (response.status === 200) {
-          
+          handleUserLogin(response.data);
           console.log("user login successfully");
           handleUserLogin(response.data);
-          if(user.userType==="user"){
+        
             navigate("/userhomepage");
-          }
-          if(user.userType==="vendor"){
-            navigate("/eventhomepage");
-          }
-          if(user.userType==="admin"){
-            navigate("/");
-          }
+          
+         
           
         } else {
          
@@ -69,22 +74,16 @@ const UserLogin = () => {
       }
       if(user.userType==="vendor"){
           
-          const response = await axios.post(URL1, formData, {
+          const response = await axios.post(URL1, user, {
             "Content-Type": "application/json",
           });
           console.log(response.data);
           if (response.status === 200) {
+            handleVendorLogin(response.data);
             console.log("user login successfully");
             handleUserLogin(response.data);
-            if(user.userType==="user"){
-              navigate("/userhomepage");
-            }
-            if(user.userType==="vendor"){
-              navigate("/eventhomepage");
-            }
-            if(user.userType==="admin"){
-              navigate("/");
-            }
+            navigate("/eventhomepage");
+            
             
           } else {
            
@@ -100,17 +99,11 @@ const UserLogin = () => {
           });
           console.log(response);
           if (response.status === 200) {
+            handleAdminLogin(response.data);
             console.log("user login successfully");
             handleUserLogin(response.data);
-            if(user.userType==="user"){
-              navigate("/userhomepage");
-            }
-            if(user.userType==="vendor"){
-              navigate("/eventhomepage");
-            }
-            if(user.userType==="admin"){
               navigate("/");
-            }
+            
             
           } else {
            
@@ -158,6 +151,7 @@ const UserLogin = () => {
                 <input
                   type="email"
                   name="email"
+                  
                   placeholder="enter your email"
                   id="email"
                   required

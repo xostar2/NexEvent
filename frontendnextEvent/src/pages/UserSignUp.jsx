@@ -5,6 +5,9 @@ import "../styles/UserSignUp.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import BackgroundImage from '../components/BackgroundImage'; 
+
+
+
 function RegistrationForm() {
   const navigate = useNavigate();
   const [user, setUser] = useState({
@@ -21,6 +24,7 @@ function RegistrationForm() {
 
   const handleNameChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
+    
   };
 
   const handleGenderChange = (e) => {

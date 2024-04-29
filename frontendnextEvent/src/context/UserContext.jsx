@@ -7,6 +7,7 @@ export const AppProvider=({children})=>{
     const [event,setEvent]=useState(null);
     const [packages,setPackages]=useState(null);
     const [vendor,setVendor]=useState(null);
+    
     const handleUserLogin=(userDate)=>{
         setUser(userDate);
     }
@@ -14,16 +15,11 @@ export const AppProvider=({children})=>{
     const handleUserLogout=()=>{
         setUser(null);
     }
-    const handleUserUpdate=(userData)=>{
-        user.map((user)=>{
-            if(user.id===userData.id){
-                setUser([...user,userData])
-        }else{
-            setUser([...user])
-        }
-    }
-    )
-    }
+
+    const handleUserUpdate = (userData)=>{
+        setUser(preUser=> preUser.map(user=> user.id===userData.id ? userData : user))  
+    }   
+    
 
     const handleVendorLogin=(vendorData)=>{
         setVendor(vendorData);
@@ -93,6 +89,7 @@ export const AppProvider=({children})=>{
             package:packages,
             handleUserLogin:handleUserLogin,
             handleUserLogout:handleUserLogout,
+            handleUserUpdate:handleUserUpdate,
             handleEventCreate:handleEventCreate,
             handleEventUpdate:handleEventUpdate,
             handleEventDelete:handleEventDelete,

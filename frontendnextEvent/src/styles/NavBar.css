@@ -5,7 +5,7 @@
     align-items: center; /* Vertically center logo and navigation */
     justify-content: space-between; /* Distribute logo and navigation horizontally */
     padding: 0rem 2rem; /* Add some padding for content spacing */
-    background: linear-gradient(to right, #4b99e1, #8fb8cd); /* Gradient background */
+    background: linear-gradient(to right, #333, #8fb8cd); /* Gradient background */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
     position: sticky; /* Fix the navbar to the top of the page */
     top: 0;

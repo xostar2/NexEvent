@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../styles/AddEvent.css"
 import {AppContext} from "../context/UserContext";
 import { useContext } from "react";
+import BackgroundImage from "../components/BackgroundImage";
 const URL="http://localhost:8000/api/v1/events/addevent"
 
 const eventTypes = [
@@ -49,9 +50,14 @@ const eventTypes = [
 const AddEvent = () => {
   const navigate = useNavigate();
   const {handleEventCreate,handleEventUpdate,handleEventDelete,user}=useContext(AppContext);
+  console.log(user);
   if(user===null){
-    alert("Please login to add event");
-    navigate("/");
+    console.log("Please login to add event");
+
+    useEffect(()=>{
+      //navigate("/");
+    },
+    [])
   }
   const [eventData, setEventData] = useState({
     eventName: "",
@@ -83,10 +89,16 @@ const AddEvent = () => {
         "Content-Type": "multipart/form-data",
       });
      
-      console.log(response)
+      if(response.status===200){
       handleEventCreate(response.data);
-      navigate("/")
+      useEffect(()=>{   
+      navigate("/vendorhomepage")
+      },
+      [])
+      }
     } catch (error) {
+      
+      alert("event not created :",error?.response?.data?.message || " ");
       console.log("event not created :",error?.response?.data?.message || " ");
     }
 
@@ -94,7 +106,9 @@ const AddEvent = () => {
   };
 
   return (
-    <div className="add-event-container">
+    <>
+    <BackgroundImage/>
+        <div className="add-event-container">
       <h1>Add Event</h1>
       <form onSubmit={handleSubmit}>
         <div className="form-group-event-name">
@@ -151,6 +165,8 @@ const AddEvent = () => {
                 </button>
       </form>
     </div>
+    </>
+
   );
 };
 
