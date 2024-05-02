@@ -23,7 +23,6 @@ const vendorSchema = new Schema(
         },
         avatar : {
             type:String,
-            // required:true
         },
         email:{
             type:String,

@@ -86,9 +86,7 @@ const updateOrderstatus= asyncHandler(async (req,res)=>{
     
     const updatedorder= await Order.findByIdAndUpdate(orderId,{
         $set:{
-            status,
-            status                    
-
+            status:req.body.status,
         }
     })                          
     return res.status(200)

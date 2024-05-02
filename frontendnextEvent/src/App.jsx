@@ -17,15 +17,11 @@ import EventHomePage from "./pages/EventHomePage"
 import {AppProvider} from "./context/UserContext";
 import Footer from "./pages/Footer"
 import {useEffect,useState,useRef} from "react";
-
-
-
-
+import SignUp from "./pages/SignUp"
 
 
 
 const App = () => {
-
 
 
   return (
@@ -33,6 +29,7 @@ const App = () => {
     <AppProvider>
       <BrowserRouter>
       <NavBar/>
+    
           <Routes>
               <Route path="/" element={<Home/>}/>
               <Route path="/about" element={<AboutUs/>}/>
@@ -48,6 +45,8 @@ const App = () => {
               <Route path="/addpackage" element={<AddPackage/>}/>
               <Route path="/eventhomepage" element={<EventHomePage/>}/>
               <Route path="/viewpackage" element={<ViewPackage/>}/>
+              <Route path="/contactus" element={<ContactUs/>}/>
+              <Route path="/signup" element={<SignUp/>}/>
           </Routes>
           
       </BrowserRouter>

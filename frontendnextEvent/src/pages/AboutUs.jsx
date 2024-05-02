@@ -4,8 +4,9 @@ import BackgroundImage from '../components/BackgroundImage'
 const AboutUs = () => {
   return (
     <>
-       {/* <BackgroundImage /> */}
+        <BackgroundImage/>
            <div className="about-us-container">
+           
             <div className="about-us-content">
                 <h1 className="about-us-title">Welcome to Our World</h1>
                 <p className="about-us-description">

@@ -4,8 +4,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import "../styles/UserSignUp.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import BackgroundImage from '../components/BackgroundImage'; 
-
+import BackgroundImage from '../components/BackgroundImage';
+const genderselect = ["Male", "Female", "Divided"]
 
 
 function RegistrationForm() {
@@ -24,7 +24,7 @@ function RegistrationForm() {
 
   const handleNameChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
-    
+
   };
 
   const handleGenderChange = (e) => {
@@ -62,6 +62,7 @@ function RegistrationForm() {
       console.log(response);
 
       if (response.status === 200) {
+
         navigate("/");
       }
 
@@ -88,39 +89,59 @@ function RegistrationForm() {
     <section>
       <main>
         <BackgroundImage />
-          <div className="user-registration-form-signup">
-            <h1 className="main-heading mb-3">Registration Form</h1>
-            <form onSubmit={handleSubmit} className="form-signup">
-              <div className="form-group-username">
-                <label htmlFor="username">Username</label>
-                <input
-                  type="text"
-                  name="username"
-                  placeholder="Username"
-                  id="username"
-                  required
-                  autoComplete="off"
-                  value={user.username}
-                  onChange={handleNameChange}
-                />
-              </div>
+        <div className="user-registration-form-signup">
+          <h1 className="main-heading">Sign In to </h1>
+          <form onSubmit={handleSubmit} className="form-signup">
+            <div className="form-group-username">
+              <label htmlFor="username">Username</label>
+              <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                id="username"
+                required
+                autoComplete="off"
+                value={user.username}
+                onChange={handleNameChange}
+              />
+            </div>
 
-              <div className="form-group-email">
-                <label htmlFor="email">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Enter your email"
-                  id="email"
-                  required
-                  autoComplete="off"
-                  value={user.email}
-                  onChange={handleNameChange}
-                />
-              </div>
+            <div className="form-group-email">
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                id="email"
+                required
+                autoComplete="off"
+                value={user.email}
+                onChange={handleNameChange}
+              />
+            </div>
 
-              <div className="mydict">
-                <label htmlFor="gender">Gender</label>
+            <div className="mydict-usersignup">
+              <label htmlFor="gender">Gender</label>
+              <div className="input-container-vendr">
+                <select
+                  name="gender"
+                  id="gendertype"
+                  placeholder="Select Gender"
+                  value={user.gender}
+                  onChange={handleGenderChange}
+                  required
+                >
+                  <option value="">--select--gender--</option>{
+
+                    genderselect.map((genderselect) =>
+                      <option key={genderselect} value={genderselect}>
+                        {genderselect}
+                      </option>
+                    )
+                  }
+                </select>
+              </div>
+              {/* <label htmlFor="gender">Gender</label>
                 <div>
                   <label>
                     <input
@@ -130,7 +151,7 @@ function RegistrationForm() {
                       checked={user.gender === "Women"}
                       onChange={handleGenderChange}
                     />
-                    <span>Women</span>
+                    <span className="gender-span">Women</span>
                   </label>
                   <label>
                     <input
@@ -140,7 +161,7 @@ function RegistrationForm() {
                       checked={user.gender === "Men"}
                       onChange={handleGenderChange}
                     />
-                    <span>Men</span>
+                    <span className="gender-span">Men</span>
                   </label>
                   <label>
                     <input
@@ -150,93 +171,93 @@ function RegistrationForm() {
                       checked={user.gender === "Divided"}
                       onChange={handleGenderChange}
                     />
-                    <span>Divided</span>
+                    <span className="gender-span">Divided</span>
                   </label>
-                </div>
-              </div>
-              <div className="birthdate">
-                <label htmlFor="birthdate">Date of Birth</label>
-                <DatePicker
-                  selected={user.DOB}
-                  onChange={(DOB) => setUser({ ...user, DOB })}
-                  dateFormat="yyyy/MM/dd"
-                  showYearDropdown
-                  scrollableMonthYearDropdown
-                />
-              </div>
+                </div> */}
+            </div>
+            <div className="birthdate">
+              <label htmlFor="birthdate">Date of Birth</label>
+              <DatePicker
+                selected={user.DOB}
+                onChange={(DOB) => setUser({ ...user, DOB })}
+                dateFormat="yyyy/MM/dd"
+                showYearDropdown
+                scrollableMonthYearDropdown
+              />
+            </div>
 
-              <div className="form-group-aadhar">
-                <label htmlFor="aadhar">Aadhar No.</label>
-                <input
-                  type="text"
-                  name="aadhar"
-                  placeholder="Enter your Aadhar number"
-                  id="aadhar"
-                  required
-                  autoComplete="off"
-                  value={user.aadhar}
-                  onChange={handleNameChange}
-                />
-              </div>
+            <div className="form-group-aadhar">
+              <label htmlFor="aadhar">Aadhar No.</label>
+              <input
+                type="text"
+                name="aadhar"
+                placeholder="Enter your Aadhar number"
+                id="aadhar"
+                required
+                autoComplete="off"
+                value={user.aadhar}
+                onChange={handleNameChange}
+              />
+            </div>
 
-              <div className="form-group-address">
-                <label htmlFor="address">Address</label>
-                <input
-                  type="text"
-                  name="address"
-                  placeholder="Enter your address"
-                  id="address"
-                  required
-                  autoComplete="off"
-                  value={user.address}
-                  onChange={handleNameChange}
-                />
-              </div>
+            <div className="form-group-address">
+              <label htmlFor="address">Address</label>
+              <input
+                type="text"
+                name="address"
+                placeholder="Enter your address"
+                id="address"
+                required
+                autoComplete="off"
+                value={user.address}
+                onChange={handleNameChange}
+              />
+            </div>
 
-              <div className="form-group-password">
-                <label htmlFor="password">Password</label>
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Enter your password"
-                  id="password"
-                  required
-                  autoComplete="off"
-                  value={user.password}
-                  onChange={handleNameChange}
-                />
-              </div>
-              <div className="form-group-phone">
-                <label htmlFor="phone">Phone</label>
-                <input
-                  type="text"
-                  name="phone"
-                  placeholder="Enter your number"
-                  id="phone"
-                  required
-                  autoComplete="off"
-                  value={user.phone}
-                  onChange={handleNameChange}
-                />
-              </div>
+            <div className="form-group-password">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                name="password"
+                placeholder="Enter your password"
+                id="password"
+                required
+                autoComplete="off"
+                value={user.password}
+                onChange={handleNameChange}
+              />
+            </div>
+            <div className="form-group-phone">
+              <label htmlFor="phone">Phone</label>
+              <input
+                type="text"
+                name="phone"
+                placeholder="Enter your number"
+                id="phone"
+                required
+                autoComplete="off"
+                value={user.phone}
+                onChange={handleNameChange}
+              />
+            </div>
 
-              <div className="form-group-image">
-                <label htmlFor="image">Profile Image:</label>
-                <input
-                  name="image"
-                  type="file"
-                  accept="image/*"
-                  
-                  onChange={handleImageChange}
-                />
-              </div>
+            <div className="form-group-image">
+              <label htmlFor="image">Profile Image:</label>
+              <input
+                name="image"
+                type="file"
+                accept="image/*"
 
-              <button className="button" type="submit">
-                <span className="button-content">Sign Up </span>
-              </button>
-            </form>
-          </div>
-        
+                onChange={handleImageChange}
+              />
+            </div>
+
+            <button className="button" type="submit">
+              <span className="button-content">Sign Up </span>
+            </button>
+          </form>
+        </div>
+
       </main>
     </section>
   );

@@ -13,7 +13,7 @@ const packageSchema = new Schema(
         },
         thumbnail:{
             type:String,//cloudinary url
-            required:true
+            //required:true
         },
         imageList:[{
             type:String,

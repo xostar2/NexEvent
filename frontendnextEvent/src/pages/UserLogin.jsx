@@ -7,6 +7,8 @@ import { useContext } from "react";
 import { AppProvider, AppContext
           
           } from "../context/UserContext";
+      
+import BackgroundImage from "../components/BackgroundImage";
 const URL = "http://localhost:8000/api/v1/users/userlogin";
 const URL1="http://localhost:8000/api/v1/vendors/vendorlogin";
 const URL2="http://localhost:8000/api/v1/admins/adminlogin";
@@ -14,14 +16,11 @@ const URL2="http://localhost:8000/api/v1/admins/adminlogin";
 const UserLogin = () => {
   const navigate = useNavigate();
   const { 
-    handleUserLogout,
-    handleUserUpdate,
+   
     handleUserLogin,
     handleAdminLogin,
     handleVendorLogin,
-    handleVendorLogout,
-    handleVendorUpdate,
-    handleVendorDelete,} = useContext(AppContext);
+   } = useContext(AppContext);
   
   
   const [user, setUser] = useState({
@@ -48,22 +47,25 @@ const UserLogin = () => {
     console.log(userType);
     try {
       
-      console.log(user);
+      
       if(user.userType==="user"){
         const response = await axios.post(URL, user, {
           "Content-Type": "application/json",
-
         });
 
-        console.log(response.data);
-        if (response.status === 200) {
-          handleUserLogin(response.data);
-          console.log("user login successfully");
-          handleUserLogin(response.data);
         
-            navigate("/userhomepage");
-          
+        if (response.status === 200) {
          
+          handleUserLogin(response.data.data.user);
+          // console.log(response.data.data.user.refreshToken);
+          // console.log(response.status)
+          console.log("user login successfully");
+          // localStorage.setItem("userToken", response.data.data.user.refreshToken);
+          // localStorage.setItem("userId", response.data.data.user._id);
+          
+          
+       
+          navigate("/userhomepage");
           
         } else {
          
@@ -77,11 +79,10 @@ const UserLogin = () => {
           const response = await axios.post(URL1, user, {
             "Content-Type": "application/json",
           });
-          console.log(response.data);
+          console.log(response.data.data.vendor);
           if (response.status === 200) {
-            handleVendorLogin(response.data);
-            console.log("user login successfully");
-            handleUserLogin(response.data);
+            handleVendorLogin(response.data.data.vendor);
+            console.log("vendor login successfully");
             navigate("/eventhomepage");
             
             
@@ -102,6 +103,8 @@ const UserLogin = () => {
             handleAdminLogin(response.data);
             console.log("user login successfully");
             handleUserLogin(response.data);
+            const res_data= await response.data;
+          localStorage.setItem("admin",JSON.stringify(res_data.refresh_token));
               navigate("/");
             
             
@@ -135,14 +138,12 @@ const UserLogin = () => {
   };
 
   return (
-    <section>
-      <main>
-        <div className="container grid grid-two-cols-login">
-          <div className="login-form-img-login">
-            <img src="/images/login.png" alt="login User" />
-          </div>
+    
+    <>
+    {/* <BackgroundImage/> */}
+      <div className="login-form-user-border">
           <div className="user-login-form-login">
-            <h1 className="main-heading mb-3-login">User Login</h1>
+            <h1 className="main-heading mb-3-login">Login Here</h1>
             <br />
 
             <form onSubmit={handleSubmit}>
@@ -200,9 +201,9 @@ const UserLogin = () => {
               </div>
             </form>
           </div>
-        </div>
-      </main>
-    </section>
+        
+          </div>
+          </>
   );
 };
 

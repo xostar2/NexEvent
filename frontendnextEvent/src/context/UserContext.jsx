@@ -1,6 +1,6 @@
 import { createContext, useState,useEffect } from "react";
 
-export const AppContext = createContext(null);
+export const AppContext = createContext(null); 
 
 export const AppProvider=({children})=>{
     const [user,setUser]=useState(null);
@@ -8,11 +8,39 @@ export const AppProvider=({children})=>{
     const [packages,setPackages]=useState(null);
     const [vendor,setVendor]=useState(null);
     
-    const handleUserLogin=(userDate)=>{
-        setUser(userDate);
+
+    useEffect(()=>{
+        const storeUserData=localStorage.getItem("user");
+        if(storeUserData){
+            setUser(JSON.parse(storeUserData));
+        }
+    },[])
+    useEffect(()=>{
+        if(user){
+            localStorage.setItem("user",JSON.stringify(user));
+            
+        }
+    },[user])
+    useEffect(()=>{
+        if(vendor){
+            localStorage.setItem("vendor",JSON.stringify(vendor));
+            
+        }
+    },[vendor])
+    useEffect(()=>{
+        const storeVendorData=localStorage.getItem("vendor");
+        if(storeVendorData){
+            setVendor(JSON.parse(storeVendorData));
+        }
+    },[])
+  
+    const handleUserLogin=(user)=>{
+       
+        setUser(user);
     }
 
     const handleUserLogout=()=>{
+        localStorage.removeItem("user");
         setUser(null);
     }
 
@@ -26,6 +54,7 @@ export const AppProvider=({children})=>{
     }
 
     const handleVendorLogout=()=>{
+        localStorage.removeItem("vendor");
         setVendor(null);
     }
     const handleVendorUpdate=(vendorData)=>{    
@@ -83,6 +112,8 @@ export const AppProvider=({children})=>{
 
     return(
         <AppContext.Provider value={{
+
+
             
             user:user,
             event:event,

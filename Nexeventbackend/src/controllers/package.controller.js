@@ -17,14 +17,14 @@ const addPackage= asyncHandler(async (req,res)=>{
     //return response
 
 
-    
-    vendorId=req.cookies?.vendorId;
-    accessToken=req.cookies?.accessToken ;
-    refreshToken=req.cookies?.refreshToken ;
-    eventId=req.cookies?.eventId ;
-    console.log(vendorId);
-    console.log(accessToken);
-    console.log(refreshToken);
+    console.log(req.cookies);
+    // vendorId=req.cookies?.vendorId
+    // accessToken=req.cookies?.accessToken ;
+    // refreshToken=req.cookies?.refreshToken ;
+    // eventId=req.cookies?.eventId ;
+    // console.log(vendorId);
+    // console.log(accessToken);
+    // console.log(refreshToken);
 
     
     if(!eventId){

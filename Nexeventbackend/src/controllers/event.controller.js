@@ -16,14 +16,14 @@ const addEvent= asyncHandler(async (req,res)=>{
     //create event object - create entry in db
     //check response and event creation
     //return response
-
+    console.log(req.cookies);
     const vendorId=req.cookies?.vendorId ;
     const accessToken=req.cookies?.accessToken ;
     const refreshToken=req.cookies?.refreshToken ;
     
-    console.log(vendorId);
-    console.log(accessToken);
-    console.log(refreshToken);
+    // console.log(vendorId);
+    // console.log(accessToken);
+    // console.log(refreshToken);
 
     
 
@@ -53,7 +53,8 @@ const addEvent= asyncHandler(async (req,res)=>{
         throw new ApiError(400,"Avatar is compulsory");
      }
 
-     const avatar =await uploadOnCloudinary(avatarLocalPath)
+     const avatar = await uploadOnCloudinary(avatarLocalPath)
+     console.log(avatar);
      if(!avatar){
         throw new ApiError(400,"Avatar link is not working")
      }
@@ -72,7 +73,6 @@ const addEvent= asyncHandler(async (req,res)=>{
         
       };
      return res.status(200)
-     .cookie("vendorId",vendorId,options)
      .cookie("eventId",event?._id,options) 
      .json(
         new ApiResponse(200,event,"event created successfully")

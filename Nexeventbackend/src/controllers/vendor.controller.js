@@ -200,6 +200,8 @@ const logoutVendor = asyncHandler(async (req ,res) => {
     return res.status(200)
     .clearCookie("accessToken",options)
     .clearCookie("refreshToken",options)
+    .clearCookie("vendorId",options)
+    .clearCookie("eventId",options)
     .json(
         new ApiResponse(
             200,

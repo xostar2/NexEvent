@@ -3,53 +3,66 @@ import logonexevent from "../assets/logonexevent.png";
 import { NavLink } from 'react-router-dom';
 import "../styles/NavBar.css"; 
 import { Link } from 'react-router-dom';
-
+import { useState } from 'react';
 
 
 const NavBar = () => {
+  
+  const [isOpen, setIsOpen] = useState(false);
+  
   return (
-
-
    <>
-     <div className="container-nav-bar">
-        <div className="logo-brand-nav-bar">
-          <NavLink to="/">
-            {/* <div className="company-name-next-event"><h2>NexEvent</h2></div> */}
-            <img src="./src/assets/logonexevent.png" alt="NexEvent Logo" /> NexEvent
-          </NavLink>
-        </div>
-        <nav className="nav-links-container-next-event-NavBar">
-          <ul>
+   
+        <nav >
+          <Link to="/" className="NavBar-title">
+            NexEvent
+          </Link>
+          <div className="menu" onClick={()=>{
+            setIsOpen(!isOpen);
+          }}>
+            <span></span>
+            <span></span>
+            <span></span>
+           
+
+          </div>
+          <ul className={isOpen ? "open" : ""}>
             <li>
-              <NavLink to="/" className="active">
+              <NavLink to="/" >
                 Home
               </NavLink>
             </li>
             <li>
-              <NavLink to="/about" className="active">
+              <NavLink to="/about" >
                 About
               </NavLink>
             </li>
             <li>
-              <NavLink to="/contact" className="active">
+              <NavLink to="/contact" >
                 Contact
               </NavLink>
             </li>
             <li>
               
-              <NavLink to="/loginuser" className="active">
+              <NavLink to="/loginuser" >
                 Login
               </NavLink>
               
             </li>
             <li>
-              <NavLink to="/signupuser" className="active">
+              <NavLink to="/signup" >
                 SignUp
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/logout">
+                Logout
               </NavLink>
             </li>
           </ul>
         </nav>
-      </div>
+     
+
    </>
       
     

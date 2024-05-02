@@ -8,7 +8,7 @@ const router = Router()
 
 
 router.route("/addpackage").post(
-    verifyJWT,
+    
     upload.fields(//using multer here for upload file 
         [
             {

@@ -140,7 +140,7 @@ const VendorSignUp = () => {
   return (
 
     <>
-    <BackgroundImage />
+    {/* <BackgroundImage /> */}
     
       <div className="signup-form-vendor-container">
       <form className="signup-form-vendor" onSubmit={handleSubmit}>
@@ -177,6 +177,7 @@ const VendorSignUp = () => {
           />
         </div>
         <div className="input-container-vendr">
+            
             <select 
             name="gender" 
             id="gendertype"

@@ -1,0 +1,39 @@
+.signup-container-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 100vh;
+    padding: 2rem;
+    background-color: #f5f5f5;
+    box-sizing: border-box;
+  }
+  
+  .main-heading-sign-up-page {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 2rem;
+    text-shadow: 1px 1px #ccc;
+  }
+  
+  .radio-group-signup {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  
+  .radio-signup {
+    accent-color: #4CAF50;
+    margin-right: 1rem;
+  }
+  
+  .radio-signup-label {
+    font-size: 1.2rem;
+    color: #333;
+    margin-right: 2rem;
+    cursor: pointer;
+  }
+  
+  /* Add styles for UserSignup and VendorSignup components here */
