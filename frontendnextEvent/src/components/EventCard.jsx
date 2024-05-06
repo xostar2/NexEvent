@@ -1,6 +1,6 @@
 import React from "react";
 import "../styles/EventCard.css"; // Assuming your CSS file is named EventCard.css
-const EventCard = () => {
+const EventCard = ({eventname,createDate,thumbnail,description,owner}) => {
   return (
     <>
       <div className="card-event-card">
@@ -19,7 +19,7 @@ const EventCard = () => {
 
           <a className="action-event-card" href="#">
             Find out more
-            <span aria-hidden="true">→</span>
+            <span aria-hidden="true"></span>
           </a>
         </div>
       </div>

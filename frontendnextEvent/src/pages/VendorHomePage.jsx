@@ -2,13 +2,15 @@
 import React from 'react';
 import '../styles/VendorHomePage.css'; // Import the CSS file for styling
 import BackgroundImage from '../components/BackgroundImage';
-
+import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 const VendorHomePage = ({ vendorData }) => {
   // Destructure vendor data for cleaner access
   //const { vendorName, companyName, startDate, registrationNumber, vendorId, email, phone, profileImage } = vendorData;
-
+  const navigate = useNavigate();
   return (
     <>
+    
     <BackgroundImage />
     <div className="vendor-home-container">
       <div className="vendor-info-box">
@@ -27,6 +29,14 @@ const VendorHomePage = ({ vendorData }) => {
           </ul>
         </div>
       </div>
+    </div>
+    <div className="two-buttton-for-addevent-viewevents">
+      <button className="button-two-button-vendor" onClick={()=>{navigate("/viewevent")}}>
+          Viewevent
+      </button>
+      <button className="button-two-button-vendor" onClick={()=>{navigate("/addevent")}}>
+          Addevent
+      </button>
     </div>
     <div className="table-container-user-details">
             <table className="user-table-testing-user-details">

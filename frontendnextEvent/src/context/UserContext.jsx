@@ -1,140 +1,147 @@
-import { createContext, useState,useEffect } from "react";
+import { createContext, useState,useEffect,useContext } from "react";
 
 export const AppContext = createContext(null); 
 
 export const AppProvider=({children})=>{
-    const [user,setUser]=useState(null);
-    const [event,setEvent]=useState(null);
-    const [packages,setPackages]=useState(null);
-    const [vendor,setVendor]=useState(null);
-    
 
-    useEffect(()=>{
-        const storeUserData=localStorage.getItem("user");
-        if(storeUserData){
-            setUser(JSON.parse(storeUserData));
-        }
-    },[])
-    useEffect(()=>{
-        if(user){
-            localStorage.setItem("user",JSON.stringify(user));
-            
-        }
-    },[user])
-    useEffect(()=>{
-        if(vendor){
-            localStorage.setItem("vendor",JSON.stringify(vendor));
-            
-        }
-    },[vendor])
-    useEffect(()=>{
-        const storeVendorData=localStorage.getItem("vendor");
-        if(storeVendorData){
-            setVendor(JSON.parse(storeVendorData));
-        }
-    },[])
-  
+    const [userdetails,setUserDetails]=useState(JSON.parse(localStorage.getItem("user")));
+    const [eventdetails,setEventDetails]=useState(JSON.parse(localStorage.getItem("event")));
+    const [packagesdetails,setPackagesDetails]=useState(JSON.parse(localStorage.getItem("packages")));
+    const [vendordetails,setVendorDetails]=useState(JSON.parse(localStorage.getItem("vendor")));
+    const [admindetails,setAdminDetails]=useState(JSON.parse(localStorage.getItem("admin")));
+    
+    const [usertype,setUserType]=useState("");
+
+    
+    
+    let isLogin= !!userdetails || !!vendordetails || !!admindetails;
     const handleUserLogin=(user)=>{
-       
-        setUser(user);
+        if(user){
+            localStorage.setItem("token",JSON.stringify(user));
+            
+            setUserDetails(user);
+            
+            setUserType("user");
+            
+        }
+        else{
+            console.log("user is null in context");
+        }
     }
 
-    const handleUserLogout=()=>{
-        localStorage.removeItem("user");
-        setUser(null);
+    const handleUserLogout=()=>{     
+        setUserDetails("");
+        
+        setUserType("");
+        return  localStorage.removeItem("token");
     }
 
     const handleUserUpdate = (userData)=>{
-        setUser(preUser=> preUser.map(user=> user.id===userData.id ? userData : user))  
+
+        setUserDetails(preUser=> preUser.map(user=> user.id===userData.id ? userData : user))  
     }   
     
 
     const handleVendorLogin=(vendorData)=>{
-        setVendor(vendorData);
+        if(vendorData){
+            
+            setUserType("vendor");
+            localStorage.setItem("token",JSON.stringify(vendorData));
+            setVendorDetails(vendorData);
+        }
+        else{
+            console.log("vendor is null in context");
+        }
+      
     }
 
     const handleVendorLogout=()=>{
-        localStorage.removeItem("vendor");
-        setVendor(null);
+        
+        setVendorDetails(null);
+        setUserType("");
+        return  localStorage.removeItem("token");
     }
     const handleVendorUpdate=(vendorData)=>{    
         vendor.map((vendor)=>{
             if(vendor.id===vendorData.id){
-                setVendor([...vendor,vendorData])
+                setVendorDetails([...vendor,vendorData])
         }else{
-            setVendor([...vendor])
+            setVendorDetails([...vendor])
         }
     }
     )
     }
 
     const handleVendorDelete=(vendorId)=>{
-        setVendor(null);
+        setVendorDetails(null);
     }           
 
 
     const handleEventCreate=(eventData)=>{  
-        setEvent([...event,eventData]);
+        setEventDetails([...eventdetails,eventData]);
     }
 
     const handleEventUpdate=(eventData,updatedEventData)=>{
-        event.map((event)=>{
+        eventdetails.map((event)=>{
             if(event.id===eventData.id){
-                setEvent([...event,updatedEventData]);
+                setEventDetails([...event,updatedEventData]);
             }else{
-                setEvent([...event]);
+                setEventDetails([...event]);
             }
 
         })
     }
 
     const handleEventDelete=(eventId)=>{
-        setEvent(null);
+        setEventDetails(null);
     }
 
     const handlePackageCreate=(packageData)=>{
-        setPackages([...packages,packageData]);
+        setPackagesDetails([...packagesdetails,packageData]);
     }
 
     const handlePackageUpdate=(packageData)=>{
-        packages.map((packages)=>{
+        packagesdetails.map((packages)=>{
             if(packages.id===packageData.id){
-                setPackages([...packages,packageData]);
+                setPackagesDetails([...packages,packageData]);
             }else{
-                setPackages([...packages]);
+                setPackagesDetails([...packages]);
             }
         })
     }
 
     const handlePackageDelete=(packageId)=>{
-        setPackages(null);
+        setPackagesDetails(null);
     }
 
     return(
-        <AppContext.Provider value={{
-
-
+        <AppContext.Provider value={{ 
+            userdetails,
+            eventdetails,
+            packagesdetails,
+            vendordetails,
+            handleUserLogin,
+            handleUserLogout,
+            handleUserUpdate,
+            handleEventCreate,
+            handleEventUpdate,
+            handleEventDelete,
+            handlePackageCreate,
+            handlePackageUpdate,
+            handlePackageDelete,
+            handleVendorLogin,
+            handleVendorLogout,
+            handleVendorUpdate,
+            handleVendorDelete,
+            isLogin,
             
-            user:user,
-            event:event,
-            package:packages,
-            handleUserLogin:handleUserLogin,
-            handleUserLogout:handleUserLogout,
-            handleUserUpdate:handleUserUpdate,
-            handleEventCreate:handleEventCreate,
-            handleEventUpdate:handleEventUpdate,
-            handleEventDelete:handleEventDelete,
-            handlePackageCreate:handlePackageCreate,
-            handlePackageUpdate:handlePackageUpdate,
-            handlePackageDelete:handlePackageDelete,
-            handleVendorLogin:handleVendorLogin,
-            handleVendorLogout:handleVendorLogout,
-            handleVendorUpdate:handleVendorUpdate,
-            handleVendorDelete:handleVendorDelete,
+            admindetails,
             
         }}>
             {children}
         </AppContext.Provider>
     )           
 }
+
+
 

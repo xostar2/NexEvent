@@ -1,4 +1,5 @@
 import "../styles/Home.css"
+import { Link } from "react-router-dom"
 const Home = () => {
   return (
     <>
@@ -13,16 +14,16 @@ const Home = () => {
 
                   </p>
                   <div className="btn-btn-group-home">
-                    <a href="/contact">
+                    <Link to="/contact">
                       <button className="btn-btn-home">
                         connect now
                       </button>
-                    </a>
-                    <a href="/">
+                    </Link>
+                    <Link to="/about">
                       <button className="btn-btn-home">
                         leran more
                       </button>
-                    </a>
+                    </Link>
                   </div>
                 </div>
                 {/* hero images */}

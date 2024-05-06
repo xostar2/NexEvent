@@ -2,9 +2,10 @@ import React, { useState ,useEffect} from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../styles/AddEvent.css"
-import {AppContext} from "../context/UserContext";
 import { useContext } from "react";
+import { AppContext } from "../context/UserContext";
 import BackgroundImage from "../components/BackgroundImage";
+import axiosInstance from "./axiosInstance";
 const URL="http://localhost:8000/api/v1/events/addevent"
 
 const eventTypes = [
@@ -49,16 +50,14 @@ const eventTypes = [
 
 const AddEvent = () => {
   const navigate = useNavigate();
-  const {handleEventCreate,handleEventUpdate,handleEventDelete,user}=useContext(AppContext);
-  console.log(user);
-  if(user===null){
-    console.log("Please login to add event");
-
-    useEffect(()=>{
-      //navigate("/");
-    },
-    [])
-  }
+  const {handleEventCreate,handleEventUpdate,handleEventDelete,vendordetails}=useContext(AppContext);
+  
+  useEffect(() => {
+    if (!vendordetails) {
+        navigate("/loginuser");
+    }
+  }, [vendordetails]);
+  console.log("this is vendordetails:",vendordetails);
   const [eventData, setEventData] = useState({
     eventName: "",
     createDate: new Date(),
@@ -79,22 +78,24 @@ const AddEvent = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(eventData);
       const formData = new FormData();
       formData.append("eventName", eventData.eventName);
       formData.append("thumbnail", eventData.thumbnail);
-      formData.append("description", eventData.description);
-      formData.append("createDate", eventData.createDate);  
-      const response = await axios.post(URL, formData, {
+      formData.append("description", eventData.description); 
+      
+      console.log("this is vendordetails2:",vendordetails);
+      const response = await axiosInstance.post(URL, formData, {
         "Content-Type": "multipart/form-data",
       });
      
       if(response.status===200){
-      handleEventCreate(response.data);
-      useEffect(()=>{   
+
+      handleEventCreate(response.data.data._id);
+      console.log("this is response event:",response.data.data?._id);
+      
       navigate("/vendorhomepage")
-      },
-      [])
+      
+     
       }
     } catch (error) {
       
@@ -162,7 +163,7 @@ const AddEvent = () => {
         </div> */}
         <button className="button" type="submit">
                   <span className="button-content">Add Event </span>
-                </button>
+        </button>
       </form>
     </div>
     </>

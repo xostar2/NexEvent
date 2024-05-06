@@ -1,27 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState ,useContext} from "react";
 import { Link } from "react-router-dom";
 import "../styles/UserLogin.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
-import { AppProvider, AppContext
-          
-          } from "../context/UserContext";
-      
+import { AppContext } from "../context/UserContext";    
 import BackgroundImage from "../components/BackgroundImage";
+import Cookies from 'js-cookie'
+
+import axiosInstance from "./axiosInstance.js";
+
+//====================================================================================================================
 const URL = "http://localhost:8000/api/v1/users/userlogin";
 const URL1="http://localhost:8000/api/v1/vendors/vendorlogin";
 const URL2="http://localhost:8000/api/v1/admins/adminlogin";
 
+//====================================================================================================================
+
 const UserLogin = () => {
   const navigate = useNavigate();
-  const { 
-   
-    handleUserLogin,
-    handleAdminLogin,
-    handleVendorLogin,
-   } = useContext(AppContext);
   
+  const {handleUserLogin,handleUserLogout,handleUserUpdated,userdetails,handleVendorLogin,handleVendorLogout,handleVendorUpdated,vendordetails}=useContext(AppContext);
   
   const [user, setUser] = useState({
     email: "",
@@ -45,23 +43,22 @@ const UserLogin = () => {
     console.log(email);
     console.log(password);
     console.log(userType);
+
     try {
       
       
       if(user.userType==="user"){
-        const response = await axios.post(URL, user, {
+        const response = await axiosInstance.post(URL, user, {
+          
           "Content-Type": "application/json",
         });
 
         
         if (response.status === 200) {
-         
-          handleUserLogin(response.data.data.user);
-          // console.log(response.data.data.user.refreshToken);
-          // console.log(response.status)
+          console.log("this is access token",response.data.data.accessToken);
+          handleUserLogin(response.data.data.accessToken);
           console.log("user login successfully");
-          // localStorage.setItem("userToken", response.data.data.user.refreshToken);
-          // localStorage.setItem("userId", response.data.data.user._id);
+         
           
           
        
@@ -76,36 +73,53 @@ const UserLogin = () => {
       }
       if(user.userType==="vendor"){
           
-          const response = await axios.post(URL1, user, {
+          const response = await axiosInstance.post(URL1, user, {
             "Content-Type": "application/json",
           });
-          console.log(response.data.data.vendor);
+          console.log(response);
+
+          
           if (response.status === 200) {
-            handleVendorLogin(response.data.data.vendor);
+              
+            console.log(response.data.data.vendor);
+            handleVendorLogin(response.data.data.accessToken);
+            
             console.log("vendor login successfully");
-            navigate("/eventhomepage");
+            if(response.data.data.accessToken){
+            navigate("/addevent");
+            }
+           else{
+             alert("please login first");
+             navigate("/userlogin");
+           }
+            
             
             
           } else {
            
             console.error("Unexpected response status:", response.status);
+            navigate("/userlogin");
           }
         
   
         }
         if(user.userType==="admin"){
           formData.userType="admin"
-          const response = await axios.post(URL2, formData, {
+          const response = await axios.post(
+            URL2, 
+            formData, 
+            {
             "Content-Type": "application/json",
-          });
+            },
+            withCredentials =true,
+        );
           console.log(response);
           if (response.status === 200) {
-            handleAdminLogin(response.data);
+           
             console.log("user login successfully");
-            handleUserLogin(response.data);
+            
             const res_data= await response.data;
-          localStorage.setItem("admin",JSON.stringify(res_data.refresh_token));
-              navigate("/");
+            navigate("/");
             
             
           } else {
@@ -136,11 +150,11 @@ const UserLogin = () => {
       }
     }
   };
-
+//====================================================================================================================
   return (
     
     <>
-    {/* <BackgroundImage/> */}
+    <BackgroundImage/>
       <div className="login-form-user-border">
           <div className="user-login-form-login">
             <h1 className="main-heading mb-3-login">Login Here</h1>

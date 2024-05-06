@@ -4,15 +4,17 @@ import { NavLink } from 'react-router-dom';
 import "../styles/NavBar.css"; 
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-
+import { useContext } from 'react';
+import { AppContext } from '../context/UserContext';
 
 const NavBar = () => {
   
   const [isOpen, setIsOpen] = useState(false);
+  const { userType, setUserType,isLogin } = useContext(AppContext);
   
   return (
    <>
-   
+        
         <nav >
           <Link to="/" className="NavBar-title">
             NexEvent
@@ -42,23 +44,41 @@ const NavBar = () => {
                 Contact
               </NavLink>
             </li>
-            <li>
+
+            { !isLogin ? 
+            <>            <li>
               
-              <NavLink to="/loginuser" >
-                Login
-              </NavLink>
-              
-            </li>
+            <NavLink to="/loginuser" >
+              Login
+            </NavLink>
+            
+          </li>
+          <li>
+            <NavLink to="/signup" >
+              SignUp
+            </NavLink>
+          </li>
+            
+          </>
+
+            :
+            
             <li>
-              <NavLink to="/signup" >
-                SignUp
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/logout">
+              <NavLink to={
+                {
+                  pathname: "/logout",
+                  state: { userType: {userType} }
+                }
+              } onClick={()=>{
+                
+              }}>
                 Logout
               </NavLink>
             </li>
+            
+            }
+            
+            
           </ul>
         </nav>
      

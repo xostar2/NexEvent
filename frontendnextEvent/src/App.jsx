@@ -18,14 +18,15 @@ import {AppProvider} from "./context/UserContext";
 import Footer from "./pages/Footer"
 import {useEffect,useState,useRef} from "react";
 import SignUp from "./pages/SignUp"
-
-
+import UserLogOut from "./pages/UserLogOut"
+import axiosInstance from "./pages/axiosInstance"
 
 const App = () => {
 
 
   return (
     <>
+
     <AppProvider>
       <BrowserRouter>
       <NavBar/>
@@ -47,10 +48,12 @@ const App = () => {
               <Route path="/viewpackage" element={<ViewPackage/>}/>
               <Route path="/contactus" element={<ContactUs/>}/>
               <Route path="/signup" element={<SignUp/>}/>
+              <Route path="/logout" element={<UserLogOut/>}/>
           </Routes>
           
       </BrowserRouter>
       </AppProvider>
+     
     </>
   )
 }
