@@ -1,7 +1,7 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import {Package} from "../models/package.model.js"
-import {uploadOnCloudinary} from "../utils/cloudinary.js"
+import {uploadOnCloudinary} from "../utils/multiUploadCloudinary.js"
 import {ApiResponse} from "../utils/ApiResponse.js"
 
 //===============================================================================================
@@ -17,25 +17,19 @@ const addPackage= asyncHandler(async (req,res)=>{
     //return response
 
 
-    console.log(req.cookies);
-    // vendorId=req.cookies?.vendorId
-    // accessToken=req.cookies?.accessToken ;
-    // refreshToken=req.cookies?.refreshToken ;
-    // eventId=req.cookies?.eventId ;
-    // console.log(vendorId);
-    // console.log(accessToken);
-    // console.log(refreshToken);
+    
 
-    
-    if(!eventId){
-        throw new ApiError(401,"invalid event id")
-    }
-    if(!vendorId){
-        throw new ApiError(401,"invalid vendor id")
-    }
+    console.log("enter kar liya ")
+    // if(!eventId){
+    //     throw new ApiError(401,"invalid event id")
+    // }
+    // if(!vendorId){
+    //     throw new ApiError(401,"invalid vendor id")
+    // }
     console.log(req.body);
-    const {title,description,thumbnail,amount } = req.body
-    
+
+    const {title,description,amount } = req.body
+    console.log(title,description,amount)
 
 
 
@@ -49,27 +43,29 @@ const addPackage= asyncHandler(async (req,res)=>{
         ApiError(400,"amount is important to add");    
     }
     
+    // const imageFiles = Array.isArray(req.files.imageList) ? req.files.imageList : [req.files.imageList];
+    // const uploadedThumbnails = [];
 
-    if(!req.files){
-        throw new ApiError(501,"req file is not present !");
-    }
-    const avatarLocalPath= req.files?.thumbnail[0]?.path
-    if(!avatarLocalPath){
-        throw new ApiError(400,"Avatar is compulsory");
-     }
+    // // Upload each image to Cloudinary
+    // for (const imageFile of imageFiles) {
+    //     const avatarLocalPath = imageFile.path;
+    //     console.log("avatarLocalPath", avatarLocalPath);
+    //     const avatar = await uploadOnCloudinary(avatarLocalPath);
 
-     const avatar =await uploadOnCloudinary(avatarLocalPath)
-     if(!avatar){
-        throw new ApiError(400,"Avatar link is not working")
-     }
+    //     if (!avatar) {
+    //         throw new ApiError(400, "Failed to upload one or more images to Cloudinary");
+    //     }
 
+    //     uploadedThumbnails.push(avatar.url);
+    // }
+  
      const packageS= await Package.create({
         title,
         description,
-        thumbnail:avatar.url,
+       // imageList:uploadedThumbnails,
         amount,
-        eventOwnerId:eventId,
-        vendorOwnerId:vendorId
+        // eventOwnerId:eventId,
+        // vendorOwnerId:vendorId
      })
      return res.status(200)
      .json(

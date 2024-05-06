@@ -159,13 +159,18 @@ const loginVendor = asyncHandler( async (req,res) =>{
 
     const options={
         httpOnly:true,
-        secure:true //by this you can modify only server can do
+        //secure:process.env.NODE_ENV=="production"?true:false, //by this you can modify only server can do
+        expires:new Date(Date.now()+1000*60*60*24*30)
+        
     }
 
+    
+    
     return res.status(200)
-    .cookie("accessToken",accessToken,options)
-    .cookie("refreshtoken",refreshToken,options)
+    .cookie("JWT",accessToken,options)
+    .cookie("ref-JWT",refreshToken,options)
     .cookie("vendorId",vendorId_,options)
+    .set('Authorization', `Bearer ${accessToken}`)
     .json(
         new ApiResponse(
             200,

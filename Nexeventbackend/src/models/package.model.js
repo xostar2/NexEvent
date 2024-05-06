@@ -5,15 +5,12 @@ const packageSchema = new Schema(
     {
         title:{
             type:String,
-            required:true
+            required:true,
+            unique:true
         },
         description:{
             type:String,
             required:true
-        },
-        thumbnail:{
-            type:String,//cloudinary url
-            //required:true
         },
         imageList:[{
             type:String,
@@ -24,7 +21,6 @@ const packageSchema = new Schema(
             default:Date.now
         },
         eventOwnerId:{
-            
             type:Schema.Types.ObjectId,
             ref:"Event"
         },

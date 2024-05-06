@@ -8,15 +8,15 @@ const router = Router()
 
 
 router.route("/addpackage").post(
-    
-    upload.fields(//using multer here for upload file 
-        [
-            {
-                name:"thumbnail",
-                maxCount:1
-            }
-        ]
-        ),
+
+    // upload.fields(//using multer here for upload file 
+    //     [
+    //         {
+    //             name:"imageList",
+    //             maxCount:5
+    //         }
+    //     ]
+    //     ),
     addPackage
     )
 

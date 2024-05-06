@@ -48,8 +48,7 @@ const eventSchema = new Schema(
 
             ],
             required:true,
-            unique:true,
-            index:true
+           
         },
         createDate:{
             type:Date,

@@ -16,18 +16,16 @@ const addEvent= asyncHandler(async (req,res)=>{
     //create event object - create entry in db
     //check response and event creation
     //return response
-    console.log(req.cookies);
-    const vendorId=req.cookies?.vendorId ;
-    const accessToken=req.cookies?.accessToken ;
-    const refreshToken=req.cookies?.refreshToken ;
+    console.log("we are in add event");
     
-    // console.log(vendorId);
-    // console.log(accessToken);
-    // console.log(refreshToken);
-
+    // const vendorId=req.cookies?.vendorId ;
+    // const accessToken=req.cookies?.accessToken ;
+    // const refreshToken=req.cookies?.refreshToken ;
     
+    
+    console.log("this is req.vendor?._id",req.vendor?._id);
 
-    if(!vendorId){
+    if(!req.vendor?._id){
         throw new ApiError(401,"invalid vendor id")
     }
     
@@ -63,7 +61,8 @@ const addEvent= asyncHandler(async (req,res)=>{
         eventName,
         thumbnail:avatar.url,
         description,
-        owner:vendorId,
+        owner:req.vendor?._id,
+        
      })
 
      const options = {
@@ -73,7 +72,6 @@ const addEvent= asyncHandler(async (req,res)=>{
         
       };
      return res.status(200)
-     .cookie("eventId",event?._id,options) 
      .json(
         new ApiResponse(200,event,"event created successfully")
      )
