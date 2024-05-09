@@ -65,12 +65,7 @@ const addEvent= asyncHandler(async (req,res)=>{
         
      })
 
-     const options = {
-        expires: new Date(Date.now() + 60 * 60 * 24 * 30), // 30 days
-        httpOnly: true,
-        secure: true,
-        
-      };
+    
      return res.status(200)
      .json(
         new ApiResponse(200,event,"event created successfully")

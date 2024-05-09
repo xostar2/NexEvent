@@ -4,6 +4,8 @@ import {
   logoutVendor,
   refreshAccessToken,
   vendorRegister,
+  changeCurrentVendorPassword,
+  getCurrentVendor,
 } from "../controllers/vendor.controller.js";
 import {upload} from "../middlewares/multer.middleware.js";
 import {verifyJWT} from "../middlewares/authvendor.middleware.js";
@@ -28,6 +30,8 @@ router.route("/vendorlogin").post(loginVendor);
 //secured routes
 
 router.route("/vendorlogout").post(verifyJWT, logoutVendor);
+router.route("/getdetails").get(verifyJWT, getCurrentVendor);
+router.route("/changepassword").post(verifyJWT, changeCurrentVendorPassword);
 
 router.route("/refresh-token", refreshAccessToken);
 

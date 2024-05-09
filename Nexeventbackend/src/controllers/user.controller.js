@@ -143,7 +143,7 @@ const loginUser = asyncHandler(async(req,res)=>{
    //  console.log(refreshToken);
 
    user.refreshToken=refreshToken;
-
+   const token=accessToken
    const options={
       httpOnly:true,
       secure:true,//by this you can modify only server can do
@@ -151,6 +151,7 @@ const loginUser = asyncHandler(async(req,res)=>{
    return res.status(200)
    .cookie("accessToken",accessToken,options)
    .cookie("refreshtoken",refreshToken,options)
+   .set('Authorization', `Bearer ${token}`)
    .json(
       new ApiResponse(
          200,

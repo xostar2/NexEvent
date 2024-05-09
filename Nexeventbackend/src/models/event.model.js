@@ -48,6 +48,7 @@ const eventSchema = new Schema(
 
             ],
             required:true,
+          
            
         },
         createDate:{
@@ -73,13 +74,14 @@ const eventSchema = new Schema(
         },
         owner:{
             type:Schema.Types.ObjectId,
-            ref:"Vendor"
+            ref:"Vendor",
+            required:true
         }
 
     },
     {timestamps:true}
 )
 
-
+eventSchema.index({ eventName: 1, owner: 1 }, { unique: true });
 eventSchema.plugin(mongooseAggregatePaginate);
 export const Event = mongoose.model("Event",eventSchema);

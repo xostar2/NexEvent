@@ -154,7 +154,7 @@ const loginVendor = asyncHandler( async (req,res) =>{
     const vendorId_=vendor?._id;
     console.log(vendorId_);
     const {accessToken,refreshToken} = await generaAccessAndRefereshToken(vendorId_);
-
+    const ventoken=accessToken
     vendor.refreshToken=refreshToken
 
     const options={
@@ -170,7 +170,7 @@ const loginVendor = asyncHandler( async (req,res) =>{
     .cookie("JWT",accessToken,options)
     .cookie("ref-JWT",refreshToken,options)
     .cookie("vendorId",vendorId_,options)
-    .set('Authorization', `Bearer ${accessToken}`)
+    .set('Authorization', `Bearer ${ventoken}`)
     .json(
         new ApiResponse(
             200,
@@ -191,7 +191,7 @@ const logoutVendor = asyncHandler(async (req ,res) => {
             $set:{
                 refreshToken:undefined
             }
-        },
+        }, 
         {
             new:true
         }
@@ -294,11 +294,14 @@ const changeCurrentVendorPassword =asyncHandler(async (req, res) => {
 
 const getCurrentVendor= asyncHandler( async (req,res)=>{
 
-    return res
-    .status(200)
-    .json(
-       new ApiResponse(200,req.vendor,"current vendor fetch successfully")
-    )
+      
+      const vendor=await Vendor.findById(req.vendor?._id)
+      console.log(vendor);
+      return res
+      .status(200)
+      .json(
+         new ApiResponse(200,vendor,"Vendor details")
+      )
  })
 
  //====================================================================================================================
