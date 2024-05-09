@@ -4,11 +4,11 @@ export const AppContext = createContext(null);
 
 export const AppProvider=({children})=>{
 
-    const [userdetails,setUserDetails]=useState(JSON.parse(localStorage.getItem("user")));
-    const [eventdetails,setEventDetails]=useState(JSON.parse(localStorage.getItem("event")));
-    const [packagesdetails,setPackagesDetails]=useState(JSON.parse(localStorage.getItem("packages")));
-    const [vendordetails,setVendorDetails]=useState(JSON.parse(localStorage.getItem("vendor")));
-    const [admindetails,setAdminDetails]=useState(JSON.parse(localStorage.getItem("admin")));
+    const [userdetails,setUserDetails]=useState();
+    const [eventdetails,setEventDetails]=useState();
+    const [packagesdetails,setPackagesDetails]=useState();
+    const [vendordetails,setVendorDetails]=useState();
+    const [admindetails,setAdminDetails]=useState();
     
     const [userType,setUserType]=useState("");
 
@@ -20,7 +20,6 @@ export const AppProvider=({children})=>{
             localStorage.setItem("token",user);
             
             setUserDetails(user);
-            
             setUserType("user");
             
         }
@@ -31,9 +30,8 @@ export const AppProvider=({children})=>{
 
     const handleUserLogout=()=>{     
         setUserDetails("");
-        
         setUserType("");
-        return  localStorage.removeItem("token");
+        localStorage.removeItem("token");
     }
 
     const handleUserUpdate = (userData)=>{
@@ -59,14 +57,12 @@ export const AppProvider=({children})=>{
         
         setVendorDetails(null);
         setUserType("");
-        return  localStorage.removeItem("ventoken");
+        localStorage.removeItem("ventoken");
     }
     const handleVendorUpdate=(vendorData)=>{    
         vendor.map((vendor)=>{
             if(vendor.id===vendorData.id){
                 setVendorDetails([...vendor,vendorData])
-        }else{
-            setVendorDetails([...vendor])
         }
     }
     )

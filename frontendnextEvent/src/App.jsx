@@ -22,6 +22,8 @@ import UserLogOut from "./pages/UserLogOut"
 import axiosInstance from "./pages/axiosInstance"
 import ViewOrders from "./pages/ViewOrders"
 
+import OrderDetails from "./pages/OrderDetails"
+
 const App = () => {
 
 
@@ -51,6 +53,7 @@ const App = () => {
               <Route path="/signup" element={<SignUp/>}/>
               <Route path="/logout" element={<UserLogOut/>}/>
               <Route path="/vieworders" element={<ViewOrders/>}/>
+              <Route path="/addorder" element={<OrderDetails/>}/>
           </Routes>
           
       </BrowserRouter>

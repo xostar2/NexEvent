@@ -6,7 +6,7 @@ import { AppContext } from '../context/UserContext';
 import { useContext,useCallback,useState } from 'react';
 const UserHomePage = () => {
   const { userdetails , setUserdetails,userType,setUserType } = useContext(AppContext);
-
+  
   return (
     <div className="user-home-page">
       <BackgroundImage />
