@@ -33,6 +33,7 @@ import vendorRouter from './routes/vendor.routes.js'
 import feedBackRouter from "./routes/feedback.routes.js"
 import eventRouter from "./routes/event.routes.js"
 import packagesRouter from "./routes/package.routes.js"
+import orderRouter from "./routes/order.routes.js"
 
 //routes declaration
 
@@ -41,6 +42,7 @@ app.use("/api/v1/vendors",vendorRouter);
 app.use("/api/v1/feedbacks",feedBackRouter);
 app.use("/api/v1/events",eventRouter);
 app.use("/api/v1/packages",packagesRouter);
+app.use("/api/v1/orders",orderRouter);
 
 
 export {app}

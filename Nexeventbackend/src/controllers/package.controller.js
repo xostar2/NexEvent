@@ -28,7 +28,7 @@ const addPackage= asyncHandler(async (req,res)=>{
     // }
     console.log(req.body);
 
-    const {title,description,amount } = req.body
+    const {title,description,amount ,avatar} = req.body
     console.log(title,description,amount)
 
 
@@ -42,30 +42,24 @@ const addPackage= asyncHandler(async (req,res)=>{
     if(amount==""){
         ApiError(400,"amount is important to add");    
     }
-    
-    // const imageFiles = Array.isArray(req.files.imageList) ? req.files.imageList : [req.files.imageList];
-    // const uploadedThumbnails = [];
+    const avatarLocalPath= req.files?.avatar[0]?.path
 
-    // // Upload each image to Cloudinary
-    // for (const imageFile of imageFiles) {
-    //     const avatarLocalPath = imageFile.path;
-    //     console.log("avatarLocalPath", avatarLocalPath);
-    //     const avatar = await uploadOnCloudinary(avatarLocalPath);
+    if(!avatarLocalPath){
+       throw new ApiError(400,"Avatar is compulsory");
+    }
 
-    //     if (!avatar) {
-    //         throw new ApiError(400, "Failed to upload one or more images to Cloudinary");
-    //     }
+    const avatarcopy =await uploadOnCloudinary(avatarLocalPath)
 
-    //     uploadedThumbnails.push(avatar.url);
-    // }
-  
+    if(!avatarcopy){
+       throw new ApiError(400,"Avatar link is not working")
+    }
      const packageS= await Package.create({
         title,
         description,
-       // imageList:uploadedThumbnails,
+        avatar:avatarcopy.url,
         amount,
-        // eventOwnerId:eventId,
-        // vendorOwnerId:vendorId
+        eventOwnerId:eventId,
+        vendorOwnerId:vendorId
      })
      return res.status(200)
      .json(

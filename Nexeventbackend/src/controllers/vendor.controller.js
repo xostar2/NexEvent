@@ -186,7 +186,7 @@ const loginVendor = asyncHandler( async (req,res) =>{
 
 const logoutVendor = asyncHandler(async (req ,res) => {
     await Vendor.findByIdAndUpdate(
-        req.vendor._id,
+        req.vendor?._id,
         {
             $set:{
                 refreshToken:undefined

@@ -12,30 +12,22 @@ import {carryEvent} from "../middlewares/carryEvent.middleware.js"
 //add order
 
 const addOrder= asyncHandler(async (req,res)=>{
-    const eventId=req.event?._id
-    const vendorId=req.vendor?._id
-    const packageId=req.package?._id
-
-    const {orderDate,status}=req.body
-    if(!eventId){
-        throw new ApiError('Invalid event id',400)
-    }
-    if(!vendorId){
-        throw new ApiError('Invalid vendor id',400)
+    // const eventId=req.event?._id
+    // const vendorId=req.vendor?._id
+    //const packageId=req.package?._id
+    const userId=req.user?._id
+    const packageId="54";
+ 
+    if(!userId){
+        throw new ApiError('Invalid user id',400)
     }
     if(!packageId){
         throw new ApiError('Invalid package id',400)
+    
     }
-    if(!orderDate || !status){
-        throw new ApiError('Invalid order data',400)
-    }
-
     const order=await Order.create({
-        eventId,
-        vendorId,
+        userId,
         packageId,
-        orderDate,
-        status:"pending"
     })
     if(!order){
         throw new ApiError('order not created',500);
@@ -113,5 +105,8 @@ const removeOrder= asyncHandler(async (req,res)=>{
 })
 
 export {
-    addOrder
+    addOrder,
+    getOrder,
+    updateOrderstatus,
+    removeOrder 
 }

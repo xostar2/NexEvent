@@ -167,8 +167,10 @@ const loginUser = asyncHandler(async(req,res)=>{
 //==================================================================
 
 const logoutUser = asyncHandler(async (req,res)=>{
-      await User.findByIdAndUpdate(
-         req.user._id,
+      try{
+   if(req.user?.refreshToken){
+   await User.findByIdAndUpdate(
+         req.user?._id,
          {
             $set:{
                refreshToken:undefined
@@ -178,18 +180,24 @@ const logoutUser = asyncHandler(async (req,res)=>{
             new :true
          }
       )
-
+   }
       const options={
          httpOnly:true,
-         secure:true
+         secure:true,
+         sameSite:"strict"
       }
+      res.clearCookie("accessToken",options)
+      
+      
 
       return res.status(200)
-      .clearCookie("accessToken",options)
-      .clearCookie("refreshToken",options)
       .json(
          new ApiResponse(200,{},"User logout successfully")
       )
+   }catch(error){
+      console.log("this is error in logout user:",error.message);
+      throw new ApiError(500,error.message)
+   }
 })
 
 //==================================================================

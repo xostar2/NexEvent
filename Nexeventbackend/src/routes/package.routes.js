@@ -9,14 +9,14 @@ const router = Router()
 
 router.route("/addpackage").post(
 
-    // upload.fields(//using multer here for upload file 
-    //     [
-    //         {
-    //             name:"imageList",
-    //             maxCount:5
-    //         }
-    //     ]
-    //     ),
+    upload.fields(//using multer here for upload file 
+        [
+            {
+                name:"avatar",
+                maxCount:1
+            }
+        ]
+        ),
     addPackage
     )
 

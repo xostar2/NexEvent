@@ -12,9 +12,9 @@ const packageSchema = new Schema(
             type:String,
             required:true
         },
-        imageList:[{
+        avatar:{
             type:String,
-        }],
+        },
         createDate:{
             type:Date,
             required:true,
