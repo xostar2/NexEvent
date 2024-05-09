@@ -86,11 +86,11 @@ const UserLogin = () => {
             
             console.log("vendor login successfully");
             if(response.data.data.accessToken){
-            navigate("/addevent");
+            navigate("/vendorhomepage");
             }
            else{
              alert("please login first");
-             navigate("/userlogin");
+             navigate("/loginuser");
            }
             
             

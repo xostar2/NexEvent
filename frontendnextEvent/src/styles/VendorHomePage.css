@@ -50,38 +50,7 @@
   }
   /* YourTableComponent.css */
 
-.table-container-user-details {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
 
-.user-table-testing-user-details {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-.user-table-testing-user-details th,
-.user-table-testing-user-details td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-.user-table-testing-user-details th {
-    font-weight: bold;
-}
-
-/* Add responsive styles as needed */
-@media (max-width: 768px) {
-    .table-container-user-details {
-        padding: 10px;
-    }
-}
 @media (max-width: 768px) {
     .vendor-info-box {
       width: 80%; /* Adjust width for smaller screens */

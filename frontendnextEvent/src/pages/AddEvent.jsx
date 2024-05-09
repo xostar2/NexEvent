@@ -53,10 +53,12 @@ const AddEvent = () => {
   const {handleEventCreate,handleEventUpdate,handleEventDelete,vendordetails}=useContext(AppContext);
   
   useEffect(() => {
-    if (!vendordetails) {
+    const ventoken = localStorage.getItem("ventoken");
+    if (!ventoken) {
         navigate("/loginuser");
     }
-  }, [vendordetails]);
+  }, []);
+
   console.log("this is vendordetails:",vendordetails);
   const [eventData, setEventData] = useState({
     eventName: "",
@@ -87,9 +89,12 @@ const AddEvent = () => {
       const response = await axiosInstance.post(URL, formData, {
         "Content-Type": "multipart/form-data",
       });
-     
+     console.log("yaha se ara hu bhaiya");
+     console.log(response.data);
       if(response.status===200){
-
+        console.log(response.status);
+        
+        console.log("nhi yaha se ara hu bhaiya");
       handleEventCreate(response.data.data._id);
       console.log("this is response event:",response.data.data?._id);
       
