@@ -1,8 +1,8 @@
 import {Router} from "express";
 import {
   addEvent,
-  updateEvent,
   deleteEvent,
+  getEvent
 } 
 from "../controllers/event.controller.js";
 
@@ -24,7 +24,8 @@ router.route("/addevent").post(
   ),
   addEvent
 );
-router.route("/updateevent").put(verifyJWT, updateEvent);
+router.route("/getevent").get(verifyJWT, getEvent);
+
 
 router.route("/deleteevent").delete(verifyJWT, deleteEvent);
 

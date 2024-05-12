@@ -42,85 +42,91 @@ const vendorRegister = asyncHandler( async (req, res)=>{
     //check response and vendor account creation
     // returm response
 
-    console.log("running");
-    const {vendorName,companyName,email,phone,aadhaar,password,registrationNo,city} = req.body
-    
-
-    console.log(vendorName,companyName,email,phone,aadhaar,password,registrationNo,city);    
-    if(
-        [vendorName,companyName,email,phone,aadhaar,password,registrationNo,city].some((field)=>
-            field.trim()==="")
-    ){
-        throw new ApiError(400,"All fields are required")
-    }
-
-    if(!email.includes('@') ){
-        throw new ApiError(400,"@ required in email check email again")
-    }
-
-    if(phone.length!=10 ){
-        throw new ApiError(400,"phone digit  should be 10 length")
-    }
-    //we have to some more validation here
-    if(password.length<8){
-        throw new ApiError(400,"password should be more then 8");
-    }
-
-    const existingvendor= await Vendor.findOne(
-        {
-            $or: [{vendorName},{email}]
-        }
-    )
-
-    if(existingvendor){
-        throw new ApiError(400,"vendor already exist with this credentials ")
-    }
-    if(!req.files?.avatar[0]){
-        throw new ApiError(400,"here is the problem")
-    }
-    const avatarLocalPath= req.files?.avatar[0]?.path
-    
-     if(!avatarLocalPath){
-        throw new ApiError(400,"Avatar is compulsory");
+   try {
+     console.log("running");
+     const {vendorName,companyName,email,phone,aadhaar,password,registrationNo,city} = req.body
+     
+ 
+     console.log(vendorName,companyName,email,phone,aadhaar,password,registrationNo,city);    
+     if(
+         [vendorName,companyName,email,phone,aadhaar,password,registrationNo,city].some((field)=>
+             field.trim()==="")
+     ){
+         throw new ApiError(400,"All fields are required")
      }
-
-     const avatar1 =await uploadOnCloudinary(avatarLocalPath)
-
-     if(!avatar1){
-        throw new ApiError(400,"Avatar link is not working")
+ 
+     if(!email.includes('@') ){
+         throw new ApiError(400,"@ required in email check email again")
      }
-
-
-    const vendor = await Vendor.create(
-        {
-            vendorName:vendorName.toLowerCase(),
-            email,
-            //avatar:avatar1.url,
-            password,
-            phone,
-            aadhaar,
-            companyName,
-            city,
-            registrationNo
-
-        }
-    )
-
-    const createVendor = await Vendor.findById(vendor._id)//.select(" -password -refreshToken")
-
-    if(!createVendor){
-        throw new ApiError(501,"something went wrong while registering vendor");
-    }
-
-    return res
-    .status(200)
-    .json(
-        new ApiResponse(
-            200,
-            createVendor,
-            "Vendor created successfully"
-        )
-    )
+ 
+     if(phone.length!=10 ){
+         throw new ApiError(400,"phone digit  should be 10 length")
+     }
+     //we have to some more validation here
+     if(password.length<8){
+         throw new ApiError(400,"password should be more then 8");
+     }
+ 
+     const existingvendor= await Vendor.findOne(
+         {
+             $or: [{vendorName},{email}]
+         }
+     )
+ 
+     if(existingvendor){
+         throw new ApiError(400,"vendor already exist with this credentials ")
+     }
+     if(!req.files?.avatar[0]){
+         throw new ApiError(400,"here is the problem")
+     }
+     const avatarLocalPath= req.files?.avatar[0]?.path
+     
+      if(!avatarLocalPath){
+         throw new ApiError(400,"Avatar is compulsory");
+      }
+ 
+      const avatar1 =await uploadOnCloudinary(avatarLocalPath)
+ 
+      if(!avatar1){
+         throw new ApiError(400,"Avatar link is not working")
+      }
+ 
+ 
+     const vendor = await Vendor.create(
+         {
+             vendorName:vendorName.toLowerCase(),
+             email,
+             //avatar:avatar1.url,
+             password,
+             phone,
+             aadhaar,
+             companyName,
+             city,
+             registrationNo
+ 
+         }
+     )
+ 
+     const createVendor = await Vendor.findById(vendor._id)//.select(" -password -refreshToken")
+ 
+     if(!createVendor){
+         throw new ApiError(501,"something went wrong while registering vendor");
+     }
+ 
+     return res
+     .status(200)
+     .json(
+         new ApiResponse(
+             200,
+             createVendor,
+             "Vendor created successfully"
+         )
+     )
+   } catch (error) {
+    res.status(error?.statusCode || 500).json({
+        message: error?.message || "Internal Server Error",
+        });
+   }
 })
 
 //====================================================================================================================
@@ -133,53 +139,60 @@ const loginVendor = asyncHandler( async (req,res) =>{
     //access and refresh tokengenerate and send vendor
     //send cookie secure cookie
 
-    const {email,password}= req.body
-    console.log(email,password)
-    console.log(req.body);
-    if(!email && !password ){
-        throw new ApiError(400," email or password is required");
-    }
-
-    const vendor = await Vendor.findOne({email:email})
-        
-    //console.log(vendor);
-    if(!vendor){
-        throw new ApiError(400," vendor not found in DB")
-    }
-
-    const isPasswordValid = await vendor.isPasswordCorrect(password)
-    if(!isPasswordValid){
-        throw new ApiError(401,"Wrong Password");
-    }
-    const vendorId_=vendor?._id;
-    console.log(vendorId_);
-    const {accessToken,refreshToken} = await generaAccessAndRefereshToken(vendorId_);
-    const ventoken=accessToken
-    vendor.refreshToken=refreshToken
-
-    const options={
-        httpOnly:true,
-        //secure:process.env.NODE_ENV=="production"?true:false, //by this you can modify only server can do
-        expires:new Date(Date.now()+1000*60*60*24*30)
-        
-    }
-
+    try {
+        const {email,password,userType}= req.body
+        console.log(email,password)
+        console.log(req.body);
+        console.log(userType);
+        if(!email && !password ){
+            throw new ApiError(400," email or password is required");
+        }
     
+        const vendor = await Vendor.findOne({email:email})
+            
+        console.log(vendor);
+        if(!vendor){
+            throw new ApiError(400," vendor not found in DB")
+        }
     
-    return res.status(200)
-    .cookie("JWT",accessToken,options)
-    .cookie("ref-JWT",refreshToken,options)
-    .cookie("vendorId",vendorId_,options)
-    .set('Authorization', `Bearer ${ventoken}`)
-    .json(
-        new ApiResponse(
-            200,
-            {
-                vendor:vendor,accessToken,refreshToken
-            },
-            "Vendor logged in succefully"
+        const isPasswordValid = await vendor.isPasswordCorrect(password)
+        if(!isPasswordValid){
+            throw new ApiError(401,"Password is wrong");
+        }
+        const vendorId_=vendor?._id;
+        console.log(vendorId_);
+        const {accessToken,refreshToken} = await generaAccessAndRefereshToken(vendorId_);
+        const ventoken=accessToken
+        vendor.refreshToken=refreshToken
+    
+        const options={
+            httpOnly:true,
+            //secure:process.env.NODE_ENV=="production"?true:false, //by this you can modify only server can do
+            expires:new Date(Date.now()+1000*60*60*24*30)
+            
+        }
+    
+        
+        
+        return res.status(200)
+        .cookie("JWT",accessToken,options)
+        .cookie("ref-JWT",refreshToken,options)
+        .cookie("vendorId",vendorId_,options)
+        .set('Authorization', `Bearer ${ventoken}`)
+        .json(
+            new ApiResponse(
+                200,
+                {
+                    vendor:vendor,accessToken,refreshToken
+                },
+                "Vendor logged in succefully"
+            )
         )
-    )
+    } catch (error) {
+        res.status(error?.statusCode || 500).json({
+            message: error?.message || "Internal Server Error",
+        });
+    }
 })
 
 //====================================================================================================================
@@ -197,16 +210,7 @@ const logoutVendor = asyncHandler(async (req ,res) => {
         }
     )
 
-    const options = {
-        httpOnly:true,
-        secure:true
-    }
-
     return res.status(200)
-    .clearCookie("accessToken",options)
-    .clearCookie("refreshToken",options)
-    .clearCookie("vendorId",options)
-    .clearCookie("eventId",options)
     .json(
         new ApiResponse(
             200,

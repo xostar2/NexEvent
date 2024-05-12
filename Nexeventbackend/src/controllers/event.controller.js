@@ -52,14 +52,14 @@ const addEvent= asyncHandler(async (req,res)=>{
      }
 
      const avatar = await uploadOnCloudinary(avatarLocalPath)
-     console.log(avatar);
-     if(!avatar){
-        throw new ApiError(400,"Avatar link is not working")
-     }
+    //  console.log(avatar);
+    //  if(!avatar){
+    //     throw new ApiError(400,"Avatar link is not working")
+    //  }
 
      const event= await Event.create({
         eventName,
-        thumbnail:avatar.url,
+        thumbnail:avatar?.url || "",
         description,
         owner:req.vendor?._id,
         
@@ -74,56 +74,31 @@ const addEvent= asyncHandler(async (req,res)=>{
 
 //=======================================================================================================
 
-// update event or edit event details
-
-const updateEvent = asyncHandler(async (req, res) => {
-    // Get event ID from request parameter
-    const eventId = req.params.eventId;
-  
-    // Validate event ID presence
-    if (!eventId) {
-      throw new ApiError(400, "Please provide event ID to update.");
+const getEvent= asyncHandler(async (req,res)=>{
+  try {
+    const vendorId=req.vendor?._id;
+    console.log("this is vendorId in get event",vendorId);
+    if(!vendorId){
+        throw new ApiError(401,"invalid vendor id")
     }
-  
-    // Get updated event details from request body
-    const { eventName, description, thumbnail } = req.body;
-  
-    // Find the event by ID
-    const event = await Event.findById(eventId);
-  
-    // Check if event exists
-    if (!event) {
-      throw new ApiError(404, "Event not found.");
-    }
-  
-    // Update event details (if provided)
-    if (eventName) {
-      event.eventName = eventName.trim();
-    }
-    if (description) {
-      event.description = description.trim();
-    }
-  
-    // Handle thumbnail update (optional)
-    if (req.files && req.files.thumbnail) {
-      const avatarLocalPath = req.files.thumbnail[0].path;
-      const updatedAvatar = await uploadOnCloudinary(avatarLocalPath);
-      if (updatedAvatar) {
-        event.thumbnail = updatedAvatar.url;
-      } else {
-        throw new ApiError(400, "Failed to update event thumbnail.");
-      }
-    }
-  
-    // Save the updated event to the database
-    await event.save();
-  
-    // Return the updated event data
+    const event= await Event.find({owner:vendorId})
+    console.log("this is event",event);
     return res.status(200).json(
-      new ApiResponse(200, event, "Event updated successfully.")
-    );
-  });
-  
+      new ApiResponse(200,event,"event fetch successfully")
+    )
+
+
+
+  } catch (error) {
+    res.status(error?.statusCode || 500).json({
+      message: error?.message || "Internal Server Error",
+        });
+  }
+    
+
+})
+
+
  const deleteEvent= asyncHandler(async(req,res)=>{
     const eventId =req.params.eventId;
     if(!eventId){
@@ -151,7 +126,7 @@ const updateEvent = asyncHandler(async (req, res) => {
 
 export {
     addEvent,
-    updateEvent,
+    getEvent,
     deleteEvent,
 }
 
