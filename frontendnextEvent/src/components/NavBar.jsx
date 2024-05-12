@@ -6,66 +6,35 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useContext } from "react";
 import { AppContext } from "../context/UserContext";
+import axios from "axios";
+import axiosInstance from "../pages/axiosInstance";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const {
     userType,
     setUserType,
-    isLogin,
-    userdetails,
-    eventdetails,
-    packagesdetails,
-    vendordetails,
-    handleUserLogin,
+    isLogin, 
     handleUserLogout,
-    handleUserUpdate,
-    handleEventCreate,
-    handleEventUpdate,
-    handleEventDelete,
-    handlePackageCreate,
-    handlePackageUpdate,
-    handlePackageDelete,
-    handleVendorLogin,
     handleVendorLogout,
-    handleVendorUpdate,
-    handleVendorDelete,
-    admindetails,
+    isAuthenticated,
+    setIsAuthenticated,
   } = useContext(AppContext);
 
-  useEffect(() => {
+    
     const setLogout = async () => {
-      if (isLogin) {
-        if (userType === "user") {
-          try {
-            const response = await axios.post(
-              "http://localhost:8000/api/v1/users/userlogout",
-              null,
-              { withCredentials: true }
-            );
-            console.log("this is response data", response.data.data);
-            handleUserLogout();
-            window.location.href("/loginuser");
-          } catch (error) {
-            console.log("error while logout in frontend", error.message);
-          }
-        } else if (userType === "vendor") {
-          try {
-            const response = await axios.post(
-              "http://localhost:8000/api/v1/vendors/vendorlogout",
-              null,
-              { withCredentials: true }
-            );
-            console.log("this is response data", response.data.data);
+      if (isAuthenticated || isLogin) {
+        
             handleVendorLogout();
-            window.location.href("/loginuser");
-          } catch (error) {
-            console.log("error while logout in frontend", error.message);
+            handleUserLogout();
+            localStorage.clear();
+            !isLogin && window.location.href("/loginuser");
+            // window.location.href("/loginuser");
           }
-        }
-      }
+   
     };
-  }, [isLogin, userType, handleUserLogout, handleVendorLogout]);
+  
+  
   return (
     <>
       <nav>
@@ -93,7 +62,7 @@ const NavBar = () => {
             <NavLink to="/contact">Contact</NavLink>
           </li>
 
-          {!isLogin ? (
+          {!isAuthenticated ? (
             <>
               {" "}
               <li>
@@ -112,7 +81,9 @@ const NavBar = () => {
                 }}
                 onClick={() => {
                   console.log("clicked logout");
+                  
                   setLogout();
+                  setIsAuthenticated(false);
                 }}
               >
                 Logout

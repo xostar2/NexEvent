@@ -21,8 +21,9 @@ import SignUp from "./pages/SignUp"
 import UserLogOut from "./pages/UserLogOut"
 import axiosInstance from "./pages/axiosInstance"
 import ViewOrders from "./pages/ViewOrders"
-
+import UserDashboard from "./components/UserDashboard"
 import OrderDetails from "./pages/OrderDetails"
+
 
 const App = () => {
 
@@ -30,7 +31,7 @@ const App = () => {
   return (
     <>
 
-    <AppProvider>
+    <AppProvider >
       <BrowserRouter>
       <NavBar/>
     
@@ -54,6 +55,7 @@ const App = () => {
               <Route path="/logout" element={<UserLogOut/>}/>
               <Route path="/vieworders" element={<ViewOrders/>}/>
               <Route path="/addorder" element={<OrderDetails/>}/>
+              <Route path="/userdashboard" element={<UserDashboard/>}/>
           </Routes>
           
       </BrowserRouter>

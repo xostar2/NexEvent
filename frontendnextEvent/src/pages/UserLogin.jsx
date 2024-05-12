@@ -19,7 +19,7 @@ const URL2="http://localhost:8000/api/v1/admins/adminlogin";
 const UserLogin = () => {
   const navigate = useNavigate();
   
-  const {handleUserLogin,handleUserLogout,handleUserUpdated,userdetails,handleVendorLogin,handleVendorLogout,handleVendorUpdated,vendordetails}=useContext(AppContext);
+  const {handleUserLogin,setUserDetails,handleUserLogout,handleUserUpdated,userdetails,handleVendorLogin,handleVendorLogout,handleVendorUpdated,vendordetails,setVendorDetails}=useContext(AppContext);
   
   const [user, setUser] = useState({
     email: "",
@@ -40,9 +40,9 @@ const UserLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(email);
-    console.log(password);
-    console.log(userType);
+    console.log(user.email);
+    console.log(user.password);
+    console.log(user.userType);
 
     try {
       
@@ -55,18 +55,15 @@ const UserLogin = () => {
 
         
         if (response.status === 200) {
-          console.log("this is access token",response.data.data.accessToken);
+          console.log("this is access token",response.data.data);
+          setUserDetails(response.data.data);
           handleUserLogin(response.data.data.accessToken);
           console.log("user login successfully");
-         
-          
-          
-       
           navigate("/userhomepage");
           
         } else {
-         
-          console.error("Unexpected response status:", response.status);
+          alert("please login first",response.data.data.message);
+          console.error("Unexpected response status:", response);
         }
       
  
@@ -81,7 +78,8 @@ const UserLogin = () => {
           
           if (response.status === 200) {
               
-            console.log(response.data.data.vendor);
+            console.log(response.data.data);
+            setVendorDetails(response.data.data);
             handleVendorLogin(response.data.data.accessToken);
             
             console.log("vendor login successfully");
@@ -97,7 +95,7 @@ const UserLogin = () => {
             
           } else {
            
-            console.error("Unexpected response status:", response.status);
+            console.error("Unexpected response status:", response);
             navigate("/userlogin");
           }
         
@@ -134,10 +132,12 @@ const UserLogin = () => {
       
       
     } catch (error) {
+      //alert(error);
       console.log(error);
       if (error.response) {
         
-        console.error("Server Error:", error.response.data);
+        console.error("Server Error:", error.response.data.message);
+        alert(error.response.data.message);
      
       } else if (error.request) {
        

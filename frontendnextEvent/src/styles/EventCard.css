@@ -1,64 +1,76 @@
-/* Assuming your CSS file is named styles.css or similar */
+.project-info-event-card {
+  padding: 100px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  top: -50px;
+}
+
+.project-title-event-card {
+  font-weight: 500;
+  font-size: 1.5em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: black;
+}
+
+.lighter-event-card {
+  font-size: 0.9em;
+}
+
+.flex-event-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tag-event-card {
+  font-weight: lighter;
+  color: grey;
+}
+
+/*DELETE THIS TWO LINE*/
+.delete {
+  background-color: #b2b2fd;
+}
+
+.card-img-event-card div {
+  width: 90%;
+}
+/*IF USING IMAGES*/
 
 .card-event-card {
-  max-width: 300px;
-  border-radius: 0.5rem;
-  background-color: #fff;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  border: 1px solid transparent;
+  background-color: white;
+  color: black;
+  width: 300px;
+  max-height: 330px;
+  border-radius: 8px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
 }
 
-.card-event-card a {
-  text-decoration: none;
+.card-img-event-card {
+  position: relative;
+  top: 4px;
+  height: 8rem;
+  display: flex;
+  justify-content: center;
+  width: 18rem;
 }
 
-.content-event-card {
-  padding: 1.1rem;
-}
-
-.image-event-card {
+/* Change the .card-img div to .card-img img to use img*/
+.card-img-event-card a,
+.card-img-event-card div {
+  height: 150px;
+  width: 90%;
+  /* Change this width here to change the width of the color/image */
   object-fit: cover;
-  width: 100%;
-  height: 100px;
-  background-color: rgb(239, 205, 255);
-}
-image-event-card-img {
-  width: 20%;
-  height: 20%;
-  object-fit: contain;
-}
-.title-event-card {
-  color: #111827;
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-  font-weight: 600;
+  border-radius: 8px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
-.desc-event-card {
-  margin-top: 0.5rem;
-  color: #6B7280;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-}
-
-.action-event-card {
-  display: inline-flex;
-  margin-top: 1rem;
-  color: #ffffff;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  font-weight: 500;
-  align-items: center;
-  gap: 0.25rem;
-  background-color: #2563EB;
-  padding: 4px 8px;
-  border-radius: 4px;
-}
-
-.action-event-card span {
-  transition: .3s ease;
-}
-
-.action-event-card:hover span {
-  transform: translateX(4px);
+.card-imgs-event-card {
+  transition: all 0.5s;
 }

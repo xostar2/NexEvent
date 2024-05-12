@@ -85,8 +85,7 @@ const city= ["Hyderabad", "New Delhi", "Mumbai",
 const AddEvent = () => {
   
   const navigate = useNavigate();
-  const {handleEventCreate,handleEventUpdate,handleEventDelete,vendordetails}=useContext(AppContext);
-  
+    
   useEffect(() => {
     const ventoken = localStorage.getItem("ventoken");
     if (!ventoken) {
@@ -100,7 +99,7 @@ const AddEvent = () => {
     createDate: new Date(),
     thumbnail: null,
     description: "",
-    city:""
+    city: ""
   });
 
   const handleChange = (e) => {
@@ -117,14 +116,18 @@ const AddEvent = () => {
     e.preventDefault();
     try {
       const formData = new FormData();
-      formData.append("eventName", eventData.eventName);
-      formData.append("thumbnail", eventData.thumbnail);
-      formData.append("description", eventData.description); 
-      formData.append("city", eventData.city);
+      formData.append("eventName", eventData?.eventName);
+      formData.append("thumbnail", eventData?.thumbnail);
+      formData.append("description", eventData?.description); 
+      formData.append("city", eventData?.city);
       
-      console.log("this is vendordetails2:",vendordetails);
+      
       const response = await axiosInstance.post(URL, formData, {
+        ...axiosInstance.defaults,
         "Content-Type": "multipart/form-data",
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("ventoken")}`
+        }
       });
      console.log("yaha se ara hu bhaiya");
      console.log(response.data);
@@ -132,8 +135,6 @@ const AddEvent = () => {
         console.log(response.status);
         
         console.log("nhi yaha se ara hu bhaiya");
-      handleEventCreate(response.data.data._id);
-      console.log("this is response event:",response.data.data?._id);
       
       navigate("/vendorhomepage")
       
@@ -174,9 +175,9 @@ const AddEvent = () => {
         <div className="form-group-event-name">
           <label htmlFor="cityName">City Name:</label>
           <select
-            name="cityName"
-            id="cityName"
-            value={eventData.cityName}
+            name="city"
+            id="city"
+            value={eventData.city}
             onChange={handleChange}
             required
           >
@@ -209,16 +210,6 @@ const AddEvent = () => {
             required
           ></textarea>
         </div>
-        {/* <div className="form-group">
-          <label htmlFor="startTime">Start Time:</label>
-          <input
-            type="time"
-            name="startTime"
-            id="startTime"
-            value={eventData.startTime}
-            onChange={handleChange}
-          />
-        </div> */}
         <button className="button" type="submit">
                   <span className="button-content">Add Event </span>
         </button>

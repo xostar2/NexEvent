@@ -6,9 +6,13 @@ import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../context/UserContext';
 import axios from 'axios';
+import VendorDeshboard from '../components/VendorDeshboard';
+import axiosInstance from './axiosInstance';
+import EventCard from '../components/EventCard';
 //====================================================================================================================
 
 const URL = "http://localhost:8000/api/v1/vendors/getdetails";
+const URL2 = "http://localhost:8000/api/v1/events/getevent";
 //====================================================================================================================
 
 
@@ -16,15 +20,16 @@ const URL = "http://localhost:8000/api/v1/vendors/getdetails";
 const VendorHomePage = () => {
  
   const navigate = useNavigate();
-  const [vendorDetails,setVendorDetails] = useState(null);
+  const [vendors_d,setVendors_d] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  // let vendorDetails = {};
-  
+  const [eventList, setEventList] = useState([]);
 
+  //========================================================
+  
   const ventoken = localStorage.getItem('ventoken'); // Assuming you store the token in localStorage
   console.log("this is token in vendor home page:",ventoken);
-  
+  //========================================================
   const fetchVendorDetails = async () => {
     try {
       const response = await axios.get(URL, {
@@ -33,9 +38,9 @@ const VendorHomePage = () => {
         },
       });
       // console.log("this is response data",response.data.data);
-      setVendorDetails(response.data.data);
-      // vendorDetails = response.data.data;
-      console.log("this is vendor details",vendorDetails);
+      setVendors_d(response.data.data);
+      
+      console.log("this is vendor details",response.data.data);
       setIsLoading(false);
     } catch (error) {
       setError(error);
@@ -43,6 +48,39 @@ const VendorHomePage = () => {
       setIsLoading(false);
     }
   };
+//====================================================================================================================
+
+  useEffect(()=>{
+    
+    const fetchEventDetails = async () => {
+      try{
+        const response = await axiosInstance.get(URL2,{
+          headers: {
+            Authorization: `Bearer ${ventoken}`,
+          },
+        });
+        console.log("this is response data in vendor home page from getevent",response.data.data);
+        setEventList(response.data.data);
+
+      }
+      catch(error){
+        console.log("this is error in vendor home page while fetching data:",error.message);
+        alert("error in fetching event details",error.message);
+      }
+    }
+    fetchEventDetails();
+  },[])
+
+
+//========================================================================================================================
+
+
+
+
+
+
+
+//====================================================================================================================
   useEffect(()=>{
     if (!ventoken) {
       window.location.href = "/loginuser";
@@ -53,53 +91,13 @@ const VendorHomePage = () => {
 
   },[])
 
-  // if (isLoading) {
-  //   return <div>Loading...</div>;
-  // }
-
-  // if (error) {
-  //   return <div>Error: {error}</div>;
-  // }
-
-
-
-
-
-  
+//====================================================================================================================
   return (
     <>
     
     <BackgroundImage />
-    <div className="vendor-home-container">
-      <div className="vendor-info-box">
-        <div className="profile-image-container">
-          <img src="/images/about.png" alt="Vendor Profile" className="profile-image" />
-        </div>
-        <div className="vendor-details">
-          
-          <h1>VendorName:{vendorDetails?.vendorName}</h1>
-          <p>companyName:{vendorDetails?.companyName}</p>
-          <ul>
-            <li>Email:{vendorDetails?.email}</li>
-            <li>Phone:{vendorDetails?.phone}</li>
-            <li>Address:{vendorDetails?.address}</li>
-            <li>City:{vendorDetails?.city}</li>
-            <li>Registration Number:{vendorDetails?.registrationNo}</li>
-            <li>StartDate:{vendorDetails?.startDate}</li>
-            <li>vendorId:{vendorDetails?._id}</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div className="two-buttton-for-addevent-viewevents">
-      <button className="button-two-button-vendor" onClick={()=>{navigate("/viewevent")}}>
-          Viewevent
-      </button>
-      <button className="button-two-button-vendor" onClick={()=>{navigate("/addevent")}}>
-          Addevent
-      </button>
-    </div>
-    
+    <VendorDeshboard  props={vendors_d} />
+    <EventCard  props={eventList[0]} />
     </>
   );
 };

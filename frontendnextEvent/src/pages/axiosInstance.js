@@ -1,7 +1,7 @@
-// api.js or axiosInstance.js
+import React from "react";
 import axios from "axios";
 
-const token = JSON.parse(localStorage.getItem("token"));
+const token = localStorage.getItem("token");
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:8000/api/v1",
