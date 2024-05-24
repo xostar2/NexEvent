@@ -25,6 +25,8 @@
     border-radius: 28px;
     margin: 2rem auto;
     max-width: 880px; /* Adjust for larger screens */
+    background-color: #fff; /* Example white background */
+    opacity: 1
   }
   
   .package-thumbnail-viewpackage {
@@ -32,7 +34,7 @@
     height: 250px;
     object-fit: cover;
     margin-bottom: 1rem;
-    box-shadow: 0px 5px 14px rgba(0, 11, 18, 1.1);
+    box-shadow: 0px 5px 14px rgba(0, 11, 18, 0);
   }
   
   .package-details-viewpackage {
@@ -84,6 +86,12 @@
     }
   }
   
+  .package-button-add-package{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 1rem;
+  }
   /* Media Queries for smaller screens */
   
   @media (max-width: 768px) {

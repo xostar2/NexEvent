@@ -93,6 +93,8 @@ const SearchBar = () => {
     console.log("Searching for:", eventName, cityName); // Replace with your search logic
     setEventName(""); // Clear input fields after search
     setCityName(""); // Replace "otherField" with the actual field name to clear
+    
+
   };
 
   return (

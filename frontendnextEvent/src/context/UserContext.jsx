@@ -1,12 +1,16 @@
 import React, { createContext, useState,useEffect,useContext } from "react";
 
-export const AppContext = createContext(null); 
+export const AppContext = createContext(); 
 
 export const AppProvider=({children})=>{
 
+
+
+//====================================================================================== 
     const venToken = localStorage.getItem('ventoken');
     const userToken = localStorage.getItem('token');
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+
     React.useEffect(()=>{
         if(userToken || venToken){
           setIsAuthenticated(true);
@@ -15,18 +19,46 @@ export const AppProvider=({children})=>{
         }
     },[venToken, userToken, isAuthenticated])
   
+//=================================================================0=====================
     const [userdetails,setUserDetails]=useState();
+    const [vendordetails,setVendorDetails]=useState(null);
     const [eventdetails,setEventDetails]=useState();
     const [packagesdetails,setPackagesDetails]=useState();
-    const [vendordetails,setVendorDetails]=useState();
     const [admindetails,setAdminDetails]=useState();
     const [userType,setUserType]=useState("");
 //======================================================================================
     
     
-    let isLogin= !!userdetails || !!vendordetails || !!admindetails;
+    // let isLogin= !!userdetails || !!vendordetails || !!admindetails;
 //======================================================================================
+ 
+   useEffect((data)=>{
+        if(userdetails){
+            setUserDetails(userdetails);
+        }
+    },[userdetails])
 
+
+
+    useEffect((data)=>{
+        if(vendordetails){
+            console.log("this is vendordetails in user context",vendordetails);
+            setVendorDetails(vendordetails);
+        }
+    },[vendordetails])
+
+    useEffect((data)=>{
+        if(admindetails){
+            setAdminDetails(admindetails);
+        }
+    },[admindetails])
+    useEffect((data)=>{
+        if(eventdetails){
+            setEventDetails(eventdetails);
+        }
+    },[eventdetails])
+    
+//======================================================================================
     const handleUserLogin=(user)=>{
         if(user){
             localStorage.setItem("token",user);
@@ -102,7 +134,7 @@ export const AppProvider=({children})=>{
             handlePackageCreate,
             handleVendorLogin,
             handleVendorLogout,
-            isLogin,
+            
             admindetails,
             isAuthenticated,
             setIsAuthenticated,

@@ -3,8 +3,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../styles/UserSignUp.css";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import BackgroundImage from '../components/BackgroundImage';
+import { FaCalendarAlt } from 'react-icons/fa';
 const genderselect = ["Male", "Female", "Divided"]
 
 
@@ -16,10 +17,9 @@ function RegistrationForm() {
     gender: "",
     phone: "",
     DOB: new Date(),
-    aadhar: "",
+    aadhaar: "",
     address: "",
     password: "",
-    avatar: null,
   });
 
   const handleNameChange = (e) => {
@@ -31,9 +31,7 @@ function RegistrationForm() {
     setUser({ ...user, gender: e.target.value });
   };
 
-  const handleImageChange = (e) => {
-    setUser({ ...user, avatar: e.target.files[0] });
-  };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,10 +42,10 @@ function RegistrationForm() {
       formData.append("gender", user.gender);
       formData.append("phone", user.phone);
       formData.append("DOB", user.DOB.toISOString());
-      formData.append("aadhar", user.aadhar);
+      formData.append("aadhaar", user.aadhar);
       formData.append("address", user.address);
       formData.append("password", user.password);
-      formData.append("avatar", user.avatar);
+      
 
       // Make POST request using Axios
       const response = await axios.post(
@@ -55,7 +53,7 @@ function RegistrationForm() {
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
           },
         }
       );
@@ -85,15 +83,19 @@ function RegistrationForm() {
     }
   };
 
+
+  function DateIcon() {
+    return <FaCalendarAlt className="date-icon" />; // Adjust class name as needed
+  }
   return (
     <section>
       <main>
         <BackgroundImage />
         <div className="user-registration-form-signup">
-          <h1 className="main-heading">Sign In to </h1>
+          <h1 className="main-heading">User Signup </h1>
           <form onSubmit={handleSubmit} className="form-signup">
             <div className="form-group-username">
-              <label htmlFor="username">Username</label>
+              {/* <label htmlFor="username">Username</label> */}
               <input
                 type="text"
                 name="username"
@@ -107,7 +109,7 @@ function RegistrationForm() {
             </div>
 
             <div className="form-group-email">
-              <label htmlFor="email">Email</label>
+              {/* <label htmlFor="email">Email</label> */}
               <input
                 type="email"
                 name="email"
@@ -121,11 +123,11 @@ function RegistrationForm() {
             </div>
 
             <div className="mydict-usersignup">
-              <label htmlFor="gender">Gender</label>
+              {/* <label htmlFor="gender" >Gender</label> */}
               <div className="input-container-vendr">
                 <select
                   name="gender"
-                  id="gendertype"
+                  id="gender"
                   placeholder="Select Gender"
                   value={user.gender}
                   onChange={handleGenderChange}
@@ -178,30 +180,32 @@ function RegistrationForm() {
             <div className="birthdate">
               <label htmlFor="birthdate">Date of Birth</label>
               <DatePicker
+                placeholderText="Select Date"
                 selected={user.DOB}
                 onChange={(DOB) => setUser({ ...user, DOB })}
                 dateFormat="yyyy/MM/dd"
                 showYearDropdown
                 scrollableMonthYearDropdown
+                // customInput={<DateIcon />}
               />
             </div>
 
             <div className="form-group-aadhar">
-              <label htmlFor="aadhar">Aadhar No.</label>
+              {/* <label htmlFor="aadhar">Aadhar No.</label> */}
               <input
                 type="text"
-                name="aadhar"
-                placeholder="Enter your Aadhar number"
-                id="aadhar"
+                name="aadhaar"
+                placeholder="Enter your Aadhaar number"
+                id="aadhaar"
                 required
                 autoComplete="off"
-                value={user.aadhar}
+                value={user.aadhaar}
                 onChange={handleNameChange}
               />
             </div>
 
             <div className="form-group-address">
-              <label htmlFor="address">Address</label>
+              {/* <label htmlFor="address">Address</label> */}
               <input
                 type="text"
                 name="address"
@@ -215,7 +219,7 @@ function RegistrationForm() {
             </div>
 
             <div className="form-group-password">
-              <label htmlFor="password">Password</label>
+              {/* <label htmlFor="password">Password</label> */}
               <input
                 type="password"
                 name="password"
@@ -228,7 +232,7 @@ function RegistrationForm() {
               />
             </div>
             <div className="form-group-phone">
-              <label htmlFor="phone">Phone</label>
+              {/* <label htmlFor="phone">Phone</label> */}
               <input
                 type="text"
                 name="phone"
@@ -241,7 +245,7 @@ function RegistrationForm() {
               />
             </div>
 
-            <div className="form-group-image">
+            {/* <div className="form-group-image">
               <label htmlFor="image">Profile Image:</label>
               <input
                 name="image"
@@ -250,11 +254,12 @@ function RegistrationForm() {
 
                 onChange={handleImageChange}
               />
-            </div>
+            </div> */}
 
-            <button className="button" type="submit">
+            <button className="button-submit" id ="submit-button" type="submit">
               <span className="button-content">Sign Up </span>
             </button>
+            <p>If already signup then<Link className="link-login" to="/loginuser">Login</Link> </p>
           </form>
         </div>
 

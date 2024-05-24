@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import logonexevent from "../assets/logonexevent.png";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "../styles/NavBar.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -11,6 +11,7 @@ import axiosInstance from "../pages/axiosInstance";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const nevigate=useNavigate();
   const {
     userType,
     setUserType,
@@ -28,7 +29,7 @@ const NavBar = () => {
             handleVendorLogout();
             handleUserLogout();
             localStorage.clear();
-            !isLogin && window.location.href("/loginuser");
+            !isLogin && nevigate("/loginuser");
             // window.location.href("/loginuser");
           }
    

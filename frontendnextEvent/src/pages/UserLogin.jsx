@@ -204,15 +204,15 @@ const UserLogin = () => {
               </div>
 
               <div className="form-group">
-                <button className="button" type="submit">
+                <button className="button1" type="submit">
                   <span className="button-content">Login </span>
                 </button>
-                
+                </div>
                 <span className="signup-link">Register before login </span>
-                <Link to="/signupuser" className="signup-link">
+                <Link to="/signup" className="signup-link1">
                   SignUp
                 </Link>
-              </div>
+              
             </form>
           </div>
         

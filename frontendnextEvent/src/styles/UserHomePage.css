@@ -1,0 +1,26 @@
+.event-card-container {
+    margin: 2rem;
+    padding: 1rem;
+    display: flex;
+    flex-wrap: wrap; /* Enable row wrapping */
+    justify-content: space-between; /* Distribute cards evenly across the container */
+    margin: 0 auto; /* Center the container horizontally */
+    width: 80%; /* Adjust width as needed for your layout */
+  }
+  
+  .event-card-container .event-card {
+    width: calc(33% - 10px); /* Set card width based on desired number of cards per row (adjust spacing as needed) */
+    margin: 5px; /* Add spacing between cards */
+    box-sizing: border-box; /* Ensure margins are included in card width calculations */
+    background-color: #fff; /* Set background color (optional) */
+    border: 1px solid #ddd; /* Add border (optional) */
+    /* Add other styling for the event cards as needed */
+  }
+  
+  /* Added property for spacing between rows */
+  .event-card-container:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  

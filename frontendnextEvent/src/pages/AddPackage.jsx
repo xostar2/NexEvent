@@ -5,29 +5,20 @@ import BackgroundImage from "../components/BackgroundImage";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { AppContext } from "../context/UserContext";
-import { asyncHandler } from "../../../Nexeventbackend/src/utils/asyncHandler";
-import axios from "axios";
+import axiosInstance from "./axiosInstance.js";
+import { useLocation } from "react-router-dom";
 
-
-const AddPackage = (eventId, vendorId) => {
+const AddPackage = () => {
+   const location=useLocation();
   const navigate = useNavigate();
   const [packageData, setPackageData] = useState({
     title: "",
-    password: "",
     amount: "",
     description: "",
-    checkbox: false,
+    avatar: null,
   });
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleCheckboxChange = (e) => {
-    setPackageData({
-      ...packageData,
-      checkbox: e.target.checked,
-    });
-    setError(""); // Clear error message when checkbox state changes
-  };
 
   const handleDataChange = (e) => {
     setPackageData({
@@ -35,48 +26,77 @@ const AddPackage = (eventId, vendorId) => {
       [e.target.name]: e.target.value,
     });
   };
+  const handleImageChange = (e) => {
+   setPackageData({
+    ...packageData,
+    avatar: e.target.files[0]
+
+   })
+  };
+
+  useEffect(() => {
+    
+
+  },
+[]);
 
 
+//==============================================================================================
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!packageData.checkbox) {
-      alert("Please check the checkbox to add a package");
+    const event=location.state.event?._id;
+    const vn=location.state.vendor?._id;
+    if (!packageData.title) {
+      alert("Please check the title to add a package");
       setError("Please check the checkbox");
-      return;
+    }
+    if (!packageData.description) {
+      alert("Please check the title to add a package");
+      setError("Please check the checkbox");
+    }
+    if (!packageData.amount) {
+      alert("Please check the title to add a package");
+      setError("Please check the checkbox");
     }
     setIsSubmitting(true);
-    const packageDatas={...packageData,eventId:eventId!=null?eventId:null,vendorId:vendorId!=null?vendorId:null}
     try {
-      const response = await axios.post(
+      const formData = new FormData();
+      formData.append("title", packageData.title);
+      formData.append("description", packageData.description);
+      formData.append("amount", packageData.amount);
+      formData.append("avatar", packageData.avatar);
+      formData.append("eventOwnerId",event);
+      formData.append("vendorOwnerId",vn);
+      
+      const response = await axiosInstance.post(
         "http://localhost:8000/api/v1/packages/addpackage",
-        packageDatas,
+        formData,
         {
           header: {
-            "content-type": "application/json",
+            "content-type": "multipart/form-data",
           },
         }
       );
-      console.log(response.data);
+      console.log("this is the response of create package",response.data);
       if (response.status != 200) {
         setError("failed to add package");
         setIsSubmitting(false);
+        alert("failed to add package try again");
         return;
       }
       if (response.status === 200) {
         setError("");
         setIsSubmitting(false);
-        setPackageData({
-          title: "",
-          password: "",
-          amount: "",
-          description: "",
-          checkbox: false,
+        console.log("add package successfully",response.data);
+        navigate("/eventhomepage",{
+          state:{
+            event:location.state.event
+          }
         });
-        navigate("/eventhomepage");
       }
     } catch (error) {
       console.log(error);
-      setError("failed to add package");
+      setError("failed to add package",error.messsage);
       setIsSubmitting(false);
     }
   };
@@ -110,7 +130,19 @@ const AddPackage = (eventId, vendorId) => {
           />
         </div>
         <div className="input-field-add-package">
-          <input
+          <input required="" className="input-add-package" 
+              name="avatar" 
+              type="file"
+              id="avatar"
+              placeholder="Upload Thumbnail"
+              accept="image/*"
+              onChange={handleImageChange}
+            
+          />
+          
+        </div> 
+        <div className="input-field-add-package">
+          <textarea
             required=""
             className="input-add-package"
             type="text"
@@ -121,26 +153,12 @@ const AddPackage = (eventId, vendorId) => {
           />
         </div>
 
-        <div className="input-field-add-package">
-          <label className="label-add-package" htmlFor="checkbox">
-            <input
-              required=""
-              className="input-add-package-checkbox"
-              type="checkbox"
-              name="checkbox"
-              value={packageData.checkbox}
-              onChange={handleCheckboxChange}
-            />
-            I agree to the terms and conditions
-          </label>
-        </div>
+        
 
         <div className="input-field-add-package">
           <button className="submit-btn-add-package"
           disabled={isSubmitting}
-          type="submit"
-          
-          
+          type="submit"          
           >{isSubmitting ? "Adding..." : "Add Package"}
           </button>
         </div>

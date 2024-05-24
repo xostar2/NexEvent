@@ -13,9 +13,10 @@ const SignUp = () => {
   return (
     <div className='signup-container-main'>
       <h1 className='main-heading-sign-up-page'>Sign Up</h1>
-      <div className='radio-group-signup'>
+      <div className='radio-inputs'>
+      <label htmlFor="user" className='radio'>
         <input 
-        className='radio-signup'
+        className='radio'
         type="radio"
         id="user"
         name="usertype"
@@ -23,7 +24,9 @@ const SignUp = () => {
         checked={usertype==="user"}
         onChange={handleUserTypeChange}    
         />
-        <lable htmlFor="user" className='radio-signup-label'>User</lable>
+        <span className='name'>User</span>
+        </label>
+        <label htmlFor="vendor" className='radio'>
         <input 
         className='radio-signup'
         type="radio"
@@ -33,7 +36,7 @@ const SignUp = () => {
         checked={usertype==="vendor"}
         onChange={handleUserTypeChange}
         />
-       <label htmlFor="vendor" className='radio-signup-label'>Vendor</label>
+       <span className='name'>Vendor</span></label>
       </div>
       {usertype==="user"?<UserSignup/>:<VendorSignup/>}
       

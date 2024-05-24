@@ -3,20 +3,26 @@ import { useState } from "react";
 import "../styles/EventCard.css"; // Assuming your CSS file is named EventCard.css
 import { useContext } from "react";
 import { AppContext } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 const userImage = 'https://source.unsplash.com/random/300x300'
+const URL = "http://localhost:8000/api/v1/vendors/getdetails";
 const EventCard = ({ props }) => {
-
+  const nevigate= useNavigate();
   const [EventData, setEventData] = useState();
-  const {venderdetails} = useContext(AppContext);
+  const [vendors_d, setVendors_d] = useState(null);
+  const {venderdetails,setVendorDetails} = useContext(AppContext);
 
-
+//==========================================================================================================================================
   useEffect(() => {
     console.log("this is props in EventCard", props);
       setEventData(props);
-      console.log("this is vendordata data in EventCard", venderdetails);
+      console.log("this is EventData in EventCard", props);
   }, [props]);
+//==========================================================================================================================================
 
- 
+ //==========================================================================================================================================
   return (
     <>
       <article className="card-event-card">
@@ -32,8 +38,8 @@ const EventCard = ({ props }) => {
     <span className="lighter-event-card"
       >{EventData?.description}</span>
       <button className="btn-event-card" onClick={()=>{
-        window.location.href="/viewpackage"
-      }}>View Packages</button>
+        nevigate("/eventhomepage", { state: { event: EventData } })
+      }}>Event Homepage</button>
   </div>
   
 </article>

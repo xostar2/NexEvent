@@ -56,12 +56,11 @@ const VendorSignUp = () => {
     companyName: "",
     phone: "",
     aadhaar: "",
-    registrationNo: "",
+    // registrationNo: "",
     password: "",
-    address:"",
-    city:"",
-    gender:"",  
-    avatar: null,
+    // address:"",
+    city:null,
+    // gender:"",  
 
   });
 
@@ -75,10 +74,7 @@ const VendorSignUp = () => {
 
 
   const navigate = useNavigate();
-  const handleImageChange = (e) => {
-    setvendors({ ...vendors, avatar: e.target.files[0] });
-    console.log(e.target.files[0]);
-  };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -87,16 +83,16 @@ const VendorSignUp = () => {
       formData.append("vendorName", vendors.vendorName);
       formData.append("companyName", vendors.companyName);
       formData.append("email", vendors.email);
-      formData.append("gender", vendors.gender);
+      // formData.append("gender", vendors.gender);
       formData.append("phone", vendors.phone);
       formData.append("aadhaar", vendors.aadhaar);
-      formData.append("address", vendors.address);
+      // formData.append("address", vendors.address);
       formData.append("password", vendors.password);
-      formData.append("registrationNo", vendors.registrationNo);
+      // formData.append("registrationNo", vendors.registrationNo);
       formData.append("city", vendors.city);
-      formData.append("avatar", vendors.avatar);
       
-      console.log(vendors.avatar);
+      
+     
       // if(formData.has("vendorName")){
       //   console.log());
         
@@ -107,7 +103,7 @@ const VendorSignUp = () => {
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
           },
         }
       );
@@ -140,9 +136,95 @@ const VendorSignUp = () => {
   return (
 
     <>
-    {/* <BackgroundImage /> */}
+    <BackgroundImage />
+
+    <form className="form" onSubmit={handleSubmit}>
+    <p className="title">Vendor Signup </p>
+    <p className="message">Signup now and get full access to our app. </p>
+        
+        <label>
+        <input type="email" placeholder="Enter email" 
+          name="email"
+          
+          value={vendors.email}
+          onChange={handlevalueChange}
+          required
+          />
+        </label>
+
+        <label>
+        <input 
+          type="text" 
+          placeholder="Enter Vendor Name" 
+          name="vendorName"
+          
+          value={vendors.vendorName}
+          onChange={handlevalueChange}
+          required
+          />
+            
+        </label>
     
-      <div className="signup-form-vendor-container">
+            
+    <label>
+    <input type="text" 
+          name="companyName"
+          placeholder="Enter Company Name" 
+          autoComplete="off"
+          value={vendors.companyName}
+          onChange={handlevalueChange}
+
+          />
+    </label> 
+        
+    <label>
+    <input 
+          type="text" 
+          name="phone"
+          placeholder="Enter Phone Number" 
+          
+          value={vendors.phone}
+          onChange={handlevalueChange}
+          />
+    </label>
+    <label>
+    <input type="text" placeholder="Enter Aaddhar" 
+          name="aadhaar"
+          value={vendors.aadhaar}
+          onChange={handlevalueChange}
+          />
+
+    </label>
+    <label>
+    <input type="password" placeholder="Enter password" 
+          name="password"
+          value={vendors.password}
+          onChange={handlevalueChange}
+          />
+        
+      </label>
+      <lable>
+      <select
+          name="city"
+          placeholder="Others"
+          value={vendors.city} 
+          onChange={handlevalueChange}
+          required
+        >
+       
+        <option value="">-- Select--City--Name --</option>
+        
+        {cityTypes.map((cityTypes)=>
+          <option key={cityTypes} value={cityTypes}>
+            {cityTypes}
+          </option>
+        )}
+        </select>
+      </lable>
+    <button className="submit">Submit</button>
+    <p className="signin">Already have an acount ? <Link to="/loginuser">Login</Link> </p>
+</form>
+      {/* <div className="signup-form-vendor-container">
       <form className="signup-form-vendor" onSubmit={handleSubmit}>
         <p className="form-title-sign-up-vendor">Sign in to your account</p>
         <div className="input-container-vendr">
@@ -176,26 +258,7 @@ const VendorSignUp = () => {
 
           />
         </div>
-        <div className="input-container-vendr">
-            
-            <select 
-            name="gender" 
-            id="gendertype"
-            placeholder="Select Gender"
-            value={vendors.gender}
-            onChange={handlevalueChange}
-            required
-            >
-              <option value="">--select--gender--</option>{
-                
-                genderselect.map((genderselect)=>
-                  <option key={genderselect} value={genderselect}>
-                    {genderselect}
-                  </option>
-                )
-              }
-            </select>
-        </div>
+      
         <div className="input-container-vendr">
           <input 
           type="text" 
@@ -220,20 +283,7 @@ const VendorSignUp = () => {
           onChange={handlevalueChange}
           />
         </div>
-        <div className="input-container-vendr">
-          <input type="text" placeholder="Enter Registration No" 
-          name="registrationNo"
-          value={vendors.registrationNo}
-          onChange={ handlevalueChange}
-          />
-        </div>
-        <div className="input-container-vendr">
-          <input type="text" placeholder="Enter address"
-          name="address"
-          value={vendors.address}
-          onChange={ handlevalueChange}
-          />
-        </div>
+        
         <div className="input-container-vendr">
         <select
           name="city"
@@ -254,7 +304,25 @@ const VendorSignUp = () => {
        
         </div>
 
-        <div className="input-container-vendr">
+       
+        
+        <button type="submit" className="submit-button-sign-up-vendor">
+          Sign in
+        </button>
+
+        <p >
+           already have an account?
+          <Link to="/loginuser"><span className="signup-link-span">Login</span></Link>
+        </p>
+      </form>
+      </div> */}
+    </>
+  );
+};
+
+export default VendorSignUp;
+
+ {/* <div className="input-container-vendr">
           <input type="file" 
           name="avatar" 
           accept="image/*"
@@ -262,20 +330,19 @@ const VendorSignUp = () => {
           onChange={handleImageChange} 
          
           />
-        </div>
-        
-        <button type="submit" className="submit-button-sign-up-vendor">
-          Sign in
-        </button>
+        </div> */}
 
-        <p className="signup-link">
-           already have an account?
-          <Link to="/loginuser"><span className="signup-link-span">Login</span></Link>
-        </p>
-      </form>
-      </div>
-    </>
-  );
-};
-
-export default VendorSignUp;
+      {/* <div className="input-container-vendr">
+          <input type="text" placeholder="Enter Registration No" 
+          name="registrationNo"
+          value={vendors.registrationNo}
+          onChange={ handlevalueChange}
+          />
+        </div> */}
+        {/* <div className="input-container-vendr">
+          <input type="text" placeholder="Enter address"
+          name="address"
+          value={vendors.address}
+          onChange={ handlevalueChange}
+          />
+        </div> */}

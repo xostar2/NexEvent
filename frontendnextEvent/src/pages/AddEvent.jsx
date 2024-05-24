@@ -181,7 +181,7 @@ const AddEvent = () => {
             onChange={handleChange}
             required
           >
-            <option value="">-- Select Event Type --</option>
+            <option value="">-- Select City Name --</option>
             {city.map((city) => (
               <option key={city} value={city}>
                 {city}

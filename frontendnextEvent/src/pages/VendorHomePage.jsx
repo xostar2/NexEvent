@@ -9,6 +9,7 @@ import axios from 'axios';
 import VendorDeshboard from '../components/VendorDeshboard';
 import axiosInstance from './axiosInstance';
 import EventCard from '../components/EventCard';
+
 //====================================================================================================================
 
 const URL = "http://localhost:8000/api/v1/vendors/getdetails";
@@ -25,11 +26,18 @@ const VendorHomePage = () => {
   const [error, setError] = useState(null);
   const [eventList, setEventList] = useState([]);
 
-  //========================================================
+
+
+//==========================================================================================================================================
+  const{vendordetails,setVendorDetails}=useContext(AppContext);
+  //==========================================================================================================================================
   
   const ventoken = localStorage.getItem('ventoken'); // Assuming you store the token in localStorage
   console.log("this is token in vendor home page:",ventoken);
-  //========================================================
+  console.log("this is vendordetails in vendor home page:",vendordetails);
+  
+//==========================================================================================================================================
+  
   const fetchVendorDetails = async () => {
     try {
       const response = await axios.get(URL, {
@@ -39,6 +47,7 @@ const VendorHomePage = () => {
       });
       // console.log("this is response data",response.data.data);
       setVendors_d(response.data.data);
+      setVendorDetails(response.data.data);
       
       console.log("this is vendor details",response.data.data);
       setIsLoading(false);
@@ -48,7 +57,7 @@ const VendorHomePage = () => {
       setIsLoading(false);
     }
   };
-//====================================================================================================================
+//==================================================================================================================== ===================
 
   useEffect(()=>{
     
@@ -61,6 +70,7 @@ const VendorHomePage = () => {
         });
         console.log("this is response data in vendor home page from getevent",response.data.data);
         setEventList(response.data.data);
+        
 
       }
       catch(error){
@@ -74,13 +84,6 @@ const VendorHomePage = () => {
 
 //========================================================================================================================
 
-
-
-
-
-
-
-//====================================================================================================================
   useEffect(()=>{
     if (!ventoken) {
       window.location.href = "/loginuser";
@@ -91,14 +94,29 @@ const VendorHomePage = () => {
 
   },[])
 
+
+
+
+
+//====================================================================================================================
+
+    
+
+  
+
 //====================================================================================================================
   return (
     <>
     
     <BackgroundImage />
-    <VendorDeshboard  props={vendors_d} />
-    <EventCard  props={eventList[0]} />
+    <VendorDeshboard  props={vendordetails} />
+    <div className="event-card-container">
+      {eventList.map((eventObject) => (
+        <EventCard key={eventObject._id} props={eventObject} />
+      ))}
+    </div>
     </>
   );
 };
  export default VendorHomePage;
+//==========================================================================================================================================

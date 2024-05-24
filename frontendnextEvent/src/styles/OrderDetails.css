@@ -1,19 +1,25 @@
 .form-container {
-    width: 400px;
-    background: linear-gradient(#212121, #212121) padding-box,
-                linear-gradient(145deg, transparent 35%,#e81cff, #40c9ff) border-box;
-    border: 2px solid transparent;
-    padding: 32px 24px;
-    font-size: 14px;
-    font-family: inherit;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    box-sizing: border-box;
-    border-radius: 16px;
+  width: 35rem;
+  background: linear-gradient(#333, #f7f6f6) padding-box, linear-gradient(308deg, transparent 35%, #e81cff, #40c9ff) border-box;
+  border: 2px solid #ffffff;
+  padding: 13px 21px;
+  font-size: 20px;
+  font-family: sans-serif;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-sizing: border-box;
+  border-radius: 16px;
+  max-width: 100rem;
+  margin: 4rem 30rem;
   }
-  
+  .form-group-order-details-button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
   .form-container button:active {
     scale: 0.95;
   }
@@ -97,6 +103,13 @@
     background-color: #1b76c7;
     border-color: #fff;
   }
+  .form-container h1 {
+    
+    border-color: #fff;
+  }
+
+  
+  
   
   
   

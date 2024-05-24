@@ -5,6 +5,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useContext } from 'react'
 import { AppContext } from '../context/UserContext'
+import moment from 'moment'
 
 const userData = {
   name: 'John Doe',
@@ -63,7 +64,7 @@ const UserDashboard = () => {
           
           <div id="p-tag-for-userdashboard">Aadhar:{user?._id}</div>
           
-          <div id="p-tag-for-userdashboard">DoB:{user?.DOB}</div>
+          <div id="p-tag-for-userdashboard">DoB:{moment(user?.DOB).format('DD/MM/YY')}</div>
           {/* Add more user data fields as needed */}
         </div>
         <div id="user-image">

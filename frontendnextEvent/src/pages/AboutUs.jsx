@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import '../styles/AboutUs.css'
 import BackgroundImage from '../components/BackgroundImage'
+import { AppContext } from '../context/UserContext';
 const AboutUs = () => {
+    const {vendordetails} = useContext(AppContext);
+    console.log("this is vendordetails in about us",vendordetails);
   return (
     <>
         <BackgroundImage/>
