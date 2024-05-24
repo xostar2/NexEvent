@@ -37,7 +37,7 @@ const registerUser = asyncHandler(async (req,res)=>{
     //check response and user creation 
     //return response 
    try {
-       const {username,email,phone,gender,password} = req.body
+       const {username,email,phone,gender,password,DOB,address,aadhaar} = req.body
       
         console.log(req.body);
        if(
@@ -64,25 +64,27 @@ const registerUser = asyncHandler(async (req,res)=>{
         if(existingUser){
            throw new ApiError(409,"user already exist with Email and username");
         }
-        if(!req.files){
-            throw new ApiError(400,"req.file is not define or missing")
-        }
-        const avatarLocalPath= req.files?.avatar[0]?.path
+      //   if(!req.files){
+      //       throw new ApiError(400,"req.file is not define or missing")
+      //   }
+      //   const avatarLocalPath= req.files?.avatar[0]?.path
    
-        if(!avatarLocalPath){
-           throw new ApiError(400,"Avatar is compulsory");
-        }
+      //   if(!avatarLocalPath){
+      //      throw new ApiError(400,"Avatar is compulsory");
+      //   }
    
-        const avatar =await uploadOnCloudinary(avatarLocalPath)
+      //   const avatar =await uploadOnCloudinary(avatarLocalPath)
    
-        if(!avatar){
-           throw new ApiError(400,"Avatar link is not working")
-        }
+      //   if(!avatar){
+      //      throw new ApiError(400,"Avatar link is not working")
+      //   }
    
         const user = await User.create({
            username:username.toLowerCase(),
-           avatar:avatar.url,  
+           address,
+           aadhaar,
            email,
+           DOB,
            password,
            gender,
            phone

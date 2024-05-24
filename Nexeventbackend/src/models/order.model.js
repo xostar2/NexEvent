@@ -31,7 +31,7 @@ const orderSchema= new Schema(
             type:Number,
             required:true
         },
-        comment:{
+        description:{
             type:String,
             default:""
         },

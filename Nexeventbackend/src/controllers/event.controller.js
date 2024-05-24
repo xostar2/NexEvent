@@ -30,7 +30,7 @@ const addEvent= asyncHandler(async (req,res)=>{
     }
     
     console.log(req.body);
-    const {eventName,thumbnail,description } = req.body
+    const {eventName,thumbnail,description ,city} = req.body
     
 
 
@@ -41,15 +41,19 @@ const addEvent= asyncHandler(async (req,res)=>{
     if(description===""){
         ApiError(400,"description is important to add"); 
     }
+
+    if(!city){
+        ApiError(400,"city is important to add"); 
+    }
     
 
-    if(!req.files){
-        throw new ApiError(501,"req file is not present !");
-    }
+    // if(!req.files){
+    //     throw new ApiError(501,"req file is not present !");
+    // }
     const avatarLocalPath= req.files?.thumbnail[0]?.path
-    if(!avatarLocalPath){
-        throw new ApiError(400,"Avatar is compulsory");
-     }
+    // if(!avatarLocalPath){
+    //     throw new ApiError(400,"Avatar local file path is compulsory is compulsory");
+    //  }
 
      const avatar = await uploadOnCloudinary(avatarLocalPath)
     //  console.log(avatar);
@@ -62,6 +66,7 @@ const addEvent= asyncHandler(async (req,res)=>{
         thumbnail:avatar?.url || "",
         description,
         owner:req.vendor?._id,
+        city
         
      })
 
@@ -99,12 +104,13 @@ const getEvent= asyncHandler(async (req,res)=>{
 })
 
 
+
  const deleteEvent= asyncHandler(async(req,res)=>{
     const eventId =req.params.eventId;
     if(!eventId){
       throw new ApiError(400,"Please provide event ID to delete.");
     }
-
+    console.log("this is eventId",eventId);
     const event= await Event.findById(eventId);
     if(!event){
       throw new ApiError(404,"Event not found");
@@ -128,6 +134,7 @@ export {
     addEvent,
     getEvent,
     deleteEvent,
+    
 }
 
 

@@ -28,7 +28,7 @@ const addPackage= asyncHandler(async (req,res)=>{
     // }
     console.log(req.body);
 
-    const {title,description,amount ,avatar} = req.body
+    const {title,description,amount ,avatar,eventOwnerId,vendorOwnerId} = req.body
     console.log(title,description,amount)
 
 
@@ -42,24 +42,24 @@ const addPackage= asyncHandler(async (req,res)=>{
     if(amount==""){
         ApiError(400,"amount is important to add");    
     }
-    const avatarLocalPath= req.files?.avatar[0]?.path
-
+    const avatarLocalPath= req.files?.avatar[0]?.path 
+    console.log(avatarLocalPath)
     if(!avatarLocalPath){
-       throw new ApiError(400,"Avatar is compulsory");
+       throw new ApiError(400,"Avatar file path  is compulsory");
     }
 
-    const avatarcopy =await uploadOnCloudinary(avatarLocalPath)
-
-    if(!avatarcopy){
-       throw new ApiError(400,"Avatar link is not working")
-    }
+    const avatarcopy =await uploadOnCloudinary(avatarLocalPath) 
+    // if(!avatarcopy){
+    //     throw new ApiError(400,"Avatar link is not working")
+    // }
+    
      const packageS= await Package.create({
         title,
         description,
-        avatar:avatarcopy.url,
+        avatar:avatarcopy?.url || "",
         amount,
-        eventOwnerId:eventId,
-        vendorOwnerId:vendorId
+        eventOwnerId,
+        vendorOwnerId
      })
      return res.status(200)
      .json(
@@ -131,6 +131,7 @@ const updatePackage = asyncHandler(async (req, res) => {
 
 const deletePackage= asyncHandler(async(req,res)=>{
     const packageId =req.params.packageId;
+    console.log("this is package id in delete package",packageId);
     if(!packageId){
       throw new ApiError(400,"Please provide package ID to delete.");
     }

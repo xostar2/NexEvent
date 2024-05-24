@@ -55,7 +55,6 @@ const vendorSchema = new Schema(
         },
         registrationNo:{
             type:String,
-            required:true,
             trim:true,
         },
         refreshToken:{

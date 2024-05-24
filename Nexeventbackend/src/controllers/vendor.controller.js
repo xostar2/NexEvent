@@ -44,12 +44,12 @@ const vendorRegister = asyncHandler( async (req, res)=>{
 
    try {
      console.log("running");
-     const {vendorName,companyName,email,phone,aadhaar,password,registrationNo,city} = req.body
+     const {vendorName,companyName,email,phone,aadhaar,password,city} = req.body
      
  
-     console.log(vendorName,companyName,email,phone,aadhaar,password,registrationNo,city);    
+     console.log(vendorName,companyName,email,phone,aadhaar,password,city);    
      if(
-         [vendorName,companyName,email,phone,aadhaar,password,registrationNo,city].some((field)=>
+         [vendorName,companyName,email,phone,aadhaar,password,city].some((field)=>
              field.trim()==="")
      ){
          throw new ApiError(400,"All fields are required")
@@ -76,20 +76,15 @@ const vendorRegister = asyncHandler( async (req, res)=>{
      if(existingvendor){
          throw new ApiError(400,"vendor already exist with this credentials ")
      }
-     if(!req.files?.avatar[0]){
-         throw new ApiError(400,"here is the problem")
-     }
-     const avatarLocalPath= req.files?.avatar[0]?.path
+    //  if(!req.files?.avatar[0]){
+    //      throw new ApiError(400,"here is the problem")
+    //  }
+    //  const avatarLocalPath= req.files?.avatar[0]?.path
      
-      if(!avatarLocalPath){
-         throw new ApiError(400,"Avatar is compulsory");
-      }
  
-      const avatar1 =await uploadOnCloudinary(avatarLocalPath)
+    //   const avatar1 =await uploadOnCloudinary(avatarLocalPath)
  
-      if(!avatar1){
-         throw new ApiError(400,"Avatar link is not working")
-      }
+      
  
  
      const vendor = await Vendor.create(
@@ -102,12 +97,12 @@ const vendorRegister = asyncHandler( async (req, res)=>{
              aadhaar,
              companyName,
              city,
-             registrationNo
+             
  
          }
      )
  
-     const createVendor = await Vendor.findById(vendor._id)//.select(" -password -refreshToken")
+     const createVendor = await Vendor.findById(vendor._id).select(" -password -refreshToken")
  
      if(!createVendor){
          throw new ApiError(501,"something went wrong while registering vendor");
@@ -299,12 +294,12 @@ const changeCurrentVendorPassword =asyncHandler(async (req, res) => {
 const getCurrentVendor= asyncHandler( async (req,res)=>{
 
       
-      const vendor=await Vendor.findById(req.vendor?._id)
+      const vendor =req?.vendor
       console.log(vendor);
       return res
       .status(200)
       .json(
-         new ApiResponse(200,vendor,"Vendor details")
+         new ApiResponse(200,{vendor},"Vendor details")
       )
  })
 

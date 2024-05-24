@@ -4,14 +4,7 @@ import bcrypt from "bcrypt";
 import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 
 const adminSchema = new Schema({
-    username: {
-        type:String,
-        required:true,
-        unique: true,
-        lowercase :true,
-        trim:true,
-        index:true
-    },
+
     adminName: {
         type:String,
         required:true,

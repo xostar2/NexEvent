@@ -16,35 +16,27 @@ const uploadOnCloudinary = async (localFilePath) => {
             return null;
         }
 
-        const multiUploads = []
-
-        for( const multiUpload of localFilePath){
-            console.log("multi upload: ",multiUpload);
-            const response = await nexEvent.uploader.upload(multiUpload,
-                {
-                    resource_type:"auto"
-                })
-                
-           if(response.error){
-               console.log("Error while uploading file",response.error.message);
-               throw new Error("fail to upload file in cloudinary");
-           }
-           console.log("uploaded file url",response.url);
-           multiUploads.push(response.url);
-           fs.unlinkSync(multiUpload);
-        } 
-        return multiUploads;
+        const response = await nexEvent.uploader.upload(localFilePath, {
+            resource_type: 'auto', // Automatically detect file type
+          });
+      
+          if (response.error) {
+            console.error('Error while uploading file:', response.error.message);
+            throw new Error('Failed to upload file to Cloudinary');
+          }
+      
+          console.log('Uploaded file URL:', response.url);
+      
+          // Delete the local file only after successful upload (optional)
+          fs.unlinkSync(localFilePath);
+      
+          return response.url;
     }
     catch(error){
         console.log("error while uploading file",error.message);
-        for(const multiUpload of localFilePath){
-            try{
-                fs.unlinkSync(multiUpload);
-            }
-            catch(error){
-                console.log("error while deleting file",error.message);
-            }
-        }
+        fs.unlinkSync(localFilePath);
+        return null;
+         
     }
 }
 

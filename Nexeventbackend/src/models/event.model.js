@@ -76,6 +76,10 @@ const eventSchema = new Schema(
             type:Schema.Types.ObjectId,
             ref:"Vendor",
             required:true
+        },
+        city:{
+            type:String,
+            required:true
         }
 
     },
@@ -83,5 +87,8 @@ const eventSchema = new Schema(
 )
 
 eventSchema.index({ eventName: 1, owner: 1 }, { unique: true });
+
 eventSchema.plugin(mongooseAggregatePaginate);
+
+  
 export const Event = mongoose.model("Event",eventSchema);
