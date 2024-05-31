@@ -25,7 +25,7 @@ import UserDashboard from "./components/UserDashboard";
 import OrderDetails from "./pages/OrderDetails";
 import ViewPackageListUser from "./pages/ViewPackageListUser";
 import EventHomePageUser from "./pages/EventHomePageUser";
-
+import UserOrderList from "./components/UserOrderList";
 const App = () => {
   return (
     <>
@@ -55,6 +55,7 @@ const App = () => {
             <Route path="/userdashboard" element={<UserDashboard />} />
             <Route path="/viewpackagelistuser" element={<ViewPackageListUser/>}/>
             <Route path="/eventhomepageuser" element={<EventHomePageUser />} />
+            <Route path="/userorderlist" element={<UserOrderList />} />
           </Routes>
         </AppProvider>
       </BrowserRouter>

@@ -39,11 +39,11 @@ body {
   border-radius: 4px; /* Rounded corners */
   cursor: pointer; /* Indicate clickable button */
   transition: background-color 0.2s ease-in-out; /* Smooth hover effect */
-  background-color: #43b9f9; /* Button background color */
+  background-color: #2672cf; /* Button background color */
 }
 
 .btn-btn-home:hover {
-  background-color: #43b9f9; /* Button hover color */
+  background-color: #020202; /* Button hover color */
 }
 
 .hero-image-home {

@@ -11,31 +11,37 @@ import axiosInstance from "../pages/axiosInstance";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const nevigate=useNavigate();
+  const nevigate = useNavigate();
   const {
     userType,
     setUserType,
-    isLogin, 
+    isLogin,
     handleUserLogout,
     handleVendorLogout,
     isAuthenticated,
     setIsAuthenticated,
   } = useContext(AppContext);
 
+  const setLogout = async () => {
+    if (isAuthenticated || isLogin) {
+      handleVendorLogout();
+      handleUserLogout();
+      localStorage.clear();
+      !isLogin && nevigate("/loginuser");
+      // window.location.href("/loginuser");
+    }
+  };
+  const [userToken, setUserToken] = useState(null);
+  const [vendorToken, setVendorToken] = useState(null);
+
+  useEffect(() => {
+    const userToken = localStorage.getItem("token");
+    const vendorToken = localStorage.getItem("ventoken");
+    setUserToken(userToken);
+    setVendorToken(vendorToken);
     
-    const setLogout = async () => {
-      if (isAuthenticated || isLogin) {
-        
-            handleVendorLogout();
-            handleUserLogout();
-            localStorage.clear();
-            !isLogin && nevigate("/loginuser");
-            // window.location.href("/loginuser");
-          }
-   
-    };
-  
-  
+  }, [userToken, vendorToken]);
+
   return (
     <>
       <nav>
@@ -66,6 +72,7 @@ const NavBar = () => {
           {!isAuthenticated ? (
             <>
               {" "}
+              
               <li>
                 <NavLink to="/loginuser">Login</NavLink>
               </li>
@@ -74,6 +81,21 @@ const NavBar = () => {
               </li>
             </>
           ) : (
+            <>
+            {userToken && (
+                
+              <li>
+                <NavLink to="/userhomepage">UserHome</NavLink>
+              </li>
+            
+          )}
+          {vendorToken && (
+            
+              <li>
+                <NavLink to="/vendorhomepage">vendorHome</NavLink>
+              </li>
+            
+          )}
             <li>
               <NavLink
                 to={{
@@ -82,7 +104,7 @@ const NavBar = () => {
                 }}
                 onClick={() => {
                   console.log("clicked logout");
-                  
+
                   setLogout();
                   setIsAuthenticated(false);
                 }}
@@ -90,6 +112,7 @@ const NavBar = () => {
                 Logout
               </NavLink>
             </li>
+            </>
           )}
         </ul>
       </nav>

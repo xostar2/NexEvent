@@ -110,7 +110,7 @@ const VendorSignUp = () => {
       console.log(response);
 
       if (response.status === 200) {
-        navigate("/");
+        navigate("/loginuser");
       }
 
       // Optionally, you can redirect the user or show a success message here

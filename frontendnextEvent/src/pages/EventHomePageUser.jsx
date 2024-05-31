@@ -22,13 +22,14 @@ const EventHomePageUser = () => {
 
 
   const navigate = useNavigate();
-  const { vendorDetails, setvendorDetails ,userType} = useContext(AppContext);
+  const { vendorDetails, setvendorDetails ,userType,userdetails,setUserDetails} = useContext(AppContext);
   const [vendor, setVendor] = useState(null);
   let ownerId=null;
   const [event, setEvent] = useState(null);
   const [packages,setPackages]=useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [userId,setUserId] = useState(null);
   const location = useLocation();
 
 //==========================================================================================================================================
@@ -65,7 +66,8 @@ useEffect(() => {
       setEvent(location.state.event);
       console.log("this is event: ", location.state.event);
       ownerId=(location.state.event.owner);
-      fetchVendorDetails();     
+      fetchVendorDetails();  
+        
       }
     }
 
@@ -171,6 +173,7 @@ useEffect(() => {
               vendor={vendor}
               event={event}
               packages={package_}
+          
             />
           ))            
         }

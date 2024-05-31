@@ -1,562 +1,121 @@
-import React from 'react'
-import '../styles/ViewOrders.css'
-import BackgroundImage from '../components/BackgroundImage'
-import { useEffect, useState } from 'react'
-import { AppContext } from '../context/UserContext'
-import { useContext } from 'react'
-const ViewOrders = (props) => {
-    const {vendorDetails,eventDetails,packagesDetails}=useContext(AppContext);
-    
-    
-    console.log("this is vendor details in view orders page",props)
-    console.log("this is packages details in view orders page",vendorDetails)
+import React, { useEffect, useState, useContext } from 'react';
+import '../styles/ViewOrders.css';
+import BackgroundImage from '../components/BackgroundImage';
+import { AppContext } from '../context/UserContext';
+import { Button } from '@mui/material';
+import axiosInstance from './axiosInstance';
+import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+
+const ViewOrders = () => {
+  const { vendorDetails } = useContext(AppContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  
+  const [orders, setOrders] = useState([]);
+  
+  const vendorId = location.state.vendorId;
+
+  const fetchOrders = async () => {
+    try {
+      const response = await axiosInstance.get(`http://localhost:8000/api/v1/orders/getvendororder/${vendorId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("ventoken")}`
+        }
+      });
+      setOrders(response.data.data);
+      console.log(response.data.data);
+    } catch (error) {
+      console.log("Error in fetching orders:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+
+  const handleStatusChange = async (index, status) => {
+    try {
+      await axiosInstance.put(`http://localhost:8000/api/v1/orders/updateorderstatus/${orders[index]?._id}`, {
+        status,
+      }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("ventoken")}`
+        }
+      });
+      
+      const updatedOrders = [...orders];
+      updatedOrders[index].status = status;
+      setOrders(updatedOrders);
+    } catch (error) {
+      console.log("Error in updating order status:", error);
+    }
+  };
+
   return (
     <>
-    <BackgroundImage />
-    <h2>{vendorDetails}</h2>
+      <BackgroundImage />
+      <h2>{vendorDetails}</h2>
       <div className="table-container-user-details">
         <h1>View Orders</h1>
-       
-            <table className="user-table-testing-user-details">
-                <thead>
-                    <tr>
-                        <th>User ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Amount</th>
-                        <th>Event ID</th>
-                        <th>Event Name</th>
-                        <th>Package ID</th>
-                        <th>Package Name</th>
-                        <th>Status</th>
-                        {/*<button className="button">
-                            <span className="button-content">approve</span>
-                        </button>
-                        <button className="button">
-                            <span className="button-content">reject</span>
-                            </button>*/}
-                    </tr>
-                </thead>
-                <tbody>
-                <tr key="">
-                            <td>raj kishan</td>
-                            <td>rajkishan</td>
-                            <td>raj@123</td>
-                            <td>5000</td>
-                            <td>kjiardscer145236987</td>
-                            <td>Weeding</td>
-                            <td>14782369</td>
-                            <td>Catring Package</td>
-                            <td>pending</td>
-                            {/* <td><button className="button">
-                            approve
-                        </button>
-                              </td> */}
-                        </tr>
-                        <tr key="">
-                            <td>raj kishan</td>
-                            <td>rajkishan</td>
-                            <td>raj@123</td>
-                            <td>5000</td>
-                            <td>kjiardscer145236987</td>
-                            <td>Weeding</td>
-                            <td>14782369</td>
-                            <td>Catring Package</td>
-                            <td>pending</td>
-                            {/* <td><button className="button">
-                            approve
-                        </button>
-                              </td> */}
-                        </tr>
-                        <tr key="">
-                            <td>raj kishan</td>
-                            <td>rajkishan</td>
-                            <td>raj@123</td>
-                            <td>5000</td>
-                            <td>kjiardscer145236987</td>
-                            <td>Weeding</td>
-                            <td>14782369</td>
-                            <td>Catring Package</td>
-                            <td>pending</td>
-                            {/* <td><button className="button">
-                            approve
-                        </button>
-                              </td> */}
-                        </tr>
-                        <tr key="">
-                            <td>raj kishan</td>
-                            <td>rajkishan</td>
-                            <td>raj@123</td>
-                            <td>5000</td>
-                            <td>kjiardscer145236987</td>
-                            <td>Weeding</td>
-                            <td>14782369</td>
-                            <td>Catring Package</td>
-                            <td>pending</td>
-                            {/* <td><button className="button">
-                            approve
-                        </button>
-                              </td> */}
-                        </tr>
-                        <tr key="">
-                            <td>raj kishan</td>
-                            <td>rajkishan</td>
-                            <td>raj@123</td>
-                            <td>5000</td>
-                            <td>kjiardscer145236987</td>
-                            <td>Weeding</td>
-                            <td>14782369</td>
-                            <td>Catring Package</td>
-                            <td>pending</td>
-                            {/* <td><button className="button">
-                            approve
-                        </button>
-                              </td> */}
-                        </tr>
-                        <tr key="">
-                            <td>raj kishan</td>
-                            <td>rajkishan</td>
-                            <td>raj@123</td>
-                            <td>5000</td>
-                            <td>kjiardscer145236987</td>
-                            <td>Weeding</td>
-                            <td>14782369</td>
-                            <td>Catring Package</td>
-                            <td>pending</td>
-                            {/* <td><button className="button">
-                            approve
-                        </button>
-                              </td> */}
-                        </tr>
-                        <tr key="">
-                            <td>raj kishan</td>
-                            <td>rajkishan</td>
-                            <td>raj@123</td>
-                            <td>5000</td>
-                            <td>kjiardscer145236987</td>
-                            <td>Weeding</td>
-                            <td>14782369</td>
-                            <td>Catring Package</td>
-                            <td>pending</td>
-                            {/* <td><button className="button">
-                            approve
-                        </button>
-                              </td> */}
-                        </tr>
-                        <tr key="">
-                            <td>raj kishan</td>
-                            <td>rajkishan</td>
-                            <td>raj@123</td>
-                            <td>5000</td>
-                            <td>kjiardscer145236987</td>
-                            <td>Weeding</td>
-                            <td>14782369</td>
-                            <td>Catring Package</td>
-                            <td>pending</td>
-                            {/* <td><button className="button">
-                            approve
-                        </button>
-                              </td> */}
-                        </tr>
-                        <tr key="">
-                            <td>raj kishan</td>
-                            <td>rajkishan</td>
-                            <td>raj@123</td>
-                            <td>5000</td>
-                            <td>kjiardscer145236987</td>
-                            <td>Weeding</td>
-                            <td>14782369</td>
-                            <td>Catring Package</td>
-                            <td>pending</td>
-                            {/* <td><button className="button">
-                            approve
-                        </button>
-                              </td> */}
-                        </tr>
-                        <tr key="">
-                            <td>raj kishan</td>
-                            <td>rajkishan</td>
-                            <td>raj@123</td>
-                            <td>5000</td>
-                            <td>kjiardscer145236987</td>
-                            <td>Weeding</td>
-                            <td>14782369</td>
-                            <td>Catring Package</td>
-                            <td>pending</td>
-                            {/* <td><button className="button">
-                            approve
-                        </button>
-                              </td> */}
-                        </tr>
-                        <tr key="">
-                            <td>raj kishan</td>
-                            <td>rajkishan</td>
-                            <td>raj@123</td>
-                            <td>5000</td>
-                            <td>kjiardscer145236987</td>
-                            <td>Weeding</td>
-                            <td>14782369</td>
-                            <td>Catring Package</td>
-                            <td>pending</td>
-                            {/* <td><button className="button">
-                            approve
-                        </button>
-                              </td> */}
-                        </tr>
-                        <tr key="">
-                            <td>raj kishan</td>
-                            <td>rajkishan</td>
-                            <td>raj@123</td>
-                            <td>5000</td>
-                            <td>kjiardscer145236987</td>
-                            <td>Weeding</td>
-                            <td>14782369</td>
-                            <td>Catring Package</td>
-                            <td>pending</td>
-                            {/* <td><button className="button">
-                            approve
-                        </button>
-                              </td> */}
-                        </tr>
-                        <tr key="">
-                            <td>raj kishan</td>
-                            <td>rajkishan</td>
-                            <td>raj@123</td>
-                            <td>5000</td>
-                            <td>kjiardscer145236987</td>
-                            <td>Weeding</td>
-                            <td>14782369</td>
-                            <td>Catring Package</td>
-                            <td>pending</td>
-                            {/* <td><button className="button">
-                            approve
-                        </button>
-                              </td> */}
-                        </tr>
-                        <tr key="">
-                            <td>raj kishan</td>
-                            <td>rajkishan</td>
-                            <td>raj@123</td>
-                            <td>5000</td>
-                            <td>kjiardscer145236987</td>
-                            <td>Weeding</td>
-                            <td>14782369</td>
-                            <td>Catring Package</td>
-                            <td>pending</td>
-                            {/* <td><button className="button">
-                            approve
-                        </button>
-                              </td> */}
-                        </tr>
-                        <tr key="">
-                            <td>raj kishan</td>
-                            <td>rajkishan</td>
-                            <td>raj@123</td>
-                            <td>5000</td>
-                            <td>kjiardscer145236987</td>
-                            <td>Weeding</td>
-                            <td>14782369</td>
-                            <td>Catring Package</td>
-                            <td>pending</td>
-                            {/* <td><button className="button">
-                            approve
-                        </button>
-                              </td> */}
-                        </tr>
-                        <tr key="">
-                            <td>raj kishan</td>
-                            <td>rajkishan</td>
-                            <td>raj@123</td>
-                            <td>5000</td>
-                            <td>kjiardscer145236987</td>
-                            <td>Weeding</td>
-                            <td>14782369</td>
-                            <td>Catring Package</td>
-                            <td>pending</td>
-                            {/* <td><button className="button">
-                            approve
-                        </button>
-                              </td> */}
-                        </tr>
-                        <tr key="">
-                            <td>raj kishan</td>
-                            <td>rajkishan</td>
-                            <td>raj@123</td>
-                            <td>5000</td>
-                            <td>kjiardscer145236987</td>
-                            <td>Weeding</td>
-                            <td>14782369</td>
-                            <td>Catring Package</td>
-                            <td>pending</td>
-                            {/* <td><button className="button">
-                            approve
-                        </button>
-                              </td> */}
-                        </tr>
-                        <tr key="">
-                            <td>raj kishan</td>
-                            <td>rajkishan</td>
-                            <td>raj@123</td>
-                            <td>5000</td>
-                            <td>kjiardscer145236987</td>
-                            <td>Weeding</td>
-                            <td>14782369</td>
-                            <td>Catring Package</td>
-                            <td>pending</td>
-                            {/* <td><button className="button">
-                            approve
-                        </button>
-                              </td> */}
-                        </tr>
-                        <tr key="">
-                            <td>raj kishan</td>
-                            <td>rajkishan</td>
-                            <td>raj@123</td>
-                            <td>5000</td>
-                            <td>kjiardscer145236987</td>
-                            <td>Weeding</td>
-                            <td>14782369</td>
-                            <td>Catring Package</td>
-                            <td>pending</td>
-                            {/* <td><button className="button">
-                            approve
-                        </button>
-                              </td> */}
-                        </tr>
-                        <tr key="">
-                            <td>raj kishan</td>
-                            <td>rajkishan</td>
-                            <td>raj@123</td>
-                            <td>5000</td>
-                            <td>kjiardscer145236987</td>
-                            <td>Weeding</td>
-                            <td>14782369</td>
-                            <td>Catring Package</td>
-                            <td>pending</td>
-                            {/* <td><button className="button">
-                            approve
-                        </button>
-                              </td> */}
-                        </tr>
-                        <tr key="">
-                            <td>raj kishan</td>
-                            <td>rajkishan</td>
-                            <td>raj@123</td>
-                            <td>5000</td>
-                            <td>kjiardscer145236987</td>
-                            <td>Weeding</td>
-                            <td>14782369</td>
-                            <td>Catring Package</td>
-                            <td>pending</td>
-                            {/* <td><button className="button">
-                            approve
-                        </button>
-                              </td> */}
-                        </tr>
-                        <tr key="">
-                            <td>raj kishan</td>
-                            <td>rajkishan</td>
-                            <td>raj@123</td>
-                            <td>5000</td>
-                            <td>kjiardscer145236987</td>
-                            <td>Weeding</td>
-                            <td>14782369</td>
-                            <td>Catring Package</td>
-                            <td>pending</td>
-                            {/* <td><button className="button">
-                            approve
-                        </button>
-                              </td> */}
-                        </tr>
-                        <tr key="">
-                            <td>raj kishan</td>
-                            <td>rajkishan</td>
-                            <td>raj@123</td>
-                            <td>5000</td>
-                            <td>kjiardscer145236987</td>
-                            <td>Weeding</td>
-                            <td>14782369</td>
-                            <td>Catring Package</td>
-                            <td>pending</td>
-                            {/* <td><button className="button">
-                            approve
-                        </button>
-                              </td> */}
-                        </tr>
-                        <tr key="">
-                            <td>raj kishan</td>
-                            <td>rajkishan</td>
-                            <td>raj@123</td>
-                            <td>5000</td>
-                            <td>kjiardscer145236987</td>
-                            <td>Weeding</td>
-                            <td>14782369</td>
-                            <td>Catring Package</td>
-                            <td>pending</td>
-                            {/* <td><button className="button">
-                            approve
-                        </button>
-                              </td> */}
-                        </tr>
-                        <tr key="">
-                            <td>raj kishan</td>
-                            <td>rajkishan</td>
-                            <td>raj@123</td>
-                            <td>5000</td>
-                            <td>kjiardscer145236987</td>
-                            <td>Weeding</td>
-                            <td>14782369</td>
-                            <td>Catring Package</td>
-                            <td>pending</td>
-                            {/* <td><button className="button">
-                            approve
-                        </button>
-                              </td> */}
-                        </tr>
-                        <tr key="">
-                            <td>raj kishan</td>
-                            <td>rajkishan</td>
-                            <td>raj@123</td>
-                            <td>5000</td>
-                            <td>kjiardscer145236987</td>
-                            <td>Weeding</td>
-                            <td>14782369</td>
-                            <td>Catring Package</td>
-                            <td>pending</td>
-                            {/* <td><button className="button">
-                            approve
-                        </button>
-                              </td> */}
-                        </tr>
-                        <tr key="">
-                            <td>raj kishan</td>
-                            <td>rajkishan</td>
-                            <td>raj@123</td>
-                            <td>5000</td>
-                            <td>kjiardscer145236987</td>
-                            <td>Weeding</td>
-                            <td>14782369</td>
-                            <td>Catring Package</td>
-                            <td>pending</td>
-                            {/* <td><button className="button">
-                            approve
-                        </button>
-                              </td> */}
-                        </tr>
-                        <tr key="">
-                            <td>raj kishan</td>
-                            <td>rajkishan</td>
-                            <td>raj@123</td>
-                            <td>5000</td>
-                            <td>kjiardscer145236987</td>
-                            <td>Weeding</td>
-                            <td>14782369</td>
-                            <td>Catring Package</td>
-                            <td>pending</td>
-                            {/* <td><button className="button">
-                            approve
-                        </button>
-                              </td> */}
-                        </tr>
-                        <tr key="">
-                            <td>raj kishan</td>
-                            <td>rajkishan</td>
-                            <td>raj@123</td>
-                            <td>5000</td>
-                            <td>kjiardscer145236987</td>
-                            <td>Weeding</td>
-                            <td>14782369</td>
-                            <td>Catring Package</td>
-                            <td>pending</td>
-                            {/* <td><button className="button">
-                            approve
-                        </button>
-                              </td> */}
-                        </tr>
-                        <tr key="">
-                            <td>raj kishan</td>
-                            <td>rajkishan</td>
-                            <td>raj@123</td>
-                            <td>5000</td>
-                            <td>kjiardscer145236987</td>
-                            <td>Weeding</td>
-                            <td>14782369</td>
-                            <td>Catring Package</td>
-                            <td>pending</td>
-                            {/* <td><button className="button">
-                            approve
-                        </button>
-                              </td> */}
-                        </tr>
-                        <tr key="">
-                            <td>raj kishan</td>
-                            <td>rajkishan</td>
-                            <td>raj@123</td>
-                            <td>5000</td>
-                            <td>kjiardscer145236987</td>
-                            <td>Weeding</td>
-                            <td>14782369</td>
-                            <td>Catring Package</td>
-                            <td>pending</td>
-                            {/* <td><button className="button">
-                            approve
-                        </button>
-                              </td> */}
-                        </tr>
-                      
-
-                   
-                </tbody>
-
-
-            </table>
-        </div>
+        <table className="user-table-testing-user-details">
+          <thead>
+            <tr>
+              <th>User ID</th>
+              
+              <th>Order ID</th>
+              <th>Amount</th>
+              <th>PackageId</th>
+              <th>Package Name</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {orders.map((order, index) => (
+              <tr key={order?._id}>
+                <td>{order.userId}</td>
+                <td>{order?._id}</td>
+                
+                <td>{order.amount}</td>
+               
+                <td>{order.packageId}</td>
+                <td>{order.packageName}</td>
+                <td>
+                  {order.status === 'pending' ? (
+                    <>
+                      <Button
+                        variant="contained"
+                        color="success"
+                        onClick={() => handleStatusChange(index, 'accept')}
+                      >
+                        Accept
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="error"
+                        onClick={() => handleStatusChange(index, 'reject')}
+                        style={{ marginLeft: '10px' }}
+                      >
+                        Reject
+                      </Button>
+                    </>
+                  ) : order.status === 'accept' ? (
+                    <Button variant="contained" color="success">
+                      Accepted
+                    </Button>
+                  ) : (
+                    <Button variant="contained" color="error">
+                      Rejected
+                    </Button>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </>
-  )
-}
+  );
+};
 
-export default ViewOrders
-// const ViewOrders = ({ vendordetails }) => {
-//     return (
-//       <>
-//         <BackgroundImage />
-//         <div className="table-container-user-details">
-//           <h1>View Orders</h1>
-//           <h2>{vendordetails?.vendorName}</h2>
-//           <table className="user-table-testing-user-details">
-//             <thead>
-//               <tr>
-//                 <th>User ID</th>
-//                 <th>Name</th>
-//                 <th>Email</th>
-//                 <th>Amount</th>
-//                 <th>Event ID</th>
-//                 <th>Event Name</th>
-//                 <th>Package ID</th>
-//                 <th>Package Name</th>
-//                 <th>Status</th>
-//               </tr>
-//             </thead>
-//             <tbody>
-//               {vendordetails?.orders.map(order => (
-//                 <tr key={order.orderId}>
-//                   <td>{order.userId}</td>
-//                   <td>{order.name}</td>
-//                   <td>{order.email}</td>
-//                   <td>{order.amount}</td>
-//                   <td>{order.eventId}</td>
-//                   <td>{order.eventName}</td>
-//                   <td>{order.packageId}</td>
-//                   <td>{order.packageName}</td>
-//                   <td>{order.status}</td>
-//                 </tr>
-//               ))}
-//             </tbody>
-//           </table>
-//         </div>
-//       </>
-//     );
-//   };
-  
-//   export default ViewOrders;
-  
+export default ViewOrders;

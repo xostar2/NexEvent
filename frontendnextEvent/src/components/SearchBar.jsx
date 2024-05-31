@@ -101,6 +101,7 @@ const SearchBar = () => {
     <form className="search-bar" onSubmit={handleSubmit}>
       <div className="search-input-container">
         <select
+          id="eventName"
           name="eventName"
           placeholder="Others"
           value={eventName}

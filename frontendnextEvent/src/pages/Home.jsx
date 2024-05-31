@@ -1,3 +1,4 @@
+import BackgroundImage from "../components/BackgroundImage"
 import "../styles/Home.css"
 import { Link } from "react-router-dom"
 const Home = () => {
@@ -20,7 +21,7 @@ const Home = () => {
                       </button>
                     </Link>
                     <Link to="/about">
-                      <button className="btn-btn-home">
+                      <button className="btn-btn-home" >
                         leran more
                       </button>
                     </Link>

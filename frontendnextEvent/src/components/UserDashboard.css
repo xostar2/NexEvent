@@ -1,79 +1,97 @@
 body {
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
-  }
-  
-  /* Base styles for desktop and larger screens */
-  #user-dashboard {
-    display: grid;
-    grid-template-columns: 1fr 250px; /* Fixed width for image section */
-    grid-gap: 20px;
-    width: 60%;
-    margin: 40px auto;
-    
-    padding: 20px;
-    border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.8);
-    box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.1);
-  }
-  #p-tag-for-userdashboard {
-    text-shadow: 1px 1px 2px rgba(196, 187, 187, 0.2); /* Adjust shadow values as needed */
-  }
-  #user-data {
-    padding: 15px;
-  }
-  
-  #user-data h2, #user-data p {
-    margin: 5px 0;
-  }
-  
-  #user-image img {
-    width: 100%; /* Image scales within the image section */
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+/* Base styles for desktop and larger screens */
+#user-dashboard {
+  display: grid;
+  grid-template-columns: 1fr 250px; /* Fixed width for image section */
+  grid-gap: 20px;
+  width: 60%;
+  margin: 40px auto;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.1);
+}
+
+#p-tag-for-userdashboard {
+  text-shadow: 1px 1px 2px rgba(196, 187, 187, 0.2); /* Adjust shadow values as needed */
+}
+
+#p-tag-for-userdashboard-box {
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #f0f0f0;
+}
+
+#p-tag-for-userdashboard-box span {
+  font-style: italic;
+  font-weight: bold;
+}
+
+#user-data {
+  padding: 15px;
+}
+#user-data h1 {
+  font-size: 2em;
+  margin-bottom: 10px;
+  font-family: fantasy;
+}
+
+#user-data h2, #user-data p {
+  margin: 5px 0;
+  font-family: fantasy;
+}
+
+#user-image {
+    width: 100%;
     object-fit: cover;
-    border-radius: 5px;
+    
+
+}
+
+#buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  grid-column: span 2; /* Span across both columns in the grid */
+}
+
+#buttons button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  border: 1px solid #1f1ff3;
+  border-radius: 5px;
+  background-color: #1f1f1f;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+#buttons button:hover {
+  background-color: #23a71a;
+}
+
+/* Media Queries for responsive behavior */
+
+/* For tablets (around 768px and up) */
+@media (min-width: 768px) {
+  #user-data { /* No changes needed for tablets, inherit styles from base */ }
+}
+
+/* For mobile devices (less than 768px) */
+@media (max-width: 767px) {
+  #user-dashboard {
+    grid-template-columns: 1fr; /* Stack data and image on top of each other */
   }
-  
-  #buttons {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-    grid-column: span 2; /* Span across both columns in the grid */
+
+  #user-image img {
+    max-width: 100%; /* Allow image to fill container width on mobile */
   }
-  
-  #buttons button {
-    margin: 0 10px;
-    padding: 10px 20px;
-    border: 1px solid #1f1ff3;
-    border-radius: 5px;
-    background-color: #1f1f1f;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
+
+  #user-data {
+    padding: 10px; /* Reduce padding for smaller screens */
   }
-  
-  #buttons button:hover {
-    background-color: #23a71a;
-  }
-  
-  /* Media Queries for responsive behavior */
-  
-  /* For tablets (around 768px and up) */
-  @media (min-width: 768px) {
-    #user-data { /* No changes needed for tablets, inherit styles from base */ }
-  }
-  
-  /* For mobile devices (less than 768px) */
-  @media (max-width: 767px) {
-    #user-dashboard {
-      grid-template-columns: 1fr; /* Stack data and image on top of each other */
-    }
-  
-    #user-image img {
-      max-width: 100%; /* Allow image to fill container width on mobile */
-    }
-  
-    #user-data {
-      padding: 10px; /* Reduce padding for smaller screens */
-    }
-  }
-  
+}

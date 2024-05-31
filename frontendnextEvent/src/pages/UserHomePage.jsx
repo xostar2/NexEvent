@@ -1,16 +1,13 @@
-import  { useEffect } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import BackgroundImage from '../components/BackgroundImage'; // Or your combined component
-import SearchBar from '../components/SearchBar';
-import EventCard from '../components/EventCard'; // Or your combined component
-import { AppContext } from '../context/UserContext';
-import { useContext,useCallback } from 'react';
 import UserDashboard from '../components/UserDashboard';
-import React, { useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai"; // Importing Search Icon
+import { Snackbar, Alert } from '@mui/material';
 import "../styles/SearchBar.css"
 import EventUserCard from '../components/EventUserCard';
 import "../styles/UserHomePage.css"
 import axiosInstance from './axiosInstance';
+import { AppContext } from '../context/UserContext';
 
 
 //============================================================================================================
@@ -96,123 +93,129 @@ const cityTypes = ["Hyderabad", "New Delhi", "Mumbai",
 
 
 const UserHomePage = () => {
-  const { userdetails , setUserdetails,userType,setUserType } = useContext(AppContext);
-  const [event,setevent]=useState({});
+  const { userdetails } = useContext(AppContext);
+  const [event, setEvent] = useState([]);
   const [isLoading, setIsLoading] = useState(false); // State for loading indicator
   const [error, setError] = useState(null); 
-  const [searchdetails, setsearchdetails] = useState(
-    {
-      eventName:"",
-      city:"",
-    }
-  );
+  const [searchDetails, setSearchDetails] = useState({ eventName: "", city: "" });
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('info');
 
-  const handleSubmit = async(event) => {
-    
+  
+
+  const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission behavior
     setIsLoading(true);
     
     try {
-        console.log("we entered here");
-        console.log(searchdetails);
-        const response=await axiosInstance.post(`http://localhost:8000/api/v1/events/getuserevent`,
-        searchdetails,
+      console.log("we entered here");
+      console.log(searchDetails);
+      const response = await axiosInstance.post(`http://localhost:8000/api/v1/events/getuserevent`,
+        searchDetails,
         {
-            headers:{
-                "Content-Type": "application/json",
-                "Authorization":`Bearer ${localStorage.getItem("token")}`
-            }
-        })
-        console.log("we closed here");
-        setevent(response.data.data);
-        console.log("this is event::::::::::::::::::",response.data.data);
-
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("token")}`
+          }
+        });
+      console.log("we closed here");
+      setEvent(response.data.data);
+      console.log("this is event::::::::::::::::::", response.data.data);
       
+      if (response.data.data.length === 0) {
+        setSnackbarMessage('No events found for the selected criteria.');
+        setSnackbarSeverity('info');
+        setOpenSnackbar(true);
+      }
     } catch (error) {
       console.log(error);
-      console.log("error is this :",error.message);
+      console.log("error is this :", error.message);
       setError(error.message);
-    }finally{
+      setSnackbarMessage('Failed to load events: ' + error.message);
+      setSnackbarSeverity('error');
+      setOpenSnackbar(true);
+    } finally {
       setIsLoading(false);
     }
-    
   };
-  
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
-        window.location.href = "/loginuser";
-    } 
-    else {
-      console.log("token is in localstorage",token);
-      console.log("userdetails is",userdetails);
+      window.location.href = "/loginuser";
+    } else {
+      console.log("token is in localstorage", token);
+      console.log("userdetails is", userdetails);
+      
     }
-  },  []);
+  }, []);
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
 
   return (
     <>
-    <div className="user-home-page">
-      <BackgroundImage />
-      <UserDashboard  />
+      <div className="user-home-page">
+        <BackgroundImage />
+        <UserDashboard />
+        
+        <div className="content-container-user-home-page">
+          <form className="search-bar" onSubmit={handleSubmit}>
+            <div className="search-input-container">
+              <select
+                name="eventName"
+                id="eventName"
+                value={searchDetails.eventName}
+                onChange={(e) => setSearchDetails({ ...searchDetails, eventName: e.target.value })}
+                required
+              >
+                <option value="">-- Select Event Name --</option>
+                {eventTypes.map((eventType) => (
+                  <option key={eventType} value={eventType}>{eventType}</option>
+                ))}
+              </select>
+              <select
+                name="city"
+                id="city"
+                value={searchDetails.city}
+                onChange={(e) => setSearchDetails({ ...searchDetails, city: e.target.value })}
+                required
+              >
+                <option value="">-- Select City Name --</option>
+                {cityTypes.map((cityType) => (
+                  <option key={cityType} value={cityType}>{cityType}</option>
+                ))}
+              </select>
+              <button type="submit">
+                <AiOutlineSearch className="search-icon" />
+              </button>
+            </div>
+          </form>  
+        </div>
+
+        <div className="content-container-user-home-page-event-card">
+          {isLoading && <div className="loading-indicator">Loading events...</div>}
+          {error && <div className="error-message">Failed to load events: {error}</div>}
+          {event.length > 0 && (
+            <div className="event-card-container">
+              {event.map((eventObject) => (
+                <EventUserCard key={eventObject._id} event={eventObject} /> // Assuming ID for event
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
       
-      <div className="content-container-user-home-page">
-        <form className="search-bar" onSubmit={handleSubmit}>
-      <div className="search-input-container">
-        <select
-          name="eventName"
-          id='eventName'
-          value={searchdetails.eventName}
-          onChange={(e)=>{
-            setsearchdetails({ ...searchdetails, eventName: e.target.value });
-          }}
-          required
-        >
-          <option value="">-- Select--Event--Name --</option>
-        {eventTypes.map((eventTypes)=>
-          <option key={eventTypes} value={eventTypes}>
-            {eventTypes}
-          </option>
-        )}
-        </select>
-        <select
-          name="city"
-          id="city"
-          value={searchdetails.city}
-          
-          onChange={(e)=>{
-            setsearchdetails({ ...searchdetails, city: e.target.value });
-          }}
-          required
-        >
-        <option value="">-- Select--City--Name --</option>
-        {cityTypes.map((cityTypes)=>
-          <option key={cityTypes} value={cityTypes}>
-            {cityTypes}
-          </option>
-        )}
-        </select>
-       
-        <button type="submit">
-          <AiOutlineSearch className="search-icon" />
-        </button>
-      </div>
-        </form>  
-      </div>
-      {isLoading && (
-          <div className="loading-indicator">Loading events...</div>
-        )}
-        {error && ( // Handle API errors gracefully, e.g., display message
-          <div className="error-message">Failed to load events: {error.message}</div>
-        )}
-        {event.length > 0 && ( // Conditionally render event cards
-          <div className="event-card-container">
-            {event.map((eventObject) => (
-              <EventUserCard key={eventObject._id} event={eventObject} /> // Assuming ID for event
-            ))}
-          </div>
-        )}
-    
-    </div>
+      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+        <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity} sx={{ width: '100%' }}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </>
   );
 };

@@ -9,7 +9,7 @@ import axios from 'axios';
 import VendorDeshboard from '../components/VendorDeshboard';
 import axiosInstance from './axiosInstance';
 import EventCard from '../components/EventCard';
-
+import ErrorBoundary from '../components/ErrorBoundary';
 //====================================================================================================================
 
 const URL = "http://localhost:8000/api/v1/vendors/getdetails";
@@ -45,7 +45,7 @@ const VendorHomePage = () => {
           Authorization: `Bearer ${ventoken}`,
         },
       });
-      // console.log("this is response data",response.data.data);
+      console.log("this is response data:::::::::::::::::::::this is data",response.data.data);
       setVendors_d(response.data.data);
       setVendorDetails(response.data.data);
       
@@ -92,7 +92,7 @@ const VendorHomePage = () => {
     
     fetchVendorDetails();
 
-  },[])
+  },[setVendors_d])
 
 
 
@@ -106,16 +106,18 @@ const VendorHomePage = () => {
 
 //====================================================================================================================
   return (
+    <ErrorBoundary>
     <>
     
     <BackgroundImage />
-    <VendorDeshboard  props={vendordetails} />
+    <VendorDeshboard   />
     <div className="event-card-container">
       {eventList.map((eventObject) => (
         <EventCard key={eventObject._id} props={eventObject} />
       ))}
     </div>
     </>
+    </ErrorBoundary>
   );
 };
  export default VendorHomePage;
