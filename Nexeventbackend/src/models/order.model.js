@@ -7,6 +7,10 @@ const orderSchema= new Schema(
             ref:'User',
             required:true
         },
+        packageName:{
+            type:String,
+            required:true
+        },
         packageId:{
             type:Schema.Types.ObjectId,
             ref:'Package',
@@ -24,11 +28,11 @@ const orderSchema= new Schema(
         },
         status:{
             type:String,
-            enum:['Pending', 'Reject','Accept'],
-            default:"Pending"
+            enum:['pending', 'reject','accept'],
+            default:"pending"
         },
         amount:{
-            type:Number,
+            type:String,
             required:true
         },
         description:{
@@ -39,7 +43,7 @@ const orderSchema= new Schema(
             type:Date,
             default:Date.now
         },
-        location:{
+        locations:{
             type:String,
             default:""
         }

@@ -135,7 +135,7 @@ const loginUser = asyncHandler(async(req,res)=>{
       //)
       
       if(!user){
-         throw new ApiError(404,"user not found in DB")
+         throw new ApiError(404,"UnAuthorized user :Please use valid email and password")
       }
    
       const ispasswordValid= await user.isPasswordCorrect (password)
