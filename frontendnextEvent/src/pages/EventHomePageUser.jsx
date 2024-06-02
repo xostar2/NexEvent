@@ -144,12 +144,14 @@ useEffect(() => {
             </div>
             <div className="vendor-profile-details-button">
           
-              <button className="submit-btn-add-package">
+              <button className="submit-btn-add-package" onClick={()=>{
+                navigate("/userorderlist")
+              }}>
                 View Order
               </button>
               {/* <button className="submit-btn-add-package" onClick={()=>{
                 navigate("/addpackage",{state:{event:event,vendor:vendor}})
-              }}>
+              }}>   
                 Add Package
               </button>
               <button className="submit-btn-add-package" onClick={()=>{
@@ -157,7 +159,12 @@ useEffect(() => {
               }}>
                 Delete Event
               </button> */}
-
+              
+              <button className="submit-btn-add-package" onClick={()=>{
+                navigate("/feedbackform" ,{state:{event:event}})
+              }}>
+                Feedback
+              </button>
             </div>
           </div>
           </div>

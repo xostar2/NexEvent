@@ -8,6 +8,7 @@ import EventUserCard from '../components/EventUserCard';
 import "../styles/UserHomePage.css"
 import axiosInstance from './axiosInstance';
 import { AppContext } from '../context/UserContext';
+import CircularProgress from "@mui/material/CircularProgress";
 
 
 //============================================================================================================
@@ -199,16 +200,16 @@ const UserHomePage = () => {
         </div>
 
         <div className="content-container-user-home-page-event-card">
-          {isLoading && <div className="loading-indicator">Loading events...</div>}
-          {error && <div className="error-message">Failed to load events: {error}</div>}
-          {event.length > 0 && (
-            <div className="event-card-container">
-              {event.map((eventObject) => (
-                <EventUserCard key={eventObject._id} event={eventObject} /> // Assuming ID for event
-              ))}
-            </div>
-          )}
+      {isLoading && <div className="loading-indicator"><CircularProgress /></div>}
+      {error && <div className="error-message">Failed to load events: {error}</div>}
+      {event.length > 0 && (
+        <div className="event-card-container">
+          {event.map((eventObject) => (
+            <EventUserCard key={eventObject._id} event={eventObject} />
+          ))}
         </div>
+      )}
+    </div>
       </div>
       
       <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>

@@ -40,7 +40,7 @@ const NavBar = () => {
     setUserToken(userToken);
     setVendorToken(vendorToken);
     
-  }, [userToken, vendorToken]);
+  }, []);
 
   return (
     <>

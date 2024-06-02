@@ -1,56 +1,56 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import "../styles/VendorSignUp.css"; 
-import BackgroundImage from '../components/BackgroundImage'; 
+import "../styles/VendorSignUp.css";
+import BackgroundImage from '../components/BackgroundImage';
 import axios from "axios";
-const genderselect=["Male","Female","Divided"]
+const genderselect = ["Male", "Female", "Divided"]
 const cityTypes = ["Hyderabad", "New Delhi", "Mumbai",
- "Chennai", "Kolkata", "Bengaluru", "Secunderabad", "Ahmadabad"
- , "Surat", "Pune", "Noida", "Visakhapatnam", "Vijayawada",
+  "Chennai", "Kolkata", "Bengaluru", "Secunderabad", "Ahmadabad"
+  , "Surat", "Pune", "Noida", "Visakhapatnam", "Vijayawada",
   "Kota", "Jaipur", "Udaipur", "Jaisalmer", "Jodhpuer", "Ajmer",
-   "Raigad", "Tirupati", "Tiruttani", "Anantapur", "Guntur", 
-   "Kurnool", "Cuddapah", "Chittor", "Hindupur", "Mahboobnagar",
-    "Nizamabad", "Nandyal", "Warangal", "Adilabad", "Ramagundam", 
-    "Khammam", "Karimnagar", "Nalgonda", "Vijayanagaram", "Srikakulam",
-     "Kakinada", "Rajamandry", "Machilipatnam", "Amaravathi", "Ongole", "Nellore",
-      "Eluru", "Bhimavaram", "Proddutur", "Narasaraopet", "Tenali", "Madurai",
-       "Kancheepuram", "Coimbatore", "Vellore", "Pondicherry", 
-       "Trichy", "Salem", "Tumkur", "Dharwad", "Hubli", "Mysuru", 
-       "Mangaluru", "Bellary", "Hassan", "Mandya", "Raipur", "Jagdalpur", 
-       "Puri", "Cuttack", "Bubhaneshwar", "Brahmapur", "Paradeep", "Howrah", 
-       "Asansol", "Siliguri", "Darjeeling", "Guwahati", "Aizawl", 
-       "Agartala", "Shillong", "Dibrugarh", "Kohima", "Gangtok", "Dispur", "Patna",
-        "Muzaffarpur", "Muzaffarnagar", "Gaya", "Jamshedpur", "Ranchi", "Bhilai", "Dhanbad",
-         "Tiruvananthapuram", "Kochi", "Kozicode", "Kottayam", "Rameshwaram", "Udipi", 
-         "Manipal", "Nanded", "Solapur", "Nasik", "Kalyan", "Aurangabad", "Thane", "Nagpur",
-          "Rajkot", "Gandhinagar", "Jhamnagar", "Bhopal", "Itarsi", "Gwalior", "Indore", 
-          "Bikaner", "Jammu", "Srinagar", "Jallandhar", "Chandigarh", "Ludhiana", "Amritsar",
-           "Pathankot", "Mohali", "Shimla", "Manali", "Kullu", "Faridabad", "Gurugram", 
-           "Dharmashala", "Patiala", "Bhatinda", "Leh", "Dehradun", "Nainital", 
-           "Rishikesh", "Haridwar", "Lucknow", "Allahabad", "Varanasi", "Kanpur", "Aligarh",
-            "Jhansi", "Ghaziabad", "Agra", "Moradabad", "Gorakhpur", "Satna", "Faizabad", 
-            "Chandrapur", "Darbhanga", "Durgapur", "Kharagpur", "Imphal", "Konark",
-             "Rayagad", "Bilaspur", "Raigarh", "Kothagudem", "Chirala", "Sivakasi", "Tirunelveli",
-              "Tiruppur", "Alappey", "Aluva", "Alappuzha", "Kollam", "Malappuram", "Thrissur", "Bhadravathi",
-               "Shimoga", "Dhavangere", "Bijar", "Bijapur", "Yadgir", "Raichur", "Kalburgi", "Bagalkot", 
-               "Belgaun", "Balharshah", "Wardha", "Tuljapur", "Latur", "Port Blair", "Kawaratti", "Daman",
-                "Silvassa", "Panaji", "Vasco", "Anand", "Kolhapur", "Vadodara", "Junagadh", "Bhuj", "Jabalpur", 
-                "Mathura", "Meerut", "Roorkee", "Bareily", "Raebareily", "Bokaro", "Pilani", "Bhiwani", "Karnal",
-                 "Ambala", "Panipat", "Kurukshetra", "Sonipat", "Hissar", "Rohtak", 
-"Panchkula", "Anantnag", "Mandi", "Baramulla"]
+  "Raigad", "Tirupati", "Tiruttani", "Anantapur", "Guntur",
+  "Kurnool", "Cuddapah", "Chittor", "Hindupur", "Mahboobnagar",
+  "Nizamabad", "Nandyal", "Warangal", "Adilabad", "Ramagundam",
+  "Khammam", "Karimnagar", "Nalgonda", "Vijayanagaram", "Srikakulam",
+  "Kakinada", "Rajamandry", "Machilipatnam", "Amaravathi", "Ongole", "Nellore",
+  "Eluru", "Bhimavaram", "Proddutur", "Narasaraopet", "Tenali", "Madurai",
+  "Kancheepuram", "Coimbatore", "Vellore", "Pondicherry",
+  "Trichy", "Salem", "Tumkur", "Dharwad", "Hubli", "Mysuru",
+  "Mangaluru", "Bellary", "Hassan", "Mandya", "Raipur", "Jagdalpur",
+  "Puri", "Cuttack", "Bubhaneshwar", "Brahmapur", "Paradeep", "Howrah",
+  "Asansol", "Siliguri", "Darjeeling", "Guwahati", "Aizawl",
+  "Agartala", "Shillong", "Dibrugarh", "Kohima", "Gangtok", "Dispur", "Patna",
+  "Muzaffarpur", "Muzaffarnagar", "Gaya", "Jamshedpur", "Ranchi", "Bhilai", "Dhanbad",
+  "Tiruvananthapuram", "Kochi", "Kozicode", "Kottayam", "Rameshwaram", "Udipi",
+  "Manipal", "Nanded", "Solapur", "Nasik", "Kalyan", "Aurangabad", "Thane", "Nagpur",
+  "Rajkot", "Gandhinagar", "Jhamnagar", "Bhopal", "Itarsi", "Gwalior", "Indore",
+  "Bikaner", "Jammu", "Srinagar", "Jallandhar", "Chandigarh", "Ludhiana", "Amritsar",
+  "Pathankot", "Mohali", "Shimla", "Manali", "Kullu", "Faridabad", "Gurugram",
+  "Dharmashala", "Patiala", "Bhatinda", "Leh", "Dehradun", "Nainital",
+  "Rishikesh", "Haridwar", "Lucknow", "Allahabad", "Varanasi", "Kanpur", "Aligarh",
+  "Jhansi", "Ghaziabad", "Agra", "Moradabad", "Gorakhpur", "Satna", "Faizabad",
+  "Chandrapur", "Darbhanga", "Durgapur", "Kharagpur", "Imphal", "Konark",
+  "Rayagad", "Bilaspur", "Raigarh", "Kothagudem", "Chirala", "Sivakasi", "Tirunelveli",
+  "Tiruppur", "Alappey", "Aluva", "Alappuzha", "Kollam", "Malappuram", "Thrissur", "Bhadravathi",
+  "Shimoga", "Dhavangere", "Bijar", "Bijapur", "Yadgir", "Raichur", "Kalburgi", "Bagalkot",
+  "Belgaun", "Balharshah", "Wardha", "Tuljapur", "Latur", "Port Blair", "Kawaratti", "Daman",
+  "Silvassa", "Panaji", "Vasco", "Anand", "Kolhapur", "Vadodara", "Junagadh", "Bhuj", "Jabalpur",
+  "Mathura", "Meerut", "Roorkee", "Bareily", "Raebareily", "Bokaro", "Pilani", "Bhiwani", "Karnal",
+  "Ambala", "Panipat", "Kurukshetra", "Sonipat", "Hissar", "Rohtak",
+  "Panchkula", "Anantnag", "Mandi", "Baramulla"]
 
 
 function uniq(a) {
-  return a.sort().filter(function(item, pos, ary) {
-      return !pos || item != ary[pos - 1];
+  return a.sort().filter(function (item, pos, ary) {
+    return !pos || item != ary[pos - 1];
   });
 }
 uniq(cityTypes);
 cityTypes.sort();
 
 const VendorSignUp = () => {
-  const [vendors,setvendors]= useState({
+  const [vendors, setvendors] = useState({
     vendorName: "",
     email: "",
     companyName: "",
@@ -59,22 +59,23 @@ const VendorSignUp = () => {
     // registrationNo: "",
     password: "",
     // address:"",
-    city:null,
+    city: "",
     // gender:"",  
 
   });
 
 
-  const handlevalueChange=(e)=>{
+  const handlevalueChange = (e) => {
     setvendors({
       ...vendors,
-      [e.target.name]:e.target.value});
-      console.log(vendors);
+      [e.target.name]: e.target.value
+    });
+    console.log(vendors);
   }
 
 
   const navigate = useNavigate();
-  
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -90,12 +91,12 @@ const VendorSignUp = () => {
       formData.append("password", vendors.password);
       // formData.append("registrationNo", vendors.registrationNo);
       formData.append("city", vendors.city);
-      
-      
-     
+
+
+
       // if(formData.has("vendorName")){
       //   console.log());
-        
+
       // }
       // Make POST request using Axios
       const response = await axios.post(
@@ -129,220 +130,105 @@ const VendorSignUp = () => {
         console.error("Request Error:", error.message);
         // Handle other types of errors, show error message to the user, etc.
       }
-    }   
+    }
   }
 
 
   return (
 
     <>
-    <BackgroundImage />
+      <BackgroundImage />
 
-    <form className="form" onSubmit={handleSubmit}>
-    <p className="title">Vendor Signup </p>
-    <p className="message">Signup now and get full access to our app. </p>
-        
-        <label>
-        <input type="email" placeholder="Enter email" 
-          name="email"
-          
-          value={vendors.email}
-          onChange={handlevalueChange}
-          required
+      <form className="form" onSubmit={handleSubmit}>
+        <p className="title">Vendor Signup </p>
+        <p className="message">Signup now and get full access to our app. </p>
+
+        <label htmlFor="htmlFor">
+          <input type="email" placeholder="Enter email"
+            name="email"
+
+            value={vendors.email}
+            onChange={handlevalueChange}
+            required
           />
         </label>
 
-        <label>
-        <input 
-          type="text" 
-          placeholder="Enter Vendor Name" 
-          name="vendorName"
-          
-          value={vendors.vendorName}
-          onChange={handlevalueChange}
-          required
+        <label htmlFor="vendorName">
+          <input
+            type="text"
+            placeholder="Enter Vendor Name"
+            name="vendorName"
+
+            value={vendors.vendorName}
+            onChange={handlevalueChange}
+            required
           />
-            
+
         </label>
-    
-            
-    <label>
-    <input type="text" 
-          name="companyName"
-          placeholder="Enter Company Name" 
-          autoComplete="off"
-          value={vendors.companyName}
-          onChange={handlevalueChange}
+
+
+        <label htmlFor="companyName">
+          <input type="text"
+            name="companyName"
+            placeholder="Enter Company Name"
+            autoComplete="off"
+            value={vendors.companyName}
+            onChange={handlevalueChange}
 
           />
-    </label> 
-        
-    <label>
-    <input 
-          type="text" 
-          name="phone"
-          placeholder="Enter Phone Number" 
-          
-          value={vendors.phone}
-          onChange={handlevalueChange}
+        </label>
+
+        <label htmlFor="phone">
+          <input
+            type="text"
+            name="phone"
+            placeholder="Enter Phone Number"
+
+            value={vendors.phone}
+            onChange={handlevalueChange}
           />
-    </label>
-    <label>
-    <input type="text" placeholder="Enter Aaddhar" 
-          name="aadhaar"
-          value={vendors.aadhaar}
-          onChange={handlevalueChange}
+        </label>
+        <label htmlFor="aadhaar">
+          <input type="text" placeholder="Enter Aaddhar"
+            name="aadhaar"
+            value={vendors.aadhaar}
+            onChange={handlevalueChange}
           />
 
-    </label>
-    <label>
-    <input type="password" placeholder="Enter password" 
-          name="password"
-          value={vendors.password}
-          onChange={handlevalueChange}
+        </label>
+        <label htmlFor="password">
+          <input type="password" placeholder="Enter password"
+            name="password"
+            value={vendors.password}
+            onChange={handlevalueChange}
           />
-        
-      </label>
-      <lable>
-      <select
-          name="city"
-          placeholder="Others"
-          value={vendors.city} 
-          onChange={handlevalueChange}
-          required
-        >
-       
-        <option value="">-- Select--City--Name --</option>
-        
-        {cityTypes.map((cityTypes)=>
-          <option key={cityTypes} value={cityTypes}>
-            {cityTypes}
-          </option>
-        )}
-        </select>
-      </lable>
-    <button className="submit">Submit</button>
-    <p className="signin">Already have an acount ? <Link to="/loginuser">Login</Link> </p>
-</form>
-      {/* <div className="signup-form-vendor-container">
-      <form className="signup-form-vendor" onSubmit={handleSubmit}>
-        <p className="form-title-sign-up-vendor">Sign in to your account</p>
-        <div className="input-container-vendr">
-          <input type="email" placeholder="Enter email" 
-          name="email"
-          
-          value={vendors.email}
-          onChange={handlevalueChange}
-          required
-          />
-          <span></span>
-        </div>
-        <div className="input-container-vendr">
-          <input 
-          type="text" 
-          placeholder="Enter Vendor Name" 
-          name="vendorName"
-          
-          value={vendors.vendorName}
-          onChange={handlevalueChange}
-          required
-          />
-        </div>
-        <div className="input-container-vendr">
-          <input type="text" 
-          name="companyName"
-          placeholder="Enter Company Name" 
-          autoComplete="off"
-          value={vendors.companyName}
-          onChange={handlevalueChange}
 
-          />
-        </div>
-      
-        <div className="input-container-vendr">
-          <input 
-          type="text" 
-          name="phone"
-          placeholder="Enter Phone Number" 
-          
-          value={vendors.phone}
-          onChange={handlevalueChange}
-          />
-        </div>
-        <div className="input-container-vendr">
-          <input type="text" placeholder="Enter Aaddhar" 
-          name="aadhaar"
-          value={vendors.aadhaar}
-          onChange={handlevalueChange}
-          />
-        </div>
-        <div className="input-container-vendr">
-          <input type="password" placeholder="Enter password" 
-          name="password"
-          value={vendors.password}
-          onChange={handlevalueChange}
-          />
-        </div>
-        
-        <div className="input-container-vendr">
-        <select
-          name="city"
-          placeholder="Others"
-          value={vendors.city} 
-          onChange={handlevalueChange}
-          required
-        >
-       
-        <option value="">-- Select--City--Name --</option>
-        
-        {cityTypes.map((cityTypes)=>
-          <option key={cityTypes} value={cityTypes}>
-            {cityTypes}
-          </option>
-        )}
-        </select>
-       
-        </div>
+        </label>
+        <lable htmlFor="city">
+          <select
+            name="city"
+            placeholder="Others"
+            value={vendors.city}
+            onChange={handlevalueChange}
+            required
+          >
 
-       
-        
-        <button type="submit" className="submit-button-sign-up-vendor">
-          Sign in
-        </button>
+            <option value="">-- Select--City--Name --</option>
 
-        <p >
-           already have an account?
-          <Link to="/loginuser"><span className="signup-link-span">Login</span></Link>
-        </p>
+            {cityTypes.map((cityTypes) =>
+              <option key={cityTypes} value={cityTypes}>
+                {cityTypes}
+              </option>
+            )}
+          </select>
+        </lable>
+        <button className="submit">Submit</button>
+        <p className="signin">Already have an acount ? <Link to="/loginuser">Login</Link> </p>
       </form>
-      </div> */}
+
     </>
   );
 };
 
 export default VendorSignUp;
 
- {/* <div className="input-container-vendr">
-          <input type="file" 
-          name="avatar" 
-          accept="image/*"
-         
-          onChange={handleImageChange} 
-         
-          />
-        </div> */}
-
-      {/* <div className="input-container-vendr">
-          <input type="text" placeholder="Enter Registration No" 
-          name="registrationNo"
-          value={vendors.registrationNo}
-          onChange={ handlevalueChange}
-          />
-        </div> */}
-        {/* <div className="input-container-vendr">
-          <input type="text" placeholder="Enter address"
-          name="address"
-          value={vendors.address}
-          onChange={ handlevalueChange}
-          />
-        </div> */}

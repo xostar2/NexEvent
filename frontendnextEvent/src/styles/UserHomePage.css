@@ -86,3 +86,38 @@
     width: calc(33% - 10px); /* Adjust card width for three columns */
   }
 }
+
+.content-container-user-home-page-event-card {
+  padding: 2rem;
+}
+
+.loading-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.error-message {
+  color: red;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.event-card-container {
+  display: grid;
+  grid-template-columns: repeat(0, 2fr); /* 3 columns */
+  gap: 2rem; /* Gap between cards */
+}
+
+@media (max-width: 900px) {
+  .event-card-container {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+  }
+}
+
+@media (max-width: 600px) {
+  .event-card-container {
+    grid-template-columns: 1fr; /* 1 column on small screens */
+  }
+}

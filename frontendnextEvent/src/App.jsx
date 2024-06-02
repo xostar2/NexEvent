@@ -26,6 +26,8 @@ import OrderDetails from "./pages/OrderDetails";
 import ViewPackageListUser from "./pages/ViewPackageListUser";
 import EventHomePageUser from "./pages/EventHomePageUser";
 import UserOrderList from "./components/UserOrderList";
+import AdminDashBoard from "./components/AdminDashBoard";
+import FeedbackForm from "./pages/FeedbackForm";
 const App = () => {
   return (
     <>
@@ -56,6 +58,8 @@ const App = () => {
             <Route path="/viewpackagelistuser" element={<ViewPackageListUser/>}/>
             <Route path="/eventhomepageuser" element={<EventHomePageUser />} />
             <Route path="/userorderlist" element={<UserOrderList />} />
+            <Route path="/admindashboard" element={<AdminDashBoard />} />
+            <Route path="feedbackform" element={<FeedbackForm/>}/>
           </Routes>
         </AppProvider>
       </BrowserRouter>

@@ -37,7 +37,7 @@ const EventCard = ({ props }) => {
     </div>
     <span className="lighter-event-card"
       >{EventData?.description}</span>
-      <button className="btn-event-card" onClick={()=>{
+      <button Id="btn-event-card-event-card" onClick={() => {
         nevigate("/eventhomepage", { state: { event: EventData } })
       }}>Event Homepage</button>
   </div>

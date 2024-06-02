@@ -40,7 +40,13 @@
   width: 90%;
 }
 /*IF USING IMAGES*/
+#btn-event-card-event-card{
+  background-color: black;
+}
+#btn-event-card-event-card:hover{
+  background-color: #1d4ed8;
 
+}
 .card-event-card {
   background-color: white;
   color: black;

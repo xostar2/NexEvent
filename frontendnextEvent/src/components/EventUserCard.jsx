@@ -184,6 +184,7 @@ const EventUserCard = (props) => {
                   state: { event: props.event },
                 });
               }}
+              style={{ marginBottom: "1rem" }}
             >
               View Event
             </Button>
