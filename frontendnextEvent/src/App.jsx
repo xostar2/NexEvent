@@ -59,7 +59,7 @@ const App = () => {
             <Route path="/eventhomepageuser" element={<EventHomePageUser />} />
             <Route path="/userorderlist" element={<UserOrderList />} />
             <Route path="/admindashboard" element={<AdminDashBoard />} />
-            <Route path="feedbackform" element={<FeedbackForm/>}/>
+            <Route path="/feedbackform" element={<FeedbackForm/>}/>
           </Routes>
         </AppProvider>
       </BrowserRouter>

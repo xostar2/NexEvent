@@ -16,7 +16,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 //====================================================================================================================
 const URL = "http://localhost:8000/api/v1/users/userlogin";
 const URL1 = "http://localhost:8000/api/v1/vendors/vendorlogin";
-const URL2 = "http://localhost:8000/api/v1/admins/adminlogin";
+const URL2 = "http://localhost:8000/api/v1/admins/loginadmin";
 
 //====================================================================================================================
 
@@ -100,21 +100,20 @@ const UserLogin = () => {
         }
       }
       if (user.userType === "admin") {
-        formData.userType = "admin";
+        
         const response = await axios.post(
           URL2,
-          formData,
+          user,
           {
             "Content-Type": "application/json",
           },
-          (withCredentials = true)
         );
-        console.log(response);
+        console.log(response.data.data);
         if (response.status === 200) {
           console.log("user login successfully");
 
           const res_data = await response.data;
-          navigate("/");
+          navigate("/admindashboard",{state:{admin:response.data.data}});
         } else {
           setErrorMessage(response.data.data.message);
           setOpenDialog(true);

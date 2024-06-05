@@ -127,11 +127,20 @@ const VendorDeshboard = () => {
                   </Box>
                   <Box mb={2}>
                     <Typography variant="subtitle1" fontWeight="bold">Registration No.:</Typography>
-                    
+                    {isEditing ? (
+                      <TextField
+                        sx={{  padding: '0.5rem', borderRadius: '10px', boxShadow: '2px 2px 6px rgba(0,0,0,0.1)' }}
+                        fullWidth
+                        variant="outlined"
+                        name="registrationNo"
+                        value={editableData.registrationNo}
+                        onChange={handleInputChange}
+                      />
+                    ) : (
                       <Typography variant="body1" sx={{ border: '1px solid #ccc', padding: '0.5rem', borderRadius: '10px', boxShadow: '2px 2px 6px rgba(0,0,0,0.1)' }}>
                         {vendors_d?.registrationNo}
                       </Typography>
-                    
+                    )}
                   </Box>
                 </Grid>
                 <Grid item xs={12} sm={6}>

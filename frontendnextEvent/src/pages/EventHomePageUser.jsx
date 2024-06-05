@@ -31,6 +31,7 @@ const EventHomePageUser = () => {
   const [error, setError] = useState(null);
   const [userId,setUserId] = useState(null);
   const location = useLocation();
+  
 
 //==========================================================================================================================================
 
@@ -170,6 +171,11 @@ useEffect(() => {
           </div>
 
         </>
+      )}
+      {packages.length === 0 && !isLoading && ( // Check for empty packages after loading
+        <div>
+          {/* {enqueueSnackbar("No packages available for this event yet. Please look at other events.", { variant: "info" })} Use Snackbar to display message */}
+        </div>
       )}
       <div>
     

@@ -87,6 +87,7 @@ const NavBar = () => {
               <li>
                 <NavLink to="/userhomepage">UserHome</NavLink>
               </li>
+              
             
           )}
           {vendorToken && (
