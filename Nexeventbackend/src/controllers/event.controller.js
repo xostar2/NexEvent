@@ -138,37 +138,3 @@ export {
 }
 
 
-/*const verifyJWT = require('./verifyJWT'); // Replace with your JWT verification function
-
-const addEvent = asyncHandler(async (req, res) => {
-  const decoded = verifyJWT(req.headers.authorization); // Extract vendor ID from JWT
-  const vendorId = decoded.userId;
-
-  // ... rest of your addEvent logic with vendorId
-
-  return res.status(200).json(
-    new ApiResponse(200, event, "event created successfully")
-  );
-});
-*/
-
-
-// Populate Ownership on Creation: When a vendor creates an event, populate the owner field with the vendor ID before saving the event to the database.
-
-// Implement Search Functionality: Create an endpoint that allows searching for events based on various criteria, potentially including vendor ID (if available).
-
-//     const token = req.cookies?.accessToken || req.header('Authorization')?.replace('Bearer ', '');
-
-//         if (!token) {
-//             throw new Error('Unauthorized request');
-//         }
-
-//         const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-
-//         const vendor = await Vendor.findById(decodedToken?._id).select('-password -refreshToken');
-    
-   
-//  console.log(vendor?._id)
-//     if(!vendor){
-//       throw new ApiError(401,"invalid refresh token")
-//    }

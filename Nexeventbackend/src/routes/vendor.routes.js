@@ -7,6 +7,7 @@ import {
   vendorRegister,
   changeCurrentVendorPassword,
   getCurrentVendor,
+  updateVendorAccountDetails
 } from "../controllers/vendor.controller.js";
 import {upload} from "../middlewares/multer.middleware.js";
 import {verifyJWT} from "../middlewares/authvendor.middleware.js";
@@ -66,5 +67,6 @@ router.route("/getvendordetails/:ownerId").get(async (req, res) => {
 });
 
 router.route("/refresh-token", refreshAccessToken);
+router.route("/updatevendor").put(verifyJWT,updateVendorAccountDetails);
 
 export default router;

@@ -306,22 +306,21 @@ const getCurrentVendor= asyncHandler( async (req,res)=>{
  //====================================================================================================================
 
  const updateVendorAccountDetails= asyncHandler(async (req,res)=>{
-    const {username,phone,email}=req.body
+    const {phone,aadhaar}=req.body
  
-    if(!username || !phone || !email){
-       throw new ApiError(400,"all fields are required")
-    }
-    const user=Vendor.findByIdAndUpdate(
-       req.user?._id,
+    console.log("vendorIS:::::",req.vendor?._id)
+    const user= await Vendor.findByIdAndUpdate(
+       req.vendor?._id,
        {
           $set:{
-             username,
+             aadhaar,
              phone,
           }
        },
        {new:true}
        ).select("-password")
  
+       console.log("user:::::::::",user);
        return res
        .status(200)
        .json(

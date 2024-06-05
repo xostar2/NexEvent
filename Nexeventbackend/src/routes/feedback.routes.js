@@ -1,12 +1,14 @@
 
 import {Router} from 'express';
-import {feedbackForm} from "../controllers/feedback.controller.js"
+import {feedbackForm,getfeedback} from "../controllers/feedback.controller.js"
+import { verifyJWT } from '../middlewares/auth.middleware.js';
 
 const router = Router()
 
 
 
-router.route("/feedback").post(feedbackForm);
+router.route("/userfeedback").post(verifyJWT,feedbackForm);
+router.route("/getfeedback").get(getfeedback);
 
 
 

@@ -2,13 +2,13 @@ import mongoose,{Schema} from "mongoose";
 import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 const feedbackSchema= new Schema(
     {
-        user:{
+        userId:{
             type:Schema.Types.ObjectId,
             ref:"User",
             required:true
         },
         rating:{
-            type:Number,
+            type:String,
             required:true,
             min:1,
             max:5
