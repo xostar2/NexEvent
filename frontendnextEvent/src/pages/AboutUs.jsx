@@ -7,7 +7,7 @@ const AboutUs = () => {
     console.log("this is vendordetails in about us",vendordetails);
   return (
     <>
-        <BackgroundImage/>
+        
            <div className="about-us-container">
            
             <div className="about-us-content">
