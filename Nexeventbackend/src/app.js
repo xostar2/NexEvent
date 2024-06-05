@@ -35,6 +35,7 @@ import eventRouter from "./routes/event.routes.js"
 import packagesRouter from "./routes/package.routes.js"
 import orderRouter from "./routes/order.routes.js"
 import adminRouter from "./routes/admin.routes.js"
+import contactRouter from "./routes/contact.routes.js"
 
 //routes declaration
 
@@ -45,5 +46,6 @@ app.use("/api/v1/events",eventRouter);
 app.use("/api/v1/packages",packagesRouter);
 app.use("/api/v1/orders",orderRouter);
 app.use("/api/v1/admins",adminRouter);
+app.use("/api/v1/contacts",contactRouter);
 
 export {app}
